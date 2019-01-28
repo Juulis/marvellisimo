@@ -10,12 +10,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-    /*
+    
         val intent = Intent(this, SeriesActivity::class.java).apply {
             action = Intent.ACTION_VIEW
         }
         if(intent.resolveActivity(packageManager) != null)
             startActivity(intent)
-    */
+
     }
 }
