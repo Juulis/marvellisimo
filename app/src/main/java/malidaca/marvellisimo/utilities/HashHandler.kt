@@ -1,6 +1,5 @@
 package malidaca.marvellisimo.utilities
 
-import java.io.File
 import java.security.MessageDigest
 
 class HashHandler{
