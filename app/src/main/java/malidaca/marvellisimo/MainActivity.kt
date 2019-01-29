@@ -4,13 +4,11 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import malidaca.marvellisimo.activities.SeriesActivity
 
 class MainActivity : AppCompatActivity() {
 
 
-    val searchButton = findViewById<Button>(R.id.menu_button_search)
-    val characterButton = findViewById<Button>(R.id.menu_button_characters)
-    val seriesButton = findViewById<Button>(R.id.menu_button_series)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,6 +19,9 @@ class MainActivity : AppCompatActivity() {
 
     //TODO Add your own activity in your own clickListener
     fun setClickListeners() {
+    val searchButton = findViewById<Button>(R.id.menu_button_search)
+    val characterButton = findViewById<Button>(R.id.menu_button_characters)
+    val seriesButton = findViewById<Button>(R.id.menu_button_series)
         /*searchButton.setOnClickListener {
             val intent = Intent(this, CHANGETHIS::class.java)
             startActivity(intent)
@@ -31,9 +32,9 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }*/
 
-        /*seriesButton.setOnClickListener {
-            val intent = Intent(this, CHANGETHIS::class.java)
+        seriesButton.setOnClickListener {
+            val intent = Intent(this, SeriesActivity::class.java)
             startActivity(intent)
-        }*/
+        }
     }
 }

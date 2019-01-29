@@ -6,3 +6,5 @@
 /build
 /captures
 .externalNativeBuild
+/.idea/*
+/app/src/main/java/malidaca/marvellisimo/utilities/PrivateKeys.kt
