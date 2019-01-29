@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Marvellisimo</string>
+
+    <!--*********************************MENU*********************************-->
+    <string name="menu_series">Series</string>
+    <string name="menu_characters">Characters</string>
+    <string name="menu_search">Search</string>
+    <!--*******************************END MENU*******************************-->
 </resources>
