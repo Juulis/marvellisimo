@@ -4,6 +4,7 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import malidaca.marvellisimo.activities.SeriesActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         }*/
 
         /*seriesButton.setOnClickListener {
-            val intent = Intent(this, CHANGETHIS::class.java)
+            val intent = Intent(this, SeriesActivity::class.java)
             startActivity(intent)
         }*/
     }
