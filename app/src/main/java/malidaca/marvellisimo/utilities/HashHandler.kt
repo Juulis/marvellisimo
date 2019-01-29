@@ -1,5 +1,6 @@
 package malidaca.marvellisimo.utilities
 
+import java.io.File
 import java.security.MessageDigest
 
 class HashHandler{
@@ -8,7 +9,7 @@ class HashHandler{
 
     fun getHash(ts: String): String{
         val algorithm = "MD5"
-        val privateKey = "8ee247068519a083b5bd733866f102f1b116dba3"
+        val privateKey = PrivateKeys.API
         val HEX_CHARS = "0123456789abcdef"
         println("ts1: $ts")
         val s = ts + privateKey + publicKey

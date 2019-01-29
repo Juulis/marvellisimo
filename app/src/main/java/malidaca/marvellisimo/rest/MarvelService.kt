@@ -5,7 +5,7 @@ import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface SeriesService{
+interface MarvelService{
 
     @GET("/v1/public/series")
     fun getSeries(@Query("ts") ts: String,

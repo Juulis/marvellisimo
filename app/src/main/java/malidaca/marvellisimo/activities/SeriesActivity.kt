@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_series.*
 import malidaca.marvellisimo.R
-import malidaca.marvellisimo.rest.SeriesServiceHandler
+import malidaca.marvellisimo.rest.MarvelServiceHandler
 
 class SeriesActivity: AppCompatActivity(){
 
@@ -14,7 +14,7 @@ class SeriesActivity: AppCompatActivity(){
 
         button.setOnClickListener { view ->
 
-            SeriesServiceHandler().sendRequest()
+            MarvelServiceHandler().sendRequest()
         }
     }
 

@@ -8,7 +8,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
 
-class SeriesServiceHandler{
+class MarvelServiceHandler{
     private val baseUrl = "https://gateway.marvel.com"
     private val httpClient = OkHttpClient.Builder()
     private val retrofit = Retrofit.Builder()
@@ -16,7 +16,7 @@ class SeriesServiceHandler{
             .addConverterFactory(GsonConverterFactory.create())
             .client(httpClient.build())
             .build()
-    private val service: SeriesService = retrofit.create(SeriesService::class.java)
+    private val service: MarvelService = retrofit.create(MarvelService::class.java)
     private val ts = Date().time.toString()
     private val callAsync = service.getSeries(ts, HashHandler().publicKey, HashHandler().getHash(ts))
 
