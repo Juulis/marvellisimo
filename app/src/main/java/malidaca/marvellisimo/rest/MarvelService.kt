@@ -7,7 +7,7 @@ import retrofit2.http.Query
 
 interface MarvelService{
 
-    @GET("/v1/public/series")
+    @GET("series")
     fun getSeries(@Query("ts") ts: String,
                   @Query("apikey") apikey: String,
                   @Query("hash") hash: String): Call<ApiResponse>

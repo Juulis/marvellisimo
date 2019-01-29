@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
 
 class MarvelServiceHandler{
-    private val baseUrl = "https://gateway.marvel.com"
+    private val baseUrl = "https://gateway.marvel.com/v1/public/"
     private val httpClient = OkHttpClient.Builder()
     private val retrofit = Retrofit.Builder()
             .baseUrl(baseUrl)
