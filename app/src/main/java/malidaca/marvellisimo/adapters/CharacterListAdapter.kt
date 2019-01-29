@@ -26,6 +26,5 @@ class CharacterListAdapter(private val characters: Array<Character>, private val
 }
     class ViewHolder (view: View) : RecyclerView.ViewHolder(view) {
         val name = view.name!!
-        val img = view.img!!
         val imgview = view.imageView!!
     }
