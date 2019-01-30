@@ -18,8 +18,8 @@ class SeriesActivity: AppCompatActivity(){
             //TODO: make the response show on a recycleview
             val series = MarvelServiceHandler.request("series")
             for(s in series!!){
-                var serie = s as Series
-                println(serie.title)
+                s as Series
+                println(s.title)
             }
         }
     }

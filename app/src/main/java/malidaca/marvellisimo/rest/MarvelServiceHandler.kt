@@ -23,22 +23,22 @@ object MarvelServiceHandler {
     /**
      * To make new api call, make new when statement and fill ar with the result
      * */
-    fun request(str: String): Array<*>? {
+    fun request(str: String, search:String=""): Array<*>? {
         val time = getTime()
         val hash = HashHandler().getHash(time)
-        var ar:Array<*> = emptyArray<Any>()
+        var ar:Array<*>? = null
 
         when (str) {
             "series" -> {
                 service.getSeries(time, pubKey, hash).subscribeOn(Schedulers.io()).subscribe { wrapper -> ar = wrapper.data.results }
             }
-            "herosearch" -> {
-                //service.getHero(ts, pubKey, hash).subscribeOn(Schedulers.io()).subscribe { wrapper -> ar = wrapper.data.results }
+            "characterX" -> {
+                service.getCharacters(time, pubKey, hash,search).subscribeOn(Schedulers.io()).subscribe { wrapper -> ar = wrapper.data.results }
             }
         }
 
         //wait on db to be ready before returning ar
-        while (ar.isEmpty())
+        while (ar == null || ar!!.isEmpty())
             Thread.sleep(5)
         return ar
     }
