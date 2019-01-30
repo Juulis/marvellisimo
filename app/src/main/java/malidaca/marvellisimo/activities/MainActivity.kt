@@ -1,10 +1,10 @@
-package malidaca.marvellisimo
+package malidaca.marvellisimo.activities
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
-import malidaca.marvellisimo.activities.SeriesActivity
+import malidaca.marvellisimo.R
 
 class MainActivity : AppCompatActivity() {
 
