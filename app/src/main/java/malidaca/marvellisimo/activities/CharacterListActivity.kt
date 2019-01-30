@@ -33,6 +33,7 @@ class CharacterListActivity : AppCompatActivity() {
 
         RECYCLER.layoutManager = LinearLayoutManager(this)
         RECYCLER.adapter = CharacterListAdapter(characterList, this)
+
     }
 
 
