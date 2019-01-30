@@ -1,40 +1,63 @@
 package malidaca.marvellisimo.rest
 
-import malidaca.marvellisimo.models.ApiResponse
+import io.reactivex.schedulers.Schedulers
 import malidaca.marvellisimo.utilities.HashHandler
 import okhttp3.OkHttpClient
-import retrofit2.Callback
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
 
-class MarvelServiceHandler{
-    private val baseUrl = "https://gateway.marvel.com/v1/public/"
-    private val httpClient = OkHttpClient.Builder()
-    private val retrofit = Retrofit.Builder()
+object MarvelServiceHandler {
+    private const val baseUrl = "https://gateway.marvel.com/v1/public/"
+    private val pubKey = HashHandler().publicKey
+    private val service: MarvelService = Retrofit.Builder()
             .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
-            .client(httpClient.build())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .client(getOkHttpClient())
             .build()
-    private val service: MarvelService = retrofit.create(MarvelService::class.java)
-    private val ts = Date().time.toString()
-    private val callAsync = service.getSeries(ts, HashHandler().publicKey, HashHandler().getHash(ts))
+            .create(MarvelService::class.java)
 
-    fun sendRequest(){
-        callAsync.enqueue(object: Callback<ApiResponse> {
-            override fun onResponse(call: retrofit2.Call<ApiResponse>, response: retrofit2.Response<ApiResponse>) {
-                var responseBody = response.body()
-                var status = responseBody?.status
-                var code = responseBody?.code
-                var series = responseBody?.data?.results
 
-                println("Status: $status, Code: $code")
-                println("Series: $series")
+    /**
+     * To make new api call, make new when statement and fill ar with the result
+     * */
+    fun request(str: String, search:String=""): Array<*>? {
+        val time = getTime()
+        val hash = HashHandler().getHash(time)
+        var ar:Array<*>? = null
+
+        when (str) {
+            "series" -> {
+                service.getSeries(time, pubKey, hash).subscribeOn(Schedulers.io()).subscribe { wrapper -> ar = wrapper.data.results }
             }
-
-            override fun onFailure(call: retrofit2.Call<ApiResponse>, t: Throwable) {
-                println(t)
+            "characterX" -> {
+                service.getCharacters(time, pubKey, hash,search).subscribeOn(Schedulers.io()).subscribe { wrapper -> ar = wrapper.data.results }
             }
-        })
+        }
+
+        //wait on db to be ready before returning ar
+        while (ar == null || ar!!.isEmpty())
+            Thread.sleep(5)
+        return ar
     }
+
+    /**
+     * If we want observers, this is the way to add:
+     * val logging = HttpLoggingInterceptor()
+     * logging.level = HttpLoggingInterceptor.Level.BODY
+     * val builder = OkHttpClient.Builder()
+     * builder.addInterceptor(logging)
+     * val okHttpClient = builder.build()
+     */
+    private fun getOkHttpClient(): OkHttpClient {
+        val builder = OkHttpClient.Builder()
+        val okHttpClient = builder.build()
+        return okHttpClient
+    }
+    private fun getTime(): String {
+        return Date().time.toString()
+    }
+
 }
