@@ -1,3 +1,3 @@
 package malidaca.marvellisimo.models
 
-class DataModel(val results: Array<Series>)
+class DataModel<T>(val results: T)
