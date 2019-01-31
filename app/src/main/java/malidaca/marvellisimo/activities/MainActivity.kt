@@ -11,7 +11,6 @@ import malidaca.marvellisimo.rest.MarvelServiceHandler
 class MainActivity : AppCompatActivity() {
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -21,23 +20,18 @@ class MainActivity : AppCompatActivity() {
 
     //TODO Add your own activity in your own clickListener
     fun setClickListeners() {
-    val searchButton = findViewById<Button>(R.id.menu_button_search)
-    val characterButton = findViewById<Button>(R.id.menu_button_characters)
-    val seriesButton = findViewById<Button>(R.id.menu_button_series)
+        val searchButton = findViewById<Button>(R.id.menu_button_search)
+        val characterButton = findViewById<Button>(R.id.menu_button_characters)
+        val seriesButton = findViewById<Button>(R.id.menu_button_series)
         /*searchButton.setOnClickListener {
             val intent = Intent(this, CHANGETHIS::class.java)
             startActivity(intent)
         }*/
 
         characterButton.setOnClickListener {
-            val chars = MarvelServiceHandler.request("characterX","spider")
-            for(c in chars!!){
-                c as Character
-                println(c.name)
-            }
 
-            //            val intent = Intent(this, CHANGETHIS::class.java)
-//            startActivity(intent)
+            val intent = Intent(this, CharacterListActivity::class.java)
+            startActivity(intent)
         }
 
         seriesButton.setOnClickListener {
