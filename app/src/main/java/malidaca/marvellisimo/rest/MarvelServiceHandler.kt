@@ -1,6 +1,11 @@
 package malidaca.marvellisimo.rest
 
+import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
+import malidaca.marvellisimo.rest.characters.CharactersApiResponse
+import malidaca.marvellisimo.rest.characters.CharactersService
+import malidaca.marvellisimo.rest.series.SeriesApiResponse
+import malidaca.marvellisimo.rest.series.SeriesService
 import malidaca.marvellisimo.utilities.HashHandler
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -9,58 +14,25 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
 
 object MarvelServiceHandler {
-    private const val baseUrl = "https://gateway.marvel.com/v1/public/"
-    private val pubKey = HashHandler().publicKey
-    private val service: MarvelService = Retrofit.Builder()
+    private val baseUrl = "https://gateway.marvel.com"
+    private val httpClient = OkHttpClient.Builder()
+    private val retrofit = Retrofit.Builder()
             .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .client(getOkHttpClient())
+            .client(httpClient.build())
             .build()
-            .create(MarvelService::class.java)
 
 
-    /**
-     * To make new api call, make new when statement and fill ar with the result
-     * */
-    fun request(str: String, search:String=""): Array<*>? {
-        val time = getTime()
-        val hash = HashHandler().getHash(time)
-        var ar:Array<*>? = null
-
-        when (str) {
-            "series" -> {
-                service.getSeries(time, pubKey, hash).subscribeOn(Schedulers.io()).subscribe { wrapper -> ar = wrapper.data.results }
-            }
-            "characterX" -> {
-                service.getCharacters(time, pubKey, hash,search).subscribeOn(Schedulers.io()).subscribe { wrapper -> ar = wrapper.data.results }
-            }
-            "character" -> {
-                service.getCharacters(time, pubKey, hash).subscribeOn(Schedulers.io()).subscribe { wrapper -> ar = wrapper.data.results }
-            }
-        }
-
-        //wait on db to be ready before returning ar
-        while (ar == null || ar!!.isEmpty())
-            Thread.sleep(5)
-        return ar
+    fun seriesRequest(): Single<SeriesApiResponse> {
+        val ts = Date().time.toString()
+        val service: SeriesService = retrofit.create(SeriesService::class.java)
+        return service.getSeries(ts, HashHandler.publicKey, HashHandler.getHash(ts)).subscribeOn(Schedulers.io())
     }
 
-    /**
-     * If we want observers, this is the way to add:
-     * val logging = HttpLoggingInterceptor()
-     * logging.level = HttpLoggingInterceptor.Level.BODY
-     * val builder = OkHttpClient.Builder()
-     * builder.addInterceptor(logging)
-     * val okHttpClient = builder.build()
-     */
-    private fun getOkHttpClient(): OkHttpClient {
-        val builder = OkHttpClient.Builder()
-        val okHttpClient = builder.build()
-        return okHttpClient
+    fun charactersRequest(): Single<CharactersApiResponse> {
+        val ts = Date().time.toString()
+        val service: CharactersService = retrofit.create(CharactersService::class.java)
+        return service.getCharacters(ts, HashHandler.publicKey, HashHandler.getHash(ts)).subscribeOn(Schedulers.io())
     }
-    private fun getTime(): String {
-        return Date().time.toString()
-    }
-
 }

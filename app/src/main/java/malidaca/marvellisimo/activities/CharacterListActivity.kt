@@ -9,7 +9,7 @@ import malidaca.marvellisimo.adapters.CharacterListAdapter
 import malidaca.marvellisimo.models.Character
 import malidaca.marvellisimo.models.ListCharacter
 import malidaca.marvellisimo.models.Picture
-import malidaca.marvellisimo.rest.MarvelService
+import malidaca.marvellisimo.rest.series.SeriesService
 import malidaca.marvellisimo.rest.MarvelServiceHandler
 
 class CharacterListActivity : AppCompatActivity() {
@@ -21,10 +21,10 @@ class CharacterListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_character_list)
 
-     val testList =  MarvelServiceHandler.request("character")
-        for (data in testList!!) {
+     val testList =  MarvelServiceHandler.charactersRequest("character")
+      /*  for (data in testList!!) {
             characterList.add(data as ListCharacter)
-        }
+        }*/
 
         RECYCLER.layoutManager = LinearLayoutManager(this)
         RECYCLER.adapter = CharacterListAdapter(characterList, this)
