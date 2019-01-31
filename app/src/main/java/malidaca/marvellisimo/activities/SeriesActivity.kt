@@ -19,17 +19,6 @@ class SeriesActivity : AppCompatActivity() {
 
             MarvelServiceHandler.seriesRequest()
 
-
-            /* //Exempel på användning
-            var ar: Array<Character> = emptyArray()
-            MarvelServiceHandler.charactersRequest().observeOn(AndroidSchedulers.mainThread()).subscribe { wrapper ->
-                ar = wrapper.data.results
-                for (a in ar) {
-                    println("name: " + a.name)
-                }
-            }*/
-
-
         }
     }
 
