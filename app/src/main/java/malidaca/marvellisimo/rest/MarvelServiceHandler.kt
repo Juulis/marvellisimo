@@ -35,6 +35,9 @@ object MarvelServiceHandler {
             "characterX" -> {
                 service.getCharacters(time, pubKey, hash,search).subscribeOn(Schedulers.io()).subscribe { wrapper -> ar = wrapper.data.results }
             }
+            "character" -> {
+                service.getCharacters(time, pubKey, hash).subscribeOn(Schedulers.io()).subscribe { wrapper -> ar = wrapper.data.results }
+            }
         }
 
         //wait on db to be ready before returning ar

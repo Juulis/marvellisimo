@@ -15,11 +15,13 @@ import malidaca.marvellisimo.R
 import malidaca.marvellisimo.activities.CharacterActivity
 import malidaca.marvellisimo.activities.CharacterListActivity
 import malidaca.marvellisimo.activities.ItemClickListener
+import malidaca.marvellisimo.models.Character
 import malidaca.marvellisimo.models.ListCharacter
 
 class CharacterListAdapter(private val characters: ArrayList<ListCharacter>, private val context: Context) : RecyclerView.Adapter<ViewHolder>() {
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
+        Picasso.get().isLoggingEnabled = true
 
         return ViewHolder(LayoutInflater.from(context).inflate(R.layout.character_list_card, p0, false))
     }
@@ -30,7 +32,14 @@ class CharacterListAdapter(private val characters: ArrayList<ListCharacter>, pri
 
     override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
         p0.name.text = characters[p1].name.toUpperCase()
-        Picasso.get().load(characters[p1].thumbnail.path).into(p0.img)
+        val url = "${characters[p1].thumbnail.path}/landscape_large.${characters[p1].thumbnail.extension}"
+//        val url = "https://i.annihil.us/u/prod/marvel/i/mg/3/20/5232158de5b16/landscape_large.jpg"
+       var split1 =  url.subSequence(0,4)
+       var split2 =  url.subSequence(4, url.length)
+        val newUrl = "${split1}s$split2"
+
+        Picasso.get().load(newUrl).into(p0.img)
+
         p0.setOnItemClickListener(object : ItemClickListener {
             override fun onCustomClickListener(view: View, pos: Int) {
                 val intent = Intent(context, CharacterActivity::class.java)

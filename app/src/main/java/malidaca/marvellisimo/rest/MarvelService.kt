@@ -17,4 +17,9 @@ interface MarvelService {
                       @Query("apikey") apikey: String,
                       @Query("hash") hash: String,
                       @Query("nameStartsWith") nameStartsWith: String): Single<ApiResponse<Array<Character>>>
+    @GET("characters")
+    fun getCharacters(@Query("ts") ts: String,
+                      @Query("apikey") apikey: String,
+                      @Query("hash") hash: String): Single<ApiResponse<Array<ListCharacter>>>
+
 }
