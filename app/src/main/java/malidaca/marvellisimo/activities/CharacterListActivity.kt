@@ -8,10 +8,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_character_list.*
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.adapters.CharacterListAdapter
-import malidaca.marvellisimo.models.Character
-import malidaca.marvellisimo.models.ListCharacter
-import malidaca.marvellisimo.models.Picture
-import malidaca.marvellisimo.rest.series.SeriesService
 import malidaca.marvellisimo.rest.MarvelServiceHandler
 
 class CharacterListActivity : AppCompatActivity() {

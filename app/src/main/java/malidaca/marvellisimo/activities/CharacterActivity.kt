@@ -20,7 +20,7 @@ class CharacterActivity : AppCompatActivity() {
     @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_character)
+        setContentView(R.layout.activity_character_new)
 
         var character: Character
         val extras = intent.extras
