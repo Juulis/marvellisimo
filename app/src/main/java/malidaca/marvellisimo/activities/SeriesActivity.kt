@@ -2,11 +2,13 @@ package malidaca.marvellisimo.activities
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_series.*
 import malidaca.marvellisimo.R
-import malidaca.marvellisimo.rest.SeriesServiceHandler
+import malidaca.marvellisimo.models.Character
+import malidaca.marvellisimo.rest.MarvelServiceHandler
 
-class SeriesActivity: AppCompatActivity(){
+class SeriesActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -14,10 +16,18 @@ class SeriesActivity: AppCompatActivity(){
 
         button.setOnClickListener { view ->
 
-            SeriesServiceHandler().sendRequest()
+            MarvelServiceHandler.seriesRequest()
+            var ar: Array<Character> = emptyArray()
+            MarvelServiceHandler.charactersRequest().observeOn(AndroidSchedulers.mainThread()).subscribe { wrapper ->
+                ar = wrapper.data.results
+                for (a in ar) {
+                    println("name: " + a.name)
+                }
+            }
+
+
         }
     }
-
 
 
 }
