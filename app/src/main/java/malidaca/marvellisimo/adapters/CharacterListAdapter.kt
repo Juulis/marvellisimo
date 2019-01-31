@@ -2,8 +2,6 @@ package malidaca.marvellisimo.adapters
 
 import android.content.Context
 import android.content.Intent
-import android.support.v4.content.ContextCompat.startActivity
-import android.support.v7.view.menu.MenuView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -13,16 +11,12 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.character_list_card.view.*
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.activities.CharacterActivity
-import malidaca.marvellisimo.activities.CharacterListActivity
 import malidaca.marvellisimo.activities.ItemClickListener
 import malidaca.marvellisimo.models.Character
-import malidaca.marvellisimo.models.ListCharacter
 
-class CharacterListAdapter(private val characters: ArrayList<ListCharacter>, private val context: Context) : RecyclerView.Adapter<ViewHolder>() {
+class CharacterListAdapter(private val characters: Array<Character>, private val context: Context) : RecyclerView.Adapter<ViewHolder>() {
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
-        Picasso.get().isLoggingEnabled = true
-
         return ViewHolder(LayoutInflater.from(context).inflate(R.layout.character_list_card, p0, false))
     }
 
@@ -30,20 +24,20 @@ class CharacterListAdapter(private val characters: ArrayList<ListCharacter>, pri
         return characters.size
     }
 
-    override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
-        p0.name.text = characters[p1].name.toUpperCase()
-        val url = "${characters[p1].thumbnail.path}/landscape_large.${characters[p1].thumbnail.extension}"
-//        val url = "https://i.annihil.us/u/prod/marvel/i/mg/3/20/5232158de5b16/landscape_large.jpg"
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.name.text = characters[position].name.toUpperCase()
+        val url = "${characters[position].thumbnail.path}/landscape_large.${characters[position].thumbnail.extension}"
+
        var split1 =  url.subSequence(0,4)
        var split2 =  url.subSequence(4, url.length)
         val newUrl = "${split1}s$split2"
 
-        Picasso.get().load(newUrl).into(p0.img)
+        Picasso.get().load(newUrl).into(holder.img)
 
-        p0.setOnItemClickListener(object : ItemClickListener {
+        holder.setOnItemClickListener(object : ItemClickListener {
             override fun onCustomClickListener(view: View, pos: Int) {
                 val intent = Intent(context, CharacterActivity::class.java)
-                intent.putExtra("itemId",characters[p1].id )
+                intent.putExtra("itemId",characters[position].id )
                 context.startActivity(intent)
             }
 
