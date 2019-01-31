@@ -1,10 +1,10 @@
-package malidaca.marvellisimo
+package malidaca.marvellisimo.activities
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
-import malidaca.marvellisimo.login.LoginActivity
+import malidaca.marvellisimo.R
 
 class MainActivity : AppCompatActivity() {
 
@@ -35,14 +35,15 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        /*characterButton.setOnClickListener {
-            val intent = Intent(this, CHANGETHIS::class.java)
-            startActivity(intent)
-        }*/
+        characterButton.setOnClickListener {
 
-        /*seriesButton.setOnClickListener {
-            val intent = Intent(this, CHANGETHIS::class.java)
+            val intent = Intent(this, CharacterListActivity::class.java)
             startActivity(intent)
-        }*/
+        }
+
+        seriesButton.setOnClickListener {
+            val intent = Intent(this, SeriesActivity::class.java)
+            startActivity(intent)
+        }
     }
 }

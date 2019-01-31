@@ -1,4 +1,4 @@
-package malidaca.marvellisimo.login
+package malidaca.marvellisimo.activities
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
@@ -7,16 +7,9 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import malidaca.marvellisimo.R
-import com.google.firebase.auth.FirebaseUser
-import android.support.annotation.NonNull
 import android.view.View
-import com.google.android.gms.tasks.OnCompleteListener
-import malidaca.marvellisimo.MainActivity
-import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
 
