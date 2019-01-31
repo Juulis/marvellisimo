@@ -11,4 +11,10 @@ interface SeriesService{
     fun getSeries(@Query("ts") ts: String,
                   @Query("apikey") apikey: String,
                   @Query("hash") hash: String): Single<SeriesApiResponse>
+
+    @GET("/v1/public/series")
+    fun getSerieX(@Query("ts") ts: String,
+                  @Query("apikey") apikey: String,
+                  @Query("hash") hash: String,
+                  @Query("titleStartsWith") titleStartsWith: String): Single<SeriesApiResponse>
 }

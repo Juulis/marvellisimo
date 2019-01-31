@@ -18,13 +18,16 @@ class SeriesActivity : AppCompatActivity() {
         button.setOnClickListener { view ->
 
             MarvelServiceHandler.seriesRequest()
+
+
+            /* //Exempel på användning
             var ar: Array<Character> = emptyArray()
             MarvelServiceHandler.charactersRequest().observeOn(AndroidSchedulers.mainThread()).subscribe { wrapper ->
                 ar = wrapper.data.results
                 for (a in ar) {
-                println("name: " + a.name)
-            }
-            }
+                    println("name: " + a.name)
+                }
+            }*/
 
 
         }
