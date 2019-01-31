@@ -10,11 +10,15 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/heroName2" android:text="Movies" android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
-        android:textSize="18sp" android:textColor="@color/colorPrimary"
-        app:layout_constraintTop_toBottomOf="@+id/view" android:layout_marginTop="8dp"
-        app:layout_constraintHorizontal_bias="0.491"/>
+        android:layout_marginTop="8dp"
+        android:text="Movies"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view" />
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar"/>
@@ -37,7 +41,6 @@
 
 
     <TextView
-        android:text="Iron Man, tidigare även kallad Järnmannen på svenska, är en seriehjälte från Marvel Comics, skapad av författaren och förläggaren Stan Lee, utvecklad av författaren Larry Lieber och designad av serietecknarna Don Heck och Jack Kirby.[1] Figuren gjorde sin debut i Tales of Suspense #39 (mars 1963) och fick sin egen titel i Iron Man #1 (maj 1968)."
         android:layout_width="342dp"
         android:layout_height="135dp"
         app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
@@ -51,7 +54,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
-        android:id="@+id/Name" android:text="IRONMAN" android:textAlignment="center"
+        android:id="@+id/characterName" android:textAlignment="center"
         android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/avatar"
         android:layout_marginBottom="8dp" app:layout_constraintBottom_toTopOf="@+id/infoText"/>
     <View
