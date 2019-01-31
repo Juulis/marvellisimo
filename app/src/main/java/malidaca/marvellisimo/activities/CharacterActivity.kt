@@ -4,7 +4,6 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.models.Character
-import malidaca.marvellisimo.rest.MarvelServiceHandler
 
 
 class CharacterActivity : AppCompatActivity() {
