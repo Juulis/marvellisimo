@@ -3,11 +3,14 @@ package malidaca.marvellisimo.activities
 import android.annotation.SuppressLint
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.widget.GridLayoutManager
 import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_character.*
 import kotlinx.android.synthetic.main.character_list_card.*
+import kotlinx.android.synthetic.main.series_list_view.*
 import malidaca.marvellisimo.R
+import malidaca.marvellisimo.adapters.SeriesListAdapter
 import malidaca.marvellisimo.models.Character
 import malidaca.marvellisimo.rest.MarvelServiceHandler
 
@@ -37,6 +40,15 @@ class CharacterActivity : AppCompatActivity() {
 
                         Picasso.get().load(newUrl).into(bigpic)
                     }
+
+
+
+                MarvelServiceHandler.seriesByCharactersId(id).observeOn(AndroidSchedulers.mainThread())
+                        .subscribe{
+                            data ->
+                            series_grid_view.layoutManager = GridLayoutManager(this, 2)
+                            series_grid_view.adapter = SeriesListAdapter(data.data.results, this)
+                        }
 
         }
     }

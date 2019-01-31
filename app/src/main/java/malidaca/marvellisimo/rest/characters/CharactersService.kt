@@ -17,4 +17,6 @@ interface CharactersService{
     fun getCharactersById(@Path("id") id: Int, @Query("ts") ts: String,
                           @Query("apikey") apikey: String,
                           @Query("hash") hash: String): Single<CharactersApiResponse>
+
+
 }
