@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "637517265232-mol38ff1d67p1sogj8tga2jq7alr5sqe.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "malidaca.marvellisimo",
+            "certificate_hash": "1be571815276ddc02fd1371e205c11bfe24bc192"
+          }
+        },
+        {
           "client_id": "637517265232-s046duav4tv0of1p1t7is1ae69d9kvav.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
