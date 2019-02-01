@@ -42,8 +42,6 @@ class SeriesListAdapter(private val series: Array<Series>, private val context: 
 
         })
     }
-
-
 }
 
 class ViewHolderTwo(itemViewSeries: View) : RecyclerView.ViewHolder(itemViewSeries), View.OnClickListener {

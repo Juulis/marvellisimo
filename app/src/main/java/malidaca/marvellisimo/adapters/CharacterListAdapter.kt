@@ -43,8 +43,6 @@ class CharacterListAdapter(private val characters: Array<Character>, private val
 
         })
     }
-
-
 }
 
 class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {

@@ -43,8 +43,6 @@ class CharacterActivity : AppCompatActivity() {
                         Picasso.get().load(newUrl).into(bigpic)
                     }
 
-
-
                 MarvelServiceHandler.seriesByCharactersId(id).observeOn(AndroidSchedulers.mainThread())
                         .subscribe{
                             data ->
