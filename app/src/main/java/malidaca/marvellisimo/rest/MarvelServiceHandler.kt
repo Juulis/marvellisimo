@@ -30,9 +30,9 @@ object MarvelServiceHandler {
         return service.getSeries(ts, HashHandler.publicKey, HashHandler.getHash(ts)).subscribeOn(Schedulers.io())
     }
 
-    fun charactersRequest(): Single<CharactersApiResponse> {
+    fun charactersRequest(offset:Int): Single<CharactersApiResponse> {
         val ts = Date().time.toString()
         val service: CharactersService = retrofit.create(CharactersService::class.java)
-        return service.getCharacters(ts, HashHandler.publicKey, HashHandler.getHash(ts)).subscribeOn(Schedulers.io())
+        return service.getCharacters(ts, HashHandler.publicKey, HashHandler.getHash(ts),offset).subscribeOn(Schedulers.io())
     }
 }

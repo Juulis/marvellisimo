@@ -14,7 +14,7 @@ import malidaca.marvellisimo.activities.CharacterActivity
 import malidaca.marvellisimo.activities.ItemClickListener
 import malidaca.marvellisimo.models.Character
 
-class CharacterListAdapter(private val characters: Array<Character>, private val context: Context) : RecyclerView.Adapter<ViewHolder>() {
+class CharacterListAdapter(private var characters: List<Character>, private val context: Context) : RecyclerView.Adapter<ViewHolder>() {
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(context).inflate(R.layout.character_list_card, p0, false))
@@ -22,6 +22,11 @@ class CharacterListAdapter(private val characters: Array<Character>, private val
 
     override fun getItemCount(): Int {
         return characters.size
+    }
+
+    fun addItems(list:List<Character>){
+        characters = list
+        notifyDataSetChanged()
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
