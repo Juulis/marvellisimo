@@ -14,7 +14,7 @@ import malidaca.marvellisimo.R
 import malidaca.marvellisimo.models.Character
 
 
-class CharacterListActivity : AppCompatActivity() {
+class CharacterListActivity : AppCompatActivity(){
     private var ar: List<Character> = emptyList()
     private lateinit var adapter: CharacterListAdapter
     private var search: String = ""
@@ -33,7 +33,11 @@ class CharacterListActivity : AppCompatActivity() {
     private fun initQueryTextListener() {
         SEARCH.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                if(search == query)
+                    return false
+                search = query!!
+                addItems(search = search)
+                return false
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
