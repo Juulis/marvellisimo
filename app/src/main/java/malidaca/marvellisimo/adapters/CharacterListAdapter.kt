@@ -29,6 +29,11 @@ class CharacterListAdapter(private var characters: List<Character>, private val 
         notifyDataSetChanged()
     }
 
+    fun resetList(){
+        characters = emptyList()
+        notifyDataSetChanged()
+    }
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.name.text = characters[position].name.toUpperCase()
         val url = "${characters[position].thumbnail.path}/landscape_large.${characters[position].thumbnail.extension}"
