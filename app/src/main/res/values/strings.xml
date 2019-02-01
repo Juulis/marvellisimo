@@ -7,4 +7,11 @@
     <string name="menu_search">Search</string>
     <string name="character_view_movie_header">SERIES</string>
     <!--*******************************END MENU*******************************-->
+
+    <!--*********************************LOGIN********************************-->
+    <string name="login_hint_email">Email</string>
+    <string name="login_hint_password">Password</string>
+    <string name="login_login_button">Login</string>
+    <string name="login_register_button">Register</string>
+    <!--*******************************END LOGIN******************************-->
 </resources>
