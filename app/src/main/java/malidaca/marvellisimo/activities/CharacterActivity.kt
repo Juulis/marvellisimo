@@ -4,10 +4,10 @@ import android.annotation.SuppressLint
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
+import android.view.View
 import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
-import kotlinx.android.synthetic.main.activity_character.*
-import kotlinx.android.synthetic.main.character_list_card.*
+import kotlinx.android.synthetic.main.activity_character_new.*
 import kotlinx.android.synthetic.main.series_list_view.*
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.adapters.SeriesListAdapter
@@ -16,6 +16,8 @@ import malidaca.marvellisimo.rest.MarvelServiceHandler
 
 
 class CharacterActivity : AppCompatActivity() {
+
+    private var favorite : Boolean = false
 
     @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,6 +52,17 @@ class CharacterActivity : AppCompatActivity() {
                             series_grid_view.adapter = SeriesListAdapter(data.data.results, this)
                         }
 
+        }
+
+        Picasso.get().load(R.drawable.favorite_black).into(favoriteBtn)
+    }
+
+    fun changeFavorite(view: View) {
+        favorite = !favorite
+        if (favorite) {
+            Picasso.get().load(R.drawable.favorite_red).into(favoriteBtn)
+        } else {
+            Picasso.get().load(R.drawable.favorite_black).into(favoriteBtn)
         }
     }
 }

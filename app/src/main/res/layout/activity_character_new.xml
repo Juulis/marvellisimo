@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:sothree="http://schemas.android.com/apk/res-auto"
@@ -9,9 +10,7 @@
     sothree:umanoShadowHeight="4dp">
 
 
-    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".activities.CharacterActivity">
@@ -20,17 +19,17 @@
         <include
             android:id="@+id/toolbar"
             layout="@layout/toolbar"
-            app:layout_constraintTop_toTopOf="parent" />
+            sothree:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/bigpic"
             android:layout_width="0dp"
             android:layout_height="194dp"
             android:scaleType="centerCrop"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+            sothree:layout_constraintEnd_toEndOf="parent"
+            sothree:layout_constraintHorizontal_bias="0.0"
+            sothree:layout_constraintStart_toStartOf="parent"
+            sothree:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -39,9 +38,9 @@
             android:layout_height="81dp"
             android:layout_marginTop="208dp"
             android:src="@mipmap/marvel_logo_round"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/toolbar" />
+            sothree:layout_constraintEnd_toEndOf="parent"
+            sothree:layout_constraintStart_toStartOf="parent"
+            sothree:layout_constraintTop_toTopOf="@+id/toolbar" />
 
         <TextView
             android:id="@+id/characterName"
@@ -50,10 +49,10 @@
             android:layout_marginTop="8dp"
             android:textAlignment="center"
             android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.502"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/avatar" />
+            sothree:layout_constraintEnd_toEndOf="parent"
+            sothree:layout_constraintHorizontal_bias="0.502"
+            sothree:layout_constraintStart_toStartOf="parent"
+            sothree:layout_constraintTop_toBottomOf="@+id/avatar" />
 
         <TextView
             android:id="@+id/infoText"
@@ -67,10 +66,24 @@
             android:textColor="@android:color/black"
             android:textSize="14sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/characterName"
+            sothree:layout_constraintEnd_toEndOf="parent"
+            sothree:layout_constraintStart_toStartOf="parent"
+            sothree:layout_constraintTop_toBottomOf="@+id/characterName"
             />
+
+        <ImageView
+            android:id="@+id/favoriteBtn"
+            android:layout_width="59dp"
+            android:layout_height="47dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:onClick="changeFavorite"
+            sothree:layout_constraintBottom_toBottomOf="parent"
+            sothree:layout_constraintEnd_toEndOf="parent"
+            sothree:layout_constraintTop_toBottomOf="@+id/bigpic"
+            sothree:layout_constraintVertical_bias="0.005"
+            sothree:srcCompat="@color/colorAccent" />
 
 
     </android.support.constraint.ConstraintLayout>
