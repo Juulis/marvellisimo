@@ -2,7 +2,7 @@ package malidaca.marvellisimo.utilities
 
 import java.security.MessageDigest
 
-class HashHandler{
+object HashHandler{
 
     val publicKey = "d9731b194c3568c373d0f35fa913389d"
 
