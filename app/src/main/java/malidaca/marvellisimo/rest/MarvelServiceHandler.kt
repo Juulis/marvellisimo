@@ -1,6 +1,7 @@
 package malidaca.marvellisimo.rest
 
 import malidaca.marvellisimo.models.ApiResponse
+import malidaca.marvellisimo.models.Series
 import malidaca.marvellisimo.utilities.HashHandler
 import okhttp3.OkHttpClient
 import retrofit2.Callback
@@ -20,21 +21,26 @@ class MarvelServiceHandler{
     private val ts = Date().time.toString()
     private val callAsync = service.getSeries(ts, HashHandler().publicKey, HashHandler().getHash(ts))
 
-    fun sendRequest(){
+    fun sendRequest(): Array<Series>{
+        var seriesArray: Array<Series> = emptyArray()
         callAsync.enqueue(object: Callback<ApiResponse> {
             override fun onResponse(call: retrofit2.Call<ApiResponse>, response: retrofit2.Response<ApiResponse>) {
                 var responseBody = response.body()
                 var status = responseBody?.status
                 var code = responseBody?.code
-                var series = responseBody?.data?.results
+
+                seriesArray = responseBody?.data?.results!!
 
                 println("Status: $status, Code: $code")
-                println("Series: $series")
+
             }
 
             override fun onFailure(call: retrofit2.Call<ApiResponse>, t: Throwable) {
                 println(t)
             }
         })
+        println("hello")
+
+        return seriesArray
     }
 }
