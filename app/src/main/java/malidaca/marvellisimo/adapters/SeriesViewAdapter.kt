@@ -7,44 +7,29 @@ import android.widget.TextView
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.models.Series
 
-class SeriesViewAdapter(private val series: Array<Series>): RecyclerView.Adapter<SeriesViewAdapter.ViewHolder>() {
+class SeriesViewAdapter(private val series: Array<Series>): RecyclerView.Adapter<SeriesViewAdapter.ViewHolder>(), View.OnClickListener {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         val view = LayoutInflater.from(parent.context).inflate(R.layout.series_view, parent, false)
+        view.setOnClickListener(this)
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
+        holder.itemView.tag = series[position]
         holder.myTextView.text = series[position].title
     }
 
     override fun getItemCount() = series.size
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener{
-
-        private var clickListener: ItemClickListener? = null
-        val myTextView: TextView
-
-        init {
-            myTextView = itemView.findViewById(R.id.title)
-            itemView.setOnClickListener(this)
-        }
-
-        override fun onClick(v: View) {
-
-            println("clicked")
-            //clickListener?.onItemClick(v, adapterPosition)
-        }
-
-        fun setClickListener(itemClickListener: ItemClickListener){
-            clickListener = itemClickListener
-        }
+    override fun onClick(v: View?) {
+        val selected = v!!.tag as Series
+        println("title: ${selected.title}")
     }
 
-    interface ItemClickListener{
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
 
-        fun onItemClick(view: View, position: Int)
+        val myTextView = itemView.findViewById(R.id.title) as TextView
     }
 }

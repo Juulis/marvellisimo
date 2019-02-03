@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import io.reactivex.android.schedulers.AndroidSchedulers
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.rest.MarvelServiceHandler
 import malidaca.marvellisimo.adapters.SeriesViewAdapter
+import malidaca.marvellisimo.models.Series
 
 class SeriesActivity: AppCompatActivity(){
     lateinit var viewManager: RecyclerView.LayoutManager
@@ -17,16 +19,18 @@ class SeriesActivity: AppCompatActivity(){
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_series)
-        var response = MarvelServiceHandler.seriesRequest()
 
-        viewManager = LinearLayoutManager(this)
-        viewAdapter = SeriesViewAdapter(response.blockingGet().data.results)
-        recyclerView = findViewById<RecyclerView>(R.id.series_recycler_view).apply {
-            setHasFixedSize(true)
-            layoutManager = viewManager
-            adapter = viewAdapter
+        var response: Array<Series>
+
+        MarvelServiceHandler.seriesRequest().observeOn(AndroidSchedulers.mainThread()).subscribe {
+            data -> response = data.data.results
+            viewManager = LinearLayoutManager(this)
+            viewAdapter = SeriesViewAdapter(response)
+            recyclerView = findViewById<RecyclerView>(R.id.series_recycler_view).apply {
+                setHasFixedSize(true)
+                layoutManager = viewManager
+                adapter = viewAdapter
+            }
         }
     }
-
-
 }
