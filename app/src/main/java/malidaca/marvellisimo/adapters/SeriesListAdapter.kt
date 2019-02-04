@@ -11,7 +11,8 @@ import malidaca.marvellisimo.R
 import malidaca.marvellisimo.activities.ItemClickListener
 import malidaca.marvellisimo.models.Series
 
-class SeriesListAdapter(private val series: Array<Series>, private val context: Context): RecyclerView.Adapter<ViewHolderTwo>() {
+class SeriesListAdapter(private var series: List<Series>, private val context: Context): RecyclerView.Adapter<ViewHolderTwo>() {
+
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolderTwo {
         return ViewHolderTwo(LayoutInflater.from(context).inflate(R.layout.series_list_view_card, p0, false))
     }
@@ -34,11 +35,14 @@ class SeriesListAdapter(private val series: Array<Series>, private val context: 
               /*  val intent = Intent(context, CharacterActivity::class.java)
                 intent.putExtra("itemId",series[position].id )
                 context.startActivity(intent)*/
-
-                println(series[position].id)
             }
 
         })
+    }
+
+    fun addItems(newItems:List<Series>) {
+        series = series+newItems
+        notifyDataSetChanged()
     }
 }
 
