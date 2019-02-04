@@ -54,11 +54,6 @@ class MenuActivity : AppCompatActivity() {
 
     //TODO Add your own activity in your own clickListener
     fun setClickListeners() {
-        searchButton.setOnClickListener {
-            val intent = Intent(this@MenuActivity, LoginActivity::class.java)
-            startActivity(intent)
-        }
-
         characterButton.setOnClickListener {
 
             val intent = Intent(this, CharacterListActivity::class.java)
