@@ -8,13 +8,11 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
-import kotlinx.android.synthetic.main.activity_character_list.*
 import kotlinx.android.synthetic.main.activity_character_new.*
 import kotlinx.android.synthetic.main.series_list_view.*
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.adapters.SeriesListAdapter
 import malidaca.marvellisimo.models.Character
-import malidaca.marvellisimo.models.Series
 import malidaca.marvellisimo.rest.MarvelServiceHandler
 import malidaca.marvellisimo.utilities.LoadDialog
 
@@ -23,8 +21,8 @@ class CharacterActivity : AppCompatActivity() {
 
     private var loadDialog: LoadDialog? = null
     private var favorite: Boolean = false
-    private  var redFavorite: Int = 0
-    private  var blackFavorite: Int = 0
+    private  var rFavorite: Int = 0
+    private  var bFavorite: Int = 0
     private lateinit var adapter: SeriesListAdapter
     private lateinit var scrollListener: EndlessRecyclerViewScrollListener
     private lateinit var gridLayoutManager: GridLayoutManager
@@ -34,8 +32,8 @@ class CharacterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_character_new)
 
-        redFavorite = R.drawable.favorite_red
-        blackFavorite = R.drawable.favorite_black
+        rFavorite = R.drawable.thumbs_up_yes
+        bFavorite = R.drawable.thumbs_up
 
         loadDialog = LoadDialog(this)
         loadDialog!!.showDialog()
@@ -64,7 +62,7 @@ class CharacterActivity : AppCompatActivity() {
         }
 
 
-        Picasso.get().load(blackFavorite).into(favoriteBtn)
+        Picasso.get().load(bFavorite).into(favoriteBtn)
     }
 
     private fun initScrollListener(gridLayoutManager: GridLayoutManager, id: Int) {
@@ -98,9 +96,9 @@ class CharacterActivity : AppCompatActivity() {
     fun changeFavorite(view: View) {
         favorite = !favorite
         if (favorite) {
-            Picasso.get().load(redFavorite).into(favoriteBtn)
+            Picasso.get().load(rFavorite).into(favoriteBtn)
         } else {
-            Picasso.get().load(blackFavorite).into(favoriteBtn)
+            Picasso.get().load(bFavorite).into(favoriteBtn)
         }
     }
 }
