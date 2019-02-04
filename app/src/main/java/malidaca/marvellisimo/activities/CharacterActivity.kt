@@ -13,17 +13,26 @@ import malidaca.marvellisimo.R
 import malidaca.marvellisimo.adapters.SeriesListAdapter
 import malidaca.marvellisimo.models.Character
 import malidaca.marvellisimo.rest.MarvelServiceHandler
+import malidaca.marvellisimo.utilities.LoadDialog
 
 
 class CharacterActivity : AppCompatActivity() {
 
-    private var favorite : Boolean = false
+    private var loadDialog: LoadDialog? = null
+    private var favorite: Boolean = false
+    private  var redFavorite: Int = 0
+    private  var blackFavorite: Int = 0
 
     @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_character_new)
 
+        redFavorite = R.drawable.favorite_red
+        blackFavorite = R.drawable.favorite_black
+
+        loadDialog = LoadDialog(this)
+        loadDialog!!.showDialog()
         var character: Character
         val extras = intent.extras
         if (extras != null) {
@@ -43,24 +52,24 @@ class CharacterActivity : AppCompatActivity() {
                         Picasso.get().load(newUrl).into(bigpic)
                     }
 
-                MarvelServiceHandler.seriesByCharactersId(id).observeOn(AndroidSchedulers.mainThread())
-                        .subscribe{
-                            data ->
-                            series_grid_view.layoutManager = GridLayoutManager(this, 2)
-                            series_grid_view.adapter = SeriesListAdapter(data.data.results, this)
-                        }
+            MarvelServiceHandler.seriesByCharactersId(id).observeOn(AndroidSchedulers.mainThread())
+                    .subscribe { data ->
+                        series_grid_view.layoutManager = GridLayoutManager(this, 2)
+                        series_grid_view.adapter = SeriesListAdapter(data.data.results, this)
+                        loadDialog!!.hideDialog()
+                    }
 
         }
 
-        Picasso.get().load(R.drawable.favorite_black).into(favoriteBtn)
+        Picasso.get().load(blackFavorite).into(favoriteBtn)
     }
 
     fun changeFavorite(view: View) {
         favorite = !favorite
         if (favorite) {
-            Picasso.get().load(R.drawable.favorite_red).into(favoriteBtn)
+            Picasso.get().load(redFavorite).into(favoriteBtn)
         } else {
-            Picasso.get().load(R.drawable.favorite_black).into(favoriteBtn)
+            Picasso.get().load(blackFavorite).into(favoriteBtn)
         }
     }
 }
