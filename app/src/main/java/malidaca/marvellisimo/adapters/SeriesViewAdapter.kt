@@ -1,13 +1,18 @@
 package malidaca.marvellisimo.adapters
+import android.content.Context
+import android.content.Intent
+import android.support.v4.content.ContextCompat.startActivity
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import malidaca.marvellisimo.R
+import malidaca.marvellisimo.activities.SeriesActivity
+import malidaca.marvellisimo.activities.SeriesDetailsActivity
 import malidaca.marvellisimo.models.Series
 
-class SeriesViewAdapter(private val series: Array<Series>): RecyclerView.Adapter<SeriesViewAdapter.ViewHolder>(), View.OnClickListener {
+class SeriesViewAdapter(private val series: Array<Series>, private val context: Context): RecyclerView.Adapter<SeriesViewAdapter.ViewHolder>(), View.OnClickListener {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -25,7 +30,9 @@ class SeriesViewAdapter(private val series: Array<Series>): RecyclerView.Adapter
 
     override fun onClick(v: View?) {
         val selected = v!!.tag as Series
-        println("title: ${selected.title}")
+        val intent = Intent(context, SeriesDetailsActivity::class.java)
+        intent.putExtra("id", selected.id)
+        context.startActivity(intent)
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){

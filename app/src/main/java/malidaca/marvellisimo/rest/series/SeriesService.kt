@@ -14,6 +14,12 @@ interface SeriesService{
                   @Query("apikey") apikey: String,
                   @Query("hash") hash: String): Single<SeriesApiResponse>
 
+    @GET("/v1/public/series/{id}")
+    fun getSeriesById(@Path("id") id: Int, @Query("ts") ts: String,
+                          @Query("apikey") apikey: String,
+                          @Query("hash") hash: String): Single<SeriesApiResponse>
+
+
     @GET("/v1/public/characters/{id}/series")
     fun getSeriesByCharactersId(@Path("id") id: Int, @Query("ts") ts: String,
                           @Query("apikey") apikey: String,

@@ -25,7 +25,7 @@ class SeriesActivity: AppCompatActivity(){
         MarvelServiceHandler.seriesRequest().observeOn(AndroidSchedulers.mainThread()).subscribe {
             data -> response = data.data.results
             viewManager = LinearLayoutManager(this)
-            viewAdapter = SeriesViewAdapter(response)
+            viewAdapter = SeriesViewAdapter(response, this)
             recyclerView = findViewById<RecyclerView>(R.id.series_recycler_view).apply {
                 setHasFixedSize(true)
                 layoutManager = viewManager

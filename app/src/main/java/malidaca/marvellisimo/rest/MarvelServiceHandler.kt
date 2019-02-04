@@ -23,11 +23,16 @@ object MarvelServiceHandler {
             .client(httpClient.build())
             .build()
 
-
     fun seriesRequest(): Single<SeriesApiResponse> {
         val ts = Date().time.toString()
         val service: SeriesService = retrofit.create(SeriesService::class.java)
         return service.getSeries(ts, HashHandler.publicKey, HashHandler.getHash(ts)).subscribeOn(Schedulers.io())
+    }
+
+    fun seriesByIdRequest(id: Int): Single<SeriesApiResponse> {
+        val ts = Date().time.toString()
+        val service: SeriesService = retrofit.create(SeriesService::class.java)
+        return service.getSeriesById(id, ts, HashHandler.publicKey, HashHandler.getHash(ts)).subscribeOn(Schedulers.io())
     }
 
     fun seriesByCharactersId(id: Int): Single<SeriesApiResponse> {
