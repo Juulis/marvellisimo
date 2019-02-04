@@ -21,9 +21,7 @@ class SeriesListAdapter(private val series: Array<Series>, private val context: 
     }
 
     override fun onBindViewHolder(holder: ViewHolderTwo, position: Int) {
-//        holder.name.text = series[position].title.toUpperCase()
         val url = "${series[position].thumbnail.path}/portrait_fantastic.${series[position].thumbnail.extension}"
-        println(url)
 
         var split1 =  url.subSequence(0,4)
         var split2 =  url.subSequence(4, url.length)
@@ -45,7 +43,6 @@ class SeriesListAdapter(private val series: Array<Series>, private val context: 
 }
 
 class ViewHolderTwo(itemViewSeries: View) : RecyclerView.ViewHolder(itemViewSeries), View.OnClickListener {
-//    val name = itemViewSeries.series_name!!
     val img = itemViewSeries.series_img!!
     private var itemClickListener: ItemClickListener? = null
 
