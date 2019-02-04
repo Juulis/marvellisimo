@@ -11,9 +11,6 @@ import com.google.firebase.database.FirebaseDatabase
 import malidaca.marvellisimo.R
 
 class MenuActivity : AppCompatActivity() {
-
-
-    private lateinit var searchButton: Button
     private lateinit var characterButton: Button
     private lateinit var seriesButton: Button
 
@@ -46,7 +43,6 @@ class MenuActivity : AppCompatActivity() {
     }
 
     private fun initButtons() {
-        searchButton = findViewById(R.id.menu_button_search)
         characterButton = findViewById(R.id.menu_button_characters)
         seriesButton = findViewById(R.id.menu_button_series)
     }
