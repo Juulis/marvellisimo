@@ -10,7 +10,7 @@ import malidaca.marvellisimo.rest.MarvelServiceHandler
 import malidaca.marvellisimo.adapters.SeriesViewAdapter
 import malidaca.marvellisimo.models.Series
 
-class SeriesActivity: AppCompatActivity(){
+class SeriesActivity : AppCompatActivity() {
     lateinit var viewManager: RecyclerView.LayoutManager
     lateinit var recyclerView: RecyclerView
     lateinit var viewAdapter: RecyclerView.Adapter<*>
@@ -22,8 +22,8 @@ class SeriesActivity: AppCompatActivity(){
 
         var response: Array<Series>
 
-        MarvelServiceHandler.seriesRequest().observeOn(AndroidSchedulers.mainThread()).subscribe {
-            data -> response = data.data.results
+        MarvelServiceHandler.seriesRequest().observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
+            response = data.data.results
             viewManager = LinearLayoutManager(this)
             viewAdapter = SeriesViewAdapter(response, this)
             recyclerView = findViewById<RecyclerView>(R.id.series_recycler_view).apply {
