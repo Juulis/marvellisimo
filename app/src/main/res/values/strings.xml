@@ -12,5 +12,14 @@
     <string name="login_hint_password">Password</string>
     <string name="login_login_button">Login</string>
     <string name="login_register_button">Register</string>
+    <string name="title_activity_register">RegisterActivity</string>
     <!--*******************************END LOGIN******************************-->
+
+    <!--*******************************REGISTER*******************************-->
+    <string name="register_first_name">First Name</string>
+    <string name="register_last_name">Last Name</string>
+    <string name="register_email">Email</string>
+    <string name="register_password">Password</string>
+    <string name="register_signup_button">Sign up</string>
+    <!--*****************************END REGISTER*****************************-->
 </resources>
