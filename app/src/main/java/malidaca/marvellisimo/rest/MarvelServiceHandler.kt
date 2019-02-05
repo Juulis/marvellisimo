@@ -26,10 +26,10 @@ object MarvelServiceHandler {
             .client(httpClient.build())
             .build()
 
-    fun seriesRequest(): Single<SeriesApiResponse> {
+    fun seriesRequest(offset: Int): Single<SeriesApiResponse> {
         val ts = Date().time.toString()
         val service: SeriesService = retrofit.create(SeriesService::class.java)
-        return service.getSeries(ts, HashHandler.publicKey, HashHandler.getHash(ts)).subscribeOn(Schedulers.io())
+        return service.getSeries(ts, HashHandler.publicKey, HashHandler.getHash(ts), offset).subscribeOn(Schedulers.io())
                 .subscribeOn(Schedulers.io())
                 .retry(10)
                 .onErrorReturn {
@@ -38,7 +38,6 @@ object MarvelServiceHandler {
                     SeriesApiResponse(1, "", SeriesDataModel(emptyArray()))
                 }
     }
-
 
     fun seriesByIdRequest(id: Int): Single<SeriesApiResponse> {
         val ts = Date().time.toString()
@@ -94,6 +93,19 @@ object MarvelServiceHandler {
                 }
     }
 
+    fun charactersBySeriesIdRequest(offset: Int, id: Int): Single<CharactersApiResponse> {
+        val ts = Date().time.toString()
+        val service: CharactersService = retrofit.create(CharactersService::class.java)
+        return service.getCharactersBySeriesId(id, ts, HashHandler.publicKey, HashHandler.getHash(ts), offset)
+                .subscribeOn(Schedulers.io())
+                .retry(10)
+                .onErrorReturn {
+                    //TODO: make snackbar appear
+                    println("error: ${it.message}")
+                    CharactersApiResponse(1, "", CharactersDataModel(emptyArray()))
+                }
+    }
+
     fun characterByNameRequest(offset: Int, search: String): Single<CharactersApiResponse> {
         val resultLimit = 20
         val ts = Date().time.toString()
@@ -108,7 +120,6 @@ object MarvelServiceHandler {
                 }
     }
 
-
     fun serieByNameRequest(offset: Int, search: String): Single<SeriesApiResponse> {
         val ts = Date().time.toString()
         val service: SeriesService = retrofit.create(SeriesService::class.java)
@@ -122,5 +133,3 @@ object MarvelServiceHandler {
                 }
     }
 }
-
-
