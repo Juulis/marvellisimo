@@ -9,6 +9,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_series_details.*
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.adapters.CharactersViewAdapter
+import malidaca.marvellisimo.models.Character
 import malidaca.marvellisimo.models.Series
 import malidaca.marvellisimo.rest.MarvelServiceHandler
 
@@ -45,7 +46,14 @@ class SeriesDetailsActivity : AppCompatActivity() {
             for (co in comics)
                 comicsTitles += "${co.name}, "
             series_comics.text = "COMICS: $comicsTitles"
-            val characters = response.characters.items
+            getCharactersFromSeries(id)
+        }
+    }
+
+    fun getCharactersFromSeries(id: Int) {
+        MarvelServiceHandler.charactersBySeriesIdRequest(0, id).observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
+            var characters = data.data.results
+            println(characters.size)
             viewManager = LinearLayoutManager(this)
             viewAdapter = CharactersViewAdapter(characters, this)
             recyclerView = findViewById<RecyclerView>(R.id.characters_recycler_view).apply {
