@@ -26,7 +26,6 @@ object MarvelServiceHandler {
             .client(httpClient.build())
             .build()
 
-
     fun seriesRequest(): Single<SeriesApiResponse> {
         val ts = Date().time.toString()
         val service: SeriesService = retrofit.create(SeriesService::class.java)
@@ -41,10 +40,23 @@ object MarvelServiceHandler {
     }
 
 
-    fun seriesByCharactersId(id: Int): Single<SeriesApiResponse> {
+    fun seriesByIdRequest(id: Int): Single<SeriesApiResponse> {
         val ts = Date().time.toString()
         val service: SeriesService = retrofit.create(SeriesService::class.java)
-        return service.getSeriesByCharactersId(id, ts, HashHandler.publicKey, HashHandler.getHash(ts))
+        return service.getSeriesById(id, ts, HashHandler.publicKey, HashHandler.getHash(ts))
+                .subscribeOn(Schedulers.io())
+                .retry(10)
+                .doOnError {
+                    //TODO: make snackbar appear
+                }.onErrorReturn {
+                    (SeriesApiResponse(1, "", SeriesDataModel(emptyArray())))
+                }
+    }
+
+    fun seriesByCharactersId(offset: Int, id: Int): Single<SeriesApiResponse> {
+        val ts = Date().time.toString()
+        val service: SeriesService = retrofit.create(SeriesService::class.java)
+        return service.getSeriesByCharactersId(id, ts, HashHandler.publicKey, HashHandler.getHash(ts), offset)
                 .subscribeOn(Schedulers.io())
                 .retry(10)
                 .doOnError {
@@ -55,10 +67,10 @@ object MarvelServiceHandler {
     }
 
 
-    fun charactersRequest(): Single<CharactersApiResponse> {
+    fun charactersRequest(offset: Int): Single<CharactersApiResponse> {
         val ts = Date().time.toString()
         val service: CharactersService = retrofit.create(CharactersService::class.java)
-        return service.getCharacters(ts, HashHandler.publicKey, HashHandler.getHash(ts))
+        return service.getCharacters(ts, HashHandler.publicKey, HashHandler.getHash(ts), offset)
                 .subscribeOn(Schedulers.io())
                 .retry(10)
                 .doOnError {
@@ -82,12 +94,11 @@ object MarvelServiceHandler {
                 }
     }
 
-
-    fun characterByNameRequest(search: String): Single<CharactersApiResponse> {
-        val resultLimit = 50
+    fun characterByNameRequest(offset: Int, search: String): Single<CharactersApiResponse> {
+        val resultLimit = 20
         val ts = Date().time.toString()
         val service: CharactersService = retrofit.create(CharactersService::class.java)
-        return service.getCharacterX(ts, HashHandler.publicKey, HashHandler.getHash(ts), search, resultLimit)
+        return service.getCharacterByName(ts, HashHandler.publicKey, HashHandler.getHash(ts), search, resultLimit, offset)
                 .subscribeOn(Schedulers.io())
                 .retry(10)
                 .doOnError {
@@ -98,10 +109,10 @@ object MarvelServiceHandler {
     }
 
 
-    fun serieXRequest(search: String): Single<SeriesApiResponse> {
+    fun serieByNameRequest(offset: Int, search: String): Single<SeriesApiResponse> {
         val ts = Date().time.toString()
         val service: SeriesService = retrofit.create(SeriesService::class.java)
-        return service.getSerieX(ts, HashHandler.publicKey, HashHandler.getHash(ts), search)
+        return service.getSerieByName(ts, HashHandler.publicKey, HashHandler.getHash(ts), search, offset)
                 .subscribeOn(Schedulers.io())
                 .retry(10)
                 .doOnError {
@@ -111,4 +122,5 @@ object MarvelServiceHandler {
                 }
     }
 }
+
 

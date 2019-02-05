@@ -10,7 +10,6 @@ object HashHandler{
         val algorithm = "MD5"
         val privateKey = PrivateKeys.API
         val HEX_CHARS = "0123456789abcdef"
-        println("ts1: $ts")
         val s = ts + privateKey + publicKey
         val keyBytes = MessageDigest.getInstance(algorithm).digest(s.toByteArray())
 
