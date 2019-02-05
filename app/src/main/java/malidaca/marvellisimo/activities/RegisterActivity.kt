@@ -1,6 +1,7 @@
 package malidaca.marvellisimo.activities
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log
@@ -14,50 +15,59 @@ import kotlinx.android.synthetic.main.activity_register.*
 import malidaca.marvellisimo.R
 
 import malidaca.marvellisimo.models.User
+import malidaca.marvellisimo.utilities.SnackbarManager
 
 class RegisterActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var database: DatabaseReference
-    private var user: FirebaseUser? = null
+    private var mUser: FirebaseUser? = null
+
+    private lateinit var view: View
+    private lateinit var snackbarManager: SnackbarManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
         register_button.setOnClickListener(this)
+
+        view = findViewById(android.R.id.content)
+        snackbarManager = SnackbarManager()
+
         database = FirebaseDatabase.getInstance().reference
         auth = FirebaseAuth.getInstance()
-        user = auth.currentUser
+        mUser = auth.currentUser
     }
 
     override fun onPause() {
-        if(user != null)
-            database.child("users").child(user!!.uid).child("online").setValue(false)
+        if (mUser != null)
+            database.child("users").child(mUser!!.uid).child("online").setValue(false)
         super.onPause()
     }
 
     override fun onResume() {
-        if(user != null)
-            database.child("users").child(user!!.uid).child("online").setValue(true)
+        if (mUser != null)
+            database.child("users").child(mUser!!.uid).child("online").setValue(true)
         super.onResume()
     }
 
     private fun createAccount(email: String, password: String, firstName: String, lastName: String) {
-        auth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this) { task ->
-                    if(task.isSuccessful) {
-                        Log.d(RegisterActivity.TAG, "createUserWithEmail:success")
-                        val user = auth.currentUser
+        if(email.isNotBlank() && password.isNotBlank() && firstName.isNotBlank() && lastName.isNotBlank()) {
+            auth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this) { task ->
+                        if (task.isSuccessful) {
+                            val user = auth.currentUser
 
-                        writeNewUser(user?.uid!!, firstName, lastName, user.email!!)
-                        val intent = Intent(this@RegisterActivity, MenuActivity::class.java)
-                        startActivity(intent)
-                        //updateUI(user)
-                    } else {
-                        Log.w(RegisterActivity.TAG, "createUserWithEmail:failure", task.exception)
-                        Toast.makeText(this, "Authentication failed.", Toast.LENGTH_SHORT).show()
+                            writeNewUser(firstName, lastName, user?.email!!)
+                            val intent = Intent(this@RegisterActivity, MenuActivity::class.java)
+                            startActivity(intent)
+                        } else {
+                            snackbarManager.createSnackbar(view, resources.getString(R.string.registration_failed), Color.RED)
+                        }
                     }
-                }
+        } else {
+            snackbarManager.createSnackbar(view, resources.getString(R.string.registration_failed_fields_missing), Color.RED)
+        }
     }
 
     override fun onClick(v: View) {
@@ -67,13 +77,9 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun writeNewUser(userId: String, firstName: String, lastName: String, email: String) {
-        val user = User(userId, email, firstName, lastName)
-        database.child("users").child(userId).setValue(user)
-        database.child("users").child(userId).child("online").setValue(true)
-    }
-
-    companion object {
-        private const val TAG = "EmailPassword"
+    private fun writeNewUser(firstName: String, lastName: String, email: String) {
+        val user = User(email, firstName, lastName)
+        database.child("users").child(mUser!!.uid).setValue(user)
+        database.child("users").child(mUser!!.uid).child("online").setValue(true)
     }
 }

@@ -12,6 +12,8 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_login.*
+import android.graphics.Color
+import malidaca.marvellisimo.utilities.SnackbarManager
 
 
 class LoginActivity : AppCompatActivity(), View.OnClickListener {
@@ -20,6 +22,9 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var database: DatabaseReference
     private var user: FirebaseUser? = null
 
+    private lateinit var view: View
+    private lateinit var snackbarManager: SnackbarManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -27,9 +32,13 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         login_login_button.setOnClickListener(this)
         login_register_button.setOnClickListener(this)
 
+        view = findViewById(android.R.id.content)
+        snackbarManager = SnackbarManager()
+
         database = FirebaseDatabase.getInstance().reference
         auth = FirebaseAuth.getInstance()
         user = auth.currentUser
+
     }
 
     override fun onPause() {
@@ -45,11 +54,12 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun signIn(email: String, password: String) {
+        if(email.isNotBlank() && password.isNotBlank()) {
             auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithEmail:success")
+                            //Log.d(TAG, "signInWithEmail:success")
                             user = auth.currentUser
 
                             database.child("users").child(user!!.uid).child("online").setValue(true)
@@ -58,14 +68,19 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                             startActivity(intent)
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithEmail:failure", task.exception)
-                            Toast.makeText(this@LoginActivity, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show()
+                            //Log.w(TAG, "signInWithEmail:failure", task.exception)
+                            snackbarManager.createSnackbar(view, resources.getString(R.string.signin_failed_wrong_credentials), Color.RED)
+                            //Toast.makeText(this@LoginActivity, "Authentication failed.",
+                            //        Toast.LENGTH_SHORT).show()
                             //updateUI(null)
                         }
 
                         // ...
                     }
+        } else {
+            snackbarManager.createSnackbar(view , resources.getString(R.string.signin_failed_missing_fields), Color.RED)
+            //Toast.makeText(this, "Not all fields are set",Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onClick(v: View) {
@@ -77,9 +92,5 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.login_login_button -> signIn(login_email.text.toString(), login_password.text.toString())
         }
-    }
-
-    companion object {
-        private const val TAG = "EmailPassword"
     }
 }
