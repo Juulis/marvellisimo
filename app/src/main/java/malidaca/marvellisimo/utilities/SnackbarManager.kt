@@ -9,6 +9,14 @@ import android.widget.FrameLayout
 import android.widget.TextView
 
 class SnackbarManager {
+
+    /**
+     * @param view: declare as a variable   private lateinit var view: View
+     * instantiate it in onCreate as        view = findViewById(android.R.id.content)
+     * @param text: text string you want the snackbar to display
+     * @param color: background color you want the snackbar to have
+     * @param gravity: where you want the snackbar to be, default is top. For bottom write Gravity.BOTTOM
+     */
     fun createSnackbar(view: View, text: String, color: Int, gravity: Int = Gravity.TOP) {
         val mSnackBar = Snackbar.make(view, text, Snackbar.LENGTH_LONG)
         val sView = mSnackBar.view
