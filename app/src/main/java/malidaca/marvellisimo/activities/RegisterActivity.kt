@@ -62,11 +62,11 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
                             val intent = Intent(this@RegisterActivity, MenuActivity::class.java)
                             startActivity(intent)
                         } else {
-                            snackbarManager.createSnackbar(view, "Registration failed, try again later", Color.RED)
+                            snackbarManager.createSnackbar(view, resources.getString(R.string.registration_failed), Color.RED)
                         }
                     }
         } else {
-            snackbarManager.createSnackbar(view, "Register failed, not all fields were filled", Color.RED)
+            snackbarManager.createSnackbar(view, resources.getString(R.string.registration_failed_fields_missing), Color.RED)
         }
     }
 

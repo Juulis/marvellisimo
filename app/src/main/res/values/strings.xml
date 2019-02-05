@@ -23,4 +23,10 @@
     <string name="register_password">Password</string>
     <string name="register_signup_button">Sign up</string>
     <!--*****************************END REGISTER*****************************-->
+
+    <!--**************************SNACKBAR MESSAGES***************************-->
+    <string name="registration_failed">Registration failed, try again later</string>
+    <string name="registration_failed_fields_missing">Register failed, not all fields were filled</string>
+    <string name="signin_failed_wronte_credentials">Sign in failed, wrong credentials</string>
+    <string name="signin_failed_missing_fields">Sign in failed, not all fields are set</string>
 </resources>
