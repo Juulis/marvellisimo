@@ -32,9 +32,9 @@ object MarvelServiceHandler {
         return service.getSeries(ts, HashHandler.publicKey, HashHandler.getHash(ts)).subscribeOn(Schedulers.io())
                 .subscribeOn(Schedulers.io())
                 .retry(10)
-                .doOnError {
+                .onErrorReturn {
                     //TODO: make snackbar appear
-                }.onErrorReturn {
+                    println("error: ${it.message}")
                     SeriesApiResponse(1, "", SeriesDataModel(emptyArray()))
                 }
     }
@@ -46,9 +46,9 @@ object MarvelServiceHandler {
         return service.getSeriesById(id, ts, HashHandler.publicKey, HashHandler.getHash(ts))
                 .subscribeOn(Schedulers.io())
                 .retry(10)
-                .doOnError {
+                .onErrorReturn {
                     //TODO: make snackbar appear
-                }.onErrorReturn {
+                    println("error: ${it.message}")
                     (SeriesApiResponse(1, "", SeriesDataModel(emptyArray())))
                 }
     }
@@ -59,9 +59,9 @@ object MarvelServiceHandler {
         return service.getSeriesByCharactersId(id, ts, HashHandler.publicKey, HashHandler.getHash(ts), offset)
                 .subscribeOn(Schedulers.io())
                 .retry(10)
-                .doOnError {
+                .onErrorReturn {
                     //TODO: make snackbar appear
-                }.onErrorReturn {
+                    println("error: ${it.message}")
                     (SeriesApiResponse(1, "", SeriesDataModel(emptyArray())))
                 }
     }
@@ -73,9 +73,9 @@ object MarvelServiceHandler {
         return service.getCharacters(ts, HashHandler.publicKey, HashHandler.getHash(ts), offset)
                 .subscribeOn(Schedulers.io())
                 .retry(10)
-                .doOnError {
+                .onErrorReturn {
                     //TODO: make snackbar appear
-                }.onErrorReturn {
+                    println("error: ${it.message}")
                     CharactersApiResponse(1, "", CharactersDataModel(emptyArray()))
                 }
     }
@@ -87,9 +87,9 @@ object MarvelServiceHandler {
         return service.getCharactersById(id, ts, HashHandler.publicKey, HashHandler.getHash(ts))
                 .subscribeOn(Schedulers.io())
                 .retry(10)
-                .doOnError {
+                .onErrorReturn {
                     //TODO: make snackbar appear
-                }.onErrorReturn {
+                    println("error: ${it.message}")
                     CharactersApiResponse(1, "", CharactersDataModel(emptyArray()))
                 }
     }
@@ -101,9 +101,9 @@ object MarvelServiceHandler {
         return service.getCharacterByName(ts, HashHandler.publicKey, HashHandler.getHash(ts), search, resultLimit, offset)
                 .subscribeOn(Schedulers.io())
                 .retry(10)
-                .doOnError {
+                .onErrorReturn {
                     //TODO: make snackbar appear
-                }.onErrorReturn {
+                    println("error: ${it.message}")
                     CharactersApiResponse(1, "", CharactersDataModel(emptyArray()))
                 }
     }
@@ -115,9 +115,9 @@ object MarvelServiceHandler {
         return service.getSerieByName(ts, HashHandler.publicKey, HashHandler.getHash(ts), search, offset)
                 .subscribeOn(Schedulers.io())
                 .retry(10)
-                .doOnError {
+                .onErrorReturn {
                     //TODO: make snackbar appear
-                }.onErrorReturn {
+                    println("error: ${it.message}")
                     SeriesApiResponse(1, "", SeriesDataModel(emptyArray()))
                 }
     }
