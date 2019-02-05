@@ -21,9 +21,10 @@ interface CharactersService {
 
 
     @GET("/v1/public/characters")
-    fun getCharacterX(@Query("ts") ts: String,
-                      @Query("apikey") apikey: String,
-                      @Query("hash") hash: String,
-                      @Query("nameStartsWith") nameStartsWith: String,
-                      @Query("offset") limit: Int): Single<CharactersApiResponse>
+    fun getCharacterByName(@Query("ts") ts: String,
+                           @Query("apikey") apikey: String,
+                           @Query("hash") hash: String,
+                           @Query("nameStartsWith") nameStartsWith: String,
+                           @Query("limit") limit: Int,
+                           @Query("offset") offset: Int): Single<CharactersApiResponse>
 }
