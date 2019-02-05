@@ -69,7 +69,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                         } else {
                             // If sign in fails, display a message to the user.
                             //Log.w(TAG, "signInWithEmail:failure", task.exception)
-                            snackbarManager.createSnackbar(view, resources.getString(R.string.signin_failed_wronte_credentials), Color.RED)
+                            snackbarManager.createSnackbar(view, resources.getString(R.string.signin_failed_wrong_credentials), Color.RED)
                             //Toast.makeText(this@LoginActivity, "Authentication failed.",
                             //        Toast.LENGTH_SHORT).show()
                             //updateUI(null)
