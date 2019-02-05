@@ -12,7 +12,7 @@ import malidaca.marvellisimo.activities.SeriesActivity
 import malidaca.marvellisimo.activities.SeriesDetailsActivity
 import malidaca.marvellisimo.models.Series
 
-class SeriesViewAdapter(private val series: Array<Series>, private val context: Context): RecyclerView.Adapter<SeriesViewAdapter.ViewHolder>(), View.OnClickListener {
+class SeriesViewAdapter(private var series: List<Series>, private val context: Context): RecyclerView.Adapter<SeriesViewAdapter.ViewHolder>(), View.OnClickListener {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -27,6 +27,16 @@ class SeriesViewAdapter(private val series: Array<Series>, private val context: 
     }
 
     override fun getItemCount() = series.size
+
+    fun addItems(list:List<Series>){
+        series = list
+        notifyDataSetChanged()
+    }
+
+    fun resetList(){
+        series = emptyList()
+        notifyDataSetChanged()
+    }
 
     override fun onClick(v: View?) {
         val selected = v!!.tag as Series
