@@ -16,11 +16,15 @@ import malidaca.marvellisimo.adapters.SeriesListAdapter
 import malidaca.marvellisimo.models.Character
 import malidaca.marvellisimo.models.Series
 import malidaca.marvellisimo.rest.MarvelServiceHandler
+import malidaca.marvellisimo.utilities.LoadDialog
 
 
 class CharacterActivity : AppCompatActivity() {
 
+    private var loadDialog: LoadDialog? = null
     private var favorite: Boolean = false
+    private  var redFavorite: Int = 0
+    private  var blackFavorite: Int = 0
     private lateinit var adapter: SeriesListAdapter
     private lateinit var scrollListener: EndlessRecyclerViewScrollListener
     private lateinit var gridLayoutManager: GridLayoutManager
@@ -29,6 +33,12 @@ class CharacterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_character_new)
+
+        redFavorite = R.drawable.favorite_red
+        blackFavorite = R.drawable.favorite_black
+
+        loadDialog = LoadDialog(this)
+        loadDialog!!.showDialog()
         gridLayoutManager = GridLayoutManager(this, 2)
         series_grid_view.layoutManager = gridLayoutManager
         var character: Character
@@ -54,7 +64,7 @@ class CharacterActivity : AppCompatActivity() {
         }
 
 
-        Picasso.get().load(R.drawable.favorite_black).into(favoriteBtn)
+        Picasso.get().load(blackFavorite).into(favoriteBtn)
     }
 
     private fun initScrollListener(gridLayoutManager: GridLayoutManager, id: Int) {
@@ -71,6 +81,7 @@ class CharacterActivity : AppCompatActivity() {
         MarvelServiceHandler.seriesByCharactersId(offset, id).observeOn(AndroidSchedulers.mainThread())
                 .subscribe { data ->
                     adapter.addItems(data.data.results.asList())
+                    loadDialog!!.hideDialog()
                 }
     }
 
@@ -80,15 +91,16 @@ class CharacterActivity : AppCompatActivity() {
                 .subscribe { data ->
                     adapter = SeriesListAdapter(data.data.results.asList(), this)
                     series_grid_view.adapter = adapter
+                    loadDialog!!.hideDialog()
                 }
     }
 
     fun changeFavorite(view: View) {
         favorite = !favorite
         if (favorite) {
-            Picasso.get().load(R.drawable.favorite_red).into(favoriteBtn)
+            Picasso.get().load(redFavorite).into(favoriteBtn)
         } else {
-            Picasso.get().load(R.drawable.favorite_black).into(favoriteBtn)
+            Picasso.get().load(blackFavorite).into(favoriteBtn)
         }
     }
 }

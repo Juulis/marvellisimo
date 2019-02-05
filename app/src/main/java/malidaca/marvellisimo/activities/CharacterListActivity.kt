@@ -13,12 +13,17 @@ import android.support.v7.widget.RecyclerView
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.models.Character
 
+import malidaca.marvellisimo.utilities.LoadDialog
 
-class CharacterListActivity : AppCompatActivity(){
+
+class CharacterListActivity : AppCompatActivity() {
     private var ar: List<Character> = emptyList()
     private lateinit var adapter: CharacterListAdapter
     private var search: String = ""
     private lateinit var scrollListener: EndlessRecyclerViewScrollListener
+
+
+    var loadDialog: LoadDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,12 +33,14 @@ class CharacterListActivity : AppCompatActivity(){
         initAdapter()
         initScrollListener(linearLayoutManager)
         initQueryTextListener()
+        loadDialog = LoadDialog(this)
+        loadDialog!!.showDialog()
     }
 
     private fun initQueryTextListener() {
         SEARCH.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                if(search == query)
+                if (search == query)
                     return false
                 search = query!!
                 addItems(search = search)
@@ -68,6 +75,7 @@ class CharacterListActivity : AppCompatActivity(){
             MarvelServiceHandler.charactersRequest(offset).observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
                 ar = ar + data.data.results.asList()
                 adapter.addItems(ar)
+
             }
         } else {
             MarvelServiceHandler.characterXRequest(offset, search).observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
@@ -83,6 +91,7 @@ class CharacterListActivity : AppCompatActivity(){
             ar = ar + data.data.results.asList()
             adapter = CharacterListAdapter(ar, this)
             RECYCLER.adapter = adapter
+            loadDialog!!.hideDialog()
         }
     }
 }
