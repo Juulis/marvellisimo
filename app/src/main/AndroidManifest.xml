@@ -11,6 +11,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <service android:name="malidaca.marvellisimo.MessageService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
         <activity android:name=".activities.CharacterListActivity" />
         <activity android:name=".activities.CharacterActivity" />
         <activity android:name=".activities.MenuActivity" />
@@ -29,7 +35,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.SeriesDetailsActivity"></activity>
+        <activity android:name=".activities.SeriesDetailsActivity" />
     </application>
 
 </manifest>
