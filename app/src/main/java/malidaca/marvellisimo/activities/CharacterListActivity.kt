@@ -10,6 +10,8 @@ import kotlinx.android.synthetic.main.activity_character_list.*
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.adapters.CharacterListAdapter
 import malidaca.marvellisimo.rest.MarvelServiceHandler
+import malidaca.marvellisimo.rest.characters.CharactersApiResponse
+import malidaca.marvellisimo.rest.characters.CharactersDataModel
 import malidaca.marvellisimo.utilities.LoadDialog
 
 
@@ -32,20 +34,23 @@ class CharacterListActivity : AppCompatActivity() {
             override fun onQueryTextSubmit(query: String): Boolean {
                 return false
             }
-
         })
     }
 
     @SuppressLint("CheckResult")
     fun buildList(search: String = "") {
         if (search.equals("")) {
-            MarvelServiceHandler.charactersRequest().observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
+            MarvelServiceHandler.charactersRequest()
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe { data ->
                 RECYCLER.layoutManager = LinearLayoutManager(this)
                 RECYCLER.adapter = CharacterListAdapter(data.data.results, this)
                 loadDialog!!.hideDialog()
             }
         }else{
-            MarvelServiceHandler.characterXRequest(search).observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
+            MarvelServiceHandler.characterByNameRequest(search)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe { data ->
                 RECYCLER.layoutManager = LinearLayoutManager(this)
                 RECYCLER.adapter = CharacterListAdapter(data.data.results, this)
                 loadDialog!!.hideDialog()
