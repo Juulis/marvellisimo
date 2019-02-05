@@ -33,28 +33,34 @@ object MarvelServiceHandler {
     fun seriesByCharactersId(offset: Int, id: Int): Single<SeriesApiResponse> {
         val ts = Date().time.toString()
         val service: SeriesService = retrofit.create(SeriesService::class.java)
-        return service.getSeriesByCharactersId(id, ts, HashHandler.publicKey, HashHandler.getHash(ts),offset).subscribeOn(Schedulers.io())
+        return service.getSeriesByCharactersId(id, ts, HashHandler.publicKey, HashHandler.getHash(ts), offset).subscribeOn(Schedulers.io())
     }
 
-    fun charactersRequest(offset:Int): Single<CharactersApiResponse> {
+    fun charactersRequest(offset: Int): Single<CharactersApiResponse> {
         val ts = Date().time.toString()
         val service: CharactersService = retrofit.create(CharactersService::class.java)
-        return service.getCharacters(ts, HashHandler.publicKey, HashHandler.getHash(ts),offset).subscribeOn(Schedulers.io())
+        return service.getCharacters(ts, HashHandler.publicKey, HashHandler.getHash(ts), offset).subscribeOn(Schedulers.io())
     }
 
     fun charactersByIdRequest(id: Int): Single<CharactersApiResponse> {
         val ts = Date().time.toString()
         val service: CharactersService = retrofit.create(CharactersService::class.java)
-        return service.getCharactersById( id , ts, HashHandler.publicKey, HashHandler.getHash(ts)).subscribeOn(Schedulers.io())
+        return service.getCharactersById(id, ts, HashHandler.publicKey, HashHandler.getHash(ts)).subscribeOn(Schedulers.io())
     }
 
-    fun characterXRequest(offset:Int, search:String): Single<CharactersApiResponse> {
+    fun charactersBySeriesIdRequest(offset: Int, id: Int): Single<CharactersApiResponse> {
+        val ts = Date().time.toString()
+        val service: CharactersService = retrofit.create(CharactersService::class.java)
+        return service.getCharactersBySeriesId(id, ts, HashHandler.publicKey, HashHandler.getHash(ts), offset).subscribeOn(Schedulers.io())
+    }
+
+    fun characterXRequest(offset: Int, search: String): Single<CharactersApiResponse> {
         val ts = Date().time.toString()
         val service: CharactersService = retrofit.create(CharactersService::class.java)
         return service.getCharacterX(ts, HashHandler.publicKey, HashHandler.getHash(ts), search, offset).subscribeOn(Schedulers.io())
     }
 
-    fun serieXRequest(offset:Int, search:String): Single<SeriesApiResponse> {
+    fun serieXRequest(offset: Int, search: String): Single<SeriesApiResponse> {
         val ts = Date().time.toString()
         val service: SeriesService = retrofit.create(SeriesService::class.java)
         return service.getSerieX(ts, HashHandler.publicKey, HashHandler.getHash(ts), search).subscribeOn(Schedulers.io())
