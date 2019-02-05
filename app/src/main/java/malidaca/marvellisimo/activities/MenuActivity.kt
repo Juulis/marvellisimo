@@ -4,41 +4,28 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import malidaca.marvellisimo.R
+import malidaca.marvellisimo.services.FireBaseService
 
 class MenuActivity : AppCompatActivity() {
     private lateinit var characterButton: Button
     private lateinit var seriesButton: Button
 
-    private lateinit var database: DatabaseReference
-    private var user: FirebaseUser? = null
-    private lateinit var auth: FirebaseAuth
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
-
-        database = FirebaseDatabase.getInstance().reference
-        auth = FirebaseAuth.getInstance()
-        user = auth.currentUser
 
         initButtons()
         setClickListeners()
     }
 
     override fun onPause() {
-        if(user != null)
-            database.child("users").child(user!!.uid).child("online").setValue(false)
+        FireBaseService.toggleOnline(false)
         super.onPause()
     }
 
     override fun onResume() {
-        if(user != null)
-            database.child("users").child(user!!.uid).child("online").setValue(true)
+           FireBaseService.toggleOnline(true)
         super.onResume()
     }
 
@@ -49,7 +36,7 @@ class MenuActivity : AppCompatActivity() {
 
 
     //TODO Add your own activity in your own clickListener
-    fun setClickListeners() {
+    private fun setClickListeners() {
         characterButton.setOnClickListener {
 
             val intent = Intent(this, CharacterListActivity::class.java)
