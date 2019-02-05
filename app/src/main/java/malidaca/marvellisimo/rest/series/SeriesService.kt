@@ -12,7 +12,8 @@ interface SeriesService {
     @GET("/v1/public/series")
     fun getSeries(@Query("ts") ts: String,
                   @Query("apikey") apikey: String,
-                  @Query("hash") hash: String): Single<SeriesApiResponse>
+                  @Query("hash") hash: String,
+                  @Query("offset") offset: Int): Single<SeriesApiResponse>
 
     @GET("/v1/public/series/{id}")
     fun getSeriesById(@Path("id") id: Int, @Query("ts") ts: String,
