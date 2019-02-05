@@ -6,6 +6,10 @@ import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_character_new.*
@@ -13,16 +17,23 @@ import kotlinx.android.synthetic.main.series_list_view.*
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.adapters.SeriesListAdapter
 import malidaca.marvellisimo.models.Character
+import malidaca.marvellisimo.models.Favorite
 import malidaca.marvellisimo.rest.MarvelServiceHandler
 import malidaca.marvellisimo.utilities.LoadDialog
 
 
 class CharacterActivity : AppCompatActivity() {
 
+    private lateinit var database: DatabaseReference
+    private var user: FirebaseUser? = null
+    private lateinit var auth: FirebaseAuth
+
+    private var id: Int = 0
+
     private var loadDialog: LoadDialog? = null
     private var favorite: Boolean = false
-    private  var rFavorite: Int = 0
-    private  var bFavorite: Int = 0
+    private var rFavorite: Int = 0
+    private var bFavorite: Int = 0
     private lateinit var adapter: SeriesListAdapter
     private lateinit var scrollListener: EndlessRecyclerViewScrollListener
     private lateinit var gridLayoutManager: GridLayoutManager
@@ -31,6 +42,10 @@ class CharacterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_character_new)
+
+        database = FirebaseDatabase.getInstance().reference
+        auth = FirebaseAuth.getInstance()
+        user = auth.currentUser
 
         rFavorite = R.drawable.thumbs_up_yes
         bFavorite = R.drawable.thumbs_up
@@ -42,7 +57,7 @@ class CharacterActivity : AppCompatActivity() {
         var character: Character
         val extras = intent.extras
         if (extras != null) {
-            val id: Int = extras.getInt("itemId")
+            id = extras.getInt("itemId")
 
             MarvelServiceHandler.charactersByIdRequest(id).observeOn(AndroidSchedulers.mainThread())
                     .subscribe { data ->
@@ -58,7 +73,7 @@ class CharacterActivity : AppCompatActivity() {
                         Picasso.get().load(newUrl).into(bigpic)
                     }
             initAdapter(id)
-            initScrollListener(gridLayoutManager,id)
+            initScrollListener(gridLayoutManager, id)
         }
 
 
@@ -97,8 +112,21 @@ class CharacterActivity : AppCompatActivity() {
         favorite = !favorite
         if (favorite) {
             Picasso.get().load(rFavorite).into(favoriteBtn)
+            addFavorite()
         } else {
             Picasso.get().load(bFavorite).into(favoriteBtn)
+            deleteFavorite()
         }
+    }
+
+
+   private fun addFavorite() {
+        val fireBaseRef = database.child("users").child(user!!.uid)
+        fireBaseRef.child("favoriteCharacters/$id").setValue(true)
+    }
+
+   private fun deleteFavorite() {
+        val fireBaseRef = database.child("users").child(user!!.uid)
+        fireBaseRef.child("favoriteCharacters/$id").removeValue()
     }
 }
