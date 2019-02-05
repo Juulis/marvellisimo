@@ -39,7 +39,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun signIn(email: String, password: String) {
         if (email.isNotBlank() && password.isNotBlank()) {
-            FireBaseService.signIn(email, password, this)
+            FireBaseService.signIn(email, password, this, view)
         } else {
             snackbarManager.createSnackbar(view, resources.getString(R.string.signin_failed_missing_fields), Color.RED)
 
