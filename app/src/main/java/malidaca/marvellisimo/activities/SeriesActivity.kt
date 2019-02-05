@@ -79,7 +79,7 @@ class SeriesActivity : AppCompatActivity() {
                 viewAdapter.addItems(response)
             }
         } else {
-            MarvelServiceHandler.serieXRequest(offset, search).observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
+            MarvelServiceHandler.serieByNameRequest(offset, search).observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
                 response = response + data.data.results.asList()
                 viewAdapter.addItems(response)
             }
