@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.Toolbar
+import android.view.Menu
 import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_series_details.*
@@ -18,10 +20,13 @@ class SeriesDetailsActivity : AppCompatActivity() {
     lateinit var viewManager: RecyclerView.LayoutManager
     lateinit var recyclerView: RecyclerView
     lateinit var viewAdapter: RecyclerView.Adapter<*>
+    lateinit var topToolbar: Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_series_details)
+        topToolbar = findViewById(R.id.top_toolbar)
+        setSupportActionBar(topToolbar)
 
         val id = intent.getIntExtra("id", 0)
         var response: Series
@@ -64,5 +69,10 @@ class SeriesDetailsActivity : AppCompatActivity() {
                 adapter = viewAdapter
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+        return true
     }
 }
