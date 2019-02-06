@@ -5,11 +5,9 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.Toolbar
+import android.view.Menu
 import android.view.View
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_character_new.*
@@ -24,12 +22,6 @@ import malidaca.marvellisimo.utilities.LoadDialog
 
 class CharacterActivity : AppCompatActivity() {
 
-    private lateinit var database: DatabaseReference
-    private var user: FirebaseUser? = null
-    private lateinit var auth: FirebaseAuth
-
-    private var id: Int = 0
-
     private var loadDialog: LoadDialog? = null
     private var favorite: Boolean = false
     private var rFavorite: Int = 0
@@ -37,11 +29,14 @@ class CharacterActivity : AppCompatActivity() {
     private lateinit var adapter: SeriesListAdapter
     private lateinit var scrollListener: EndlessRecyclerViewScrollListener
     private lateinit var gridLayoutManager: GridLayoutManager
+    private lateinit var topToolbar: Toolbar
 
     @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_character_new)
+        topToolbar = findViewById(R.id.top_toolbar)
+        setSupportActionBar(topToolbar)
 
         database = FirebaseDatabase.getInstance().reference
         auth = FirebaseAuth.getInstance()
@@ -61,16 +56,18 @@ class CharacterActivity : AppCompatActivity() {
 
             MarvelServiceHandler.charactersByIdRequest(id).observeOn(AndroidSchedulers.mainThread())
                     .subscribe { data ->
-                        character = data.data.results[0]
+                        if (data.data.results.isNotEmpty()) {
+                            character = data.data.results[0]
 
-                        characterName.text = character.name
-                        infoText.text = character.description
-                        val url = "${character.thumbnail.path}//landscape_amazing.${character.thumbnail.extension}"
-                        var split1 = url.subSequence(0, 4)
-                        var split2 = url.subSequence(4, url.length)
-                        val newUrl = "${split1}s$split2"
+                            characterName.text = character.name
+                            infoText.text = character.description
+                            val url = "${character.thumbnail.path}//landscape_amazing.${character.thumbnail.extension}"
+                            var split1 = url.subSequence(0, 4)
+                            var split2 = url.subSequence(4, url.length)
+                            val newUrl = "${split1}s$split2"
 
-                        Picasso.get().load(newUrl).into(bigpic)
+                            Picasso.get().load(newUrl).into(bigpic)
+                        }
                     }
             initAdapter(id)
             initScrollListener(gridLayoutManager, id)
@@ -117,6 +114,11 @@ class CharacterActivity : AppCompatActivity() {
             Picasso.get().load(bFavorite).into(favoriteBtn)
             deleteFavorite()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+        return true
     }
 
 

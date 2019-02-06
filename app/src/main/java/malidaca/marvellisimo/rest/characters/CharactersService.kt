@@ -19,11 +19,18 @@ interface CharactersService {
                           @Query("apikey") apikey: String,
                           @Query("hash") hash: String): Single<CharactersApiResponse>
 
+    @GET("/v1/public/series/{id}/characters")
+    fun getCharactersBySeriesId(@Path("id") id: Int, @Query("ts") ts: String,
+                                @Query("apikey") apikey: String,
+                                @Query("hash") hash: String,
+                                @Query("offset") offset: Int,
+                                @Query("limit") limit: Int = 10): Single<CharactersApiResponse>
 
     @GET("/v1/public/characters")
-    fun getCharacterX(@Query("ts") ts: String,
-                      @Query("apikey") apikey: String,
-                      @Query("hash") hash: String,
-                      @Query("nameStartsWith") nameStartsWith: String,
-                      @Query("offset") limit: Int): Single<CharactersApiResponse>
+    fun getCharacterByName(@Query("ts") ts: String,
+                           @Query("apikey") apikey: String,
+                           @Query("hash") hash: String,
+                           @Query("nameStartsWith") nameStartsWith: String,
+                           @Query("limit") limit: Int,
+                           @Query("offset") offset: Int): Single<CharactersApiResponse>
 }

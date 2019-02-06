@@ -9,7 +9,11 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_character_list.*
 import malidaca.marvellisimo.adapters.CharacterListAdapter
 import malidaca.marvellisimo.rest.MarvelServiceHandler
+import malidaca.marvellisimo.rest.characters.CharactersApiResponse
+import malidaca.marvellisimo.rest.characters.CharactersDataModel
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.Toolbar
+import android.view.Menu
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.models.Character
 
@@ -21,13 +25,15 @@ class CharacterListActivity : AppCompatActivity() {
     private lateinit var adapter: CharacterListAdapter
     private var search: String = ""
     private lateinit var scrollListener: EndlessRecyclerViewScrollListener
-
+    lateinit var topToolbar: Toolbar
 
     var loadDialog: LoadDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_character_list)
+        topToolbar = findViewById(R.id.top_toolbar)
+        setSupportActionBar(topToolbar)
         val linearLayoutManager = LinearLayoutManager(this)
         RECYCLER.layoutManager = linearLayoutManager
         initAdapter()
@@ -78,7 +84,7 @@ class CharacterListActivity : AppCompatActivity() {
 
             }
         } else {
-            MarvelServiceHandler.characterXRequest(offset, search).observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
+            MarvelServiceHandler.characterByNameRequest(offset,search).observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
                 ar = ar + data.data.results.asList()
                 adapter.addItems(ar)
             }
@@ -93,6 +99,11 @@ class CharacterListActivity : AppCompatActivity() {
             RECYCLER.adapter = adapter
             loadDialog!!.hideDialog()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+        return true
     }
 }
 
