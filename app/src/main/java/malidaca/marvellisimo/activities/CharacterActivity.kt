@@ -28,8 +28,8 @@ class CharacterActivity : AppCompatActivity() {
 
     private var loadDialog: LoadDialog? = null
     private var favorite: Boolean = false
-    private  var redFavorite: Int = 0
-    private  var blackFavorite: Int = 0
+    private var redFavorite: Int = 0
+    private var blackFavorite: Int = 0
     private lateinit var adapter: SeriesListAdapter
     private lateinit var scrollListener: EndlessRecyclerViewScrollListener
     private lateinit var gridLayoutManager: GridLayoutManager
@@ -73,7 +73,7 @@ class CharacterActivity : AppCompatActivity() {
                         }
                     }
             initAdapter(id)
-            initScrollListener(gridLayoutManager,id)
+            initScrollListener(gridLayoutManager, id)
         }
 
 
@@ -123,14 +123,16 @@ class CharacterActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
+        when (item.itemId) {
             R.id.logout -> {
                 FireBaseService.signOut()
                 activityHelper.changeActivity(this, LoginActivity::class.java)
                 finish()
             }
-            R.id.favorite_characters -> {}
-            R.id.favorite_series -> {}
+            R.id.favorite_characters -> {
+            }
+            R.id.favorite_series -> {
+            }
         }
         return super.onOptionsItemSelected(item)
     }

@@ -54,7 +54,7 @@ class SeriesActivity : AppCompatActivity() {
     private fun initQueryTextListener() {
         SEARCH.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                if(search == query)
+                if (search == query)
                     return false
                 search = query!!
                 addItems(search = search)
@@ -103,14 +103,16 @@ class SeriesActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
+        when (item.itemId) {
             R.id.logout -> {
                 FireBaseService.signOut()
                 activityHelper.changeActivity(this, LoginActivity::class.java)
                 finish()
             }
-            R.id.favorite_characters -> {}
-            R.id.favorite_series -> {}
+            R.id.favorite_characters -> {
+            }
+            R.id.favorite_series -> {
+            }
         }
         return super.onOptionsItemSelected(item)
     }

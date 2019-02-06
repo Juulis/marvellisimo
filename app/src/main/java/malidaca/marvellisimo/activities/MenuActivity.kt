@@ -39,7 +39,7 @@ class MenuActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View) {
         val i = v.id
-        when(i) {
+        when (i) {
             R.id.menu_button_characters -> {
                 activityHelper.changeActivity(this, CharacterListActivity::class.java)
             }
@@ -55,20 +55,22 @@ class MenuActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
+        when (item.itemId) {
             R.id.logout -> {
                 FireBaseService.signOut()
                 activityHelper.changeActivity(this, LoginActivity::class.java)
                 finish()
             }
-            R.id.favorite_characters -> {}
-            R.id.favorite_series -> {}
+            R.id.favorite_characters -> {
+            }
+            R.id.favorite_series -> {
+            }
         }
         return super.onOptionsItemSelected(item)
     }
 
     override fun onBackPressed() {
-        if(isTaskRoot) {
+        if (isTaskRoot) {
             FireBaseService.signOut()
         }
         super.onBackPressed()

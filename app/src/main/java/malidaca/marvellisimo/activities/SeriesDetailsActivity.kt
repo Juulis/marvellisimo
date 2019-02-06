@@ -40,7 +40,7 @@ class SeriesDetailsActivity : AppCompatActivity() {
 
 
         MarvelServiceHandler.seriesByIdRequest(id).observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
-            if(data.data.results.isNotEmpty()){
+            if (data.data.results.isNotEmpty()) {
                 response = data.data.results[0]
                 var path = "${response.thumbnail.path}/landscape_incredible.${response.thumbnail.extension}"
                 path = path.replace("http", "https")
@@ -87,14 +87,16 @@ class SeriesDetailsActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
+        when (item.itemId) {
             R.id.logout -> {
                 FireBaseService.signOut()
                 activityHelper.changeActivity(this, LoginActivity::class.java)
                 finish()
             }
-            R.id.favorite_characters -> {}
-            R.id.favorite_series -> {}
+            R.id.favorite_characters -> {
+            }
+            R.id.favorite_series -> {
+            }
         }
         return super.onOptionsItemSelected(item)
     }

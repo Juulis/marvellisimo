@@ -89,7 +89,7 @@ class CharacterListActivity : AppCompatActivity() {
 
             }
         } else {
-            MarvelServiceHandler.characterByNameRequest(offset,search).observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
+            MarvelServiceHandler.characterByNameRequest(offset, search).observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
                 ar = ar + data.data.results.asList()
                 adapter.addItems(ar)
             }
@@ -112,14 +112,16 @@ class CharacterListActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
+        when (item.itemId) {
             R.id.logout -> {
                 FireBaseService.signOut()
                 activityHelper.changeActivity(this, LoginActivity::class.java)
                 finish()
             }
-            R.id.favorite_characters -> {}
-            R.id.favorite_series -> {}
+            R.id.favorite_characters -> {
+            }
+            R.id.favorite_series -> {
+            }
         }
         return super.onOptionsItemSelected(item)
     }
