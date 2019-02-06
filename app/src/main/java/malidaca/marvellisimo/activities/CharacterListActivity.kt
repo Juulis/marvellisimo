@@ -12,6 +12,8 @@ import malidaca.marvellisimo.rest.MarvelServiceHandler
 import android.support.v7.widget.RecyclerView
 import android.view.Gravity
 import android.view.View
+import android.support.v7.widget.Toolbar
+import android.view.Menu
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.models.Character
 
@@ -26,6 +28,7 @@ class CharacterListActivity : AppCompatActivity() {
     private lateinit var scrollListener: EndlessRecyclerViewScrollListener
     private lateinit var view: View
 
+    lateinit var topToolbar: Toolbar
 
     var loadDialog: LoadDialog? = null
 
@@ -34,6 +37,8 @@ class CharacterListActivity : AppCompatActivity() {
         setContentView(R.layout.activity_character_list)
         view = findViewById(android.R.id.content)
 
+        topToolbar = findViewById(R.id.top_toolbar)
+        setSupportActionBar(topToolbar)
         val linearLayoutManager = LinearLayoutManager(this)
         RECYCLER.layoutManager = linearLayoutManager
         initAdapter()
@@ -100,6 +105,11 @@ class CharacterListActivity : AppCompatActivity() {
             RECYCLER.adapter = adapter
             loadDialog!!.hideDialog()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+        return true
     }
 }
 

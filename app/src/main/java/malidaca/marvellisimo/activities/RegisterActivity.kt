@@ -1,6 +1,5 @@
 package malidaca.marvellisimo.activities
 
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity;
@@ -11,15 +10,10 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_register.*
 import malidaca.marvellisimo.R
-
-import malidaca.marvellisimo.models.User
+import malidaca.marvellisimo.services.FireBaseService
 import malidaca.marvellisimo.utilities.SnackbarManager
 
 class RegisterActivity : AppCompatActivity(), View.OnClickListener {
-
-    private lateinit var auth: FirebaseAuth
-    private lateinit var database: DatabaseReference
-    private var mUser: FirebaseUser? = null
 
     private lateinit var view: View
     private lateinit var snackbarManager: SnackbarManager
@@ -32,37 +26,11 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
         view = findViewById(android.R.id.content)
         snackbarManager = SnackbarManager()
 
-        database = FirebaseDatabase.getInstance().reference
-        auth = FirebaseAuth.getInstance()
-        mUser = auth.currentUser
-    }
-
-    override fun onPause() {
-        if (mUser != null)
-            database.child("users").child(mUser!!.uid).child("online").setValue(false)
-        super.onPause()
-    }
-
-    override fun onResume() {
-        if (mUser != null)
-            database.child("users").child(mUser!!.uid).child("online").setValue(true)
-        super.onResume()
     }
 
     private fun createAccount(email: String, password: String, firstName: String, lastName: String) {
-        if(email.isNotBlank() && password.isNotBlank() && firstName.isNotBlank() && lastName.isNotBlank()) {
-            auth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this) { task ->
-                        if (task.isSuccessful) {
-                            val user = auth.currentUser
-
-                            writeNewUser(firstName, lastName, user?.email!!)
-                            val intent = Intent(this@RegisterActivity, MenuActivity::class.java)
-                            startActivity(intent)
-                        } else {
-                            snackbarManager.createSnackbar(view, resources.getString(R.string.registration_failed), Color.RED)
-                        }
-                    }
+        if (email.isNotBlank() && password.isNotBlank() && firstName.isNotBlank() && lastName.isNotBlank()) {
+            FireBaseService.createUser(email, password, firstName, lastName, this, view)
         } else {
             snackbarManager.createSnackbar(view, resources.getString(R.string.registration_failed_fields_missing), Color.RED)
         }
@@ -75,9 +43,4 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun writeNewUser(firstName: String, lastName: String, email: String) {
-        val user = User(email, firstName, lastName)
-        database.child("users").child(mUser!!.uid).setValue(user)
-        database.child("users").child(mUser!!.uid).child("online").setValue(true)
-    }
 }

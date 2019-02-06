@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.Toolbar
+import android.view.Menu
 import android.view.Gravity
 import android.view.View
 import android.widget.SearchView
@@ -19,6 +21,7 @@ import malidaca.marvellisimo.utilities.SnackbarManager
 
 class SeriesActivity : AppCompatActivity() {
     lateinit var recyclerView: RecyclerView
+    lateinit var topToolbar: Toolbar
     lateinit var viewAdapter: SeriesViewAdapter
     private var search: String = ""
     private var response: List<Series> = emptyList()
@@ -29,22 +32,28 @@ class SeriesActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val loadDialog = LoadDialog(this)
-        loadDialog.hideDialog()
+        loadDialog.showDialog()
         setContentView(R.layout.activity_series)
         view = findViewById(android.R.id.content)
+        topToolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(topToolbar)
+
         val viewManager = LinearLayoutManager(this)
         initScrollListener(viewManager)
-        MarvelServiceHandler.seriesRequest(0).observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
-            response += data.data.results.asList()
-            viewAdapter = SeriesViewAdapter(response, this)
-            recyclerView = findViewById<RecyclerView>(R.id.series_recycler_view).apply {
-                setHasFixedSize(true)
-                layoutManager = viewManager
-                adapter = viewAdapter
-                addOnScrollListener(scrollListener)
-            }
-            loadDialog.hideDialog()
-        }
+        MarvelServiceHandler.seriesRequest(0)
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSuccess {
+                    loadDialog.hideDialog()
+                }.subscribe { data ->
+                    response += data.data.results.asList()
+                    viewAdapter = SeriesViewAdapter(response, this)
+                    recyclerView = findViewById<RecyclerView>(R.id.series_recycler_view).apply {
+                        setHasFixedSize(true)
+                        layoutManager = viewManager
+                        adapter = viewAdapter
+                        addOnScrollListener(scrollListener)
+                    }
+                }
         initQueryTextListener()
     }
 
@@ -96,5 +105,10 @@ class SeriesActivity : AppCompatActivity() {
                 viewAdapter.addItems(response)
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+        return true
     }
 }
