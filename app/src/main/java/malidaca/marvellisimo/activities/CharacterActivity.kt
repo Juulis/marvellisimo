@@ -5,23 +5,23 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.Gravity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
-import kotlinx.android.synthetic.main.activity_character_list.*
 import kotlinx.android.synthetic.main.activity_character_new.*
 import kotlinx.android.synthetic.main.series_list_view.*
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.adapters.SeriesListAdapter
 import malidaca.marvellisimo.models.Character
-import malidaca.marvellisimo.models.Series
 import malidaca.marvellisimo.rest.MarvelServiceHandler
 import malidaca.marvellisimo.services.FireBaseService
 import malidaca.marvellisimo.utilities.ActivityHelper
 import malidaca.marvellisimo.utilities.LoadDialog
+import malidaca.marvellisimo.utilities.SnackbarManager
 
 
 class CharacterActivity : AppCompatActivity() {
@@ -34,12 +34,14 @@ class CharacterActivity : AppCompatActivity() {
     private lateinit var scrollListener: EndlessRecyclerViewScrollListener
     private lateinit var gridLayoutManager: GridLayoutManager
     private lateinit var topToolbar: Toolbar
+    private lateinit var view: View
     private lateinit var activityHelper: ActivityHelper
 
     @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_character_new)
+        view = findViewById(android.R.id.content)
         topToolbar = findViewById(R.id.top_toolbar)
         setSupportActionBar(topToolbar)
 
@@ -90,6 +92,8 @@ class CharacterActivity : AppCompatActivity() {
 
     @SuppressLint("CheckResult")
     private fun addItems(offset: Int, id: Int) {
+        if (offset > 10)
+            SnackbarManager().createSnackbar(view, "Loading content", R.color.colorPrimaryDarkTransparent, Gravity.BOTTOM)
         MarvelServiceHandler.seriesByCharactersId(offset, id).observeOn(AndroidSchedulers.mainThread())
                 .subscribe { data ->
                     adapter.addItems(data.data.results.asList())
