@@ -11,7 +11,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_series_details.*
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.adapters.CharactersViewAdapter
-import malidaca.marvellisimo.models.Character
 import malidaca.marvellisimo.models.Series
 import malidaca.marvellisimo.rest.MarvelServiceHandler
 
@@ -34,24 +33,8 @@ class SeriesDetailsActivity : AppCompatActivity() {
         MarvelServiceHandler.seriesByIdRequest(id).observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
             if(data.data.results.isNotEmpty()){
                 response = data.data.results[0]
-                var path = "${response.thumbnail.path}/landscape_incredible.${response.thumbnail.extension}"
-                path = path.replace("http", "https")
-                Picasso.get().load(path).resize(928, 522).into(series_picture)
-                series_title.text = response.title
-                series_description.text = response.description
-                series_start_year.text = "START YEAR: " + response.startYear.toString()
-                series_end_year.text = "END YEAR: " + response.endYear.toString()
-                series_rating.text = "RATING: " + response.rating
-                val creators = response.creators.items
-                var creatorsNames = ""
-                for (cr in creators)
-                    creatorsNames += "${cr.name}, "
-                series_creators.text = "CREATORS: $creatorsNames"
-                val comics = response.comics.items
-                var comicsTitles = ""
-                for (co in comics)
-                    comicsTitles += "${co.name}, "
-                series_comics.text = "COMICS: $comicsTitles"
+                createImage(response)
+                fillViewsWithSeriesData(response)
                 getCharactersFromSeries(id)
             }
         }
@@ -69,6 +52,30 @@ class SeriesDetailsActivity : AppCompatActivity() {
                 adapter = viewAdapter
             }
         }
+    }
+    
+    fun createImage(series: Series){
+        var path = "${series.thumbnail.path}/landscape_incredible.${series.thumbnail.extension}"
+        path = path.replace("http", "https")
+        Picasso.get().load(path).resize(928, 522).into(series_picture)
+    }
+
+    fun fillViewsWithSeriesData(series: Series) {
+        series_title.text = series.title
+        series_description.text = series.description
+        series_start_year.text = "START YEAR: " + series.startYear.toString()
+        series_end_year.text = "END YEAR: " + series.endYear.toString()
+        series_rating.text = "RATING: " + series.rating
+        val creators = series.creators.items
+        var creatorsNames = ""
+        for (cr in creators)
+            creatorsNames += "${cr.name}, "
+        series_creators.text = "CREATORS: $creatorsNames"
+        val comics = series.comics.items
+        var comicsTitles = ""
+        for (co in comics)
+            comicsTitles += "${co.name}, "
+        series_comics.text = "COMICS: $comicsTitles"
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

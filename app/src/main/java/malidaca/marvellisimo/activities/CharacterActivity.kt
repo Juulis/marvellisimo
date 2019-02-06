@@ -58,20 +58,19 @@ class CharacterActivity : AppCompatActivity() {
 
                             characterName.text = character.name
                             infoText.text = character.description
-                            val url = "${character.thumbnail.path}//landscape_amazing.${character.thumbnail.extension}"
-                            var split1 = url.subSequence(0, 4)
-                            var split2 = url.subSequence(4, url.length)
-                            val newUrl = "${split1}s$split2"
-
-                            Picasso.get().load(newUrl).into(bigpic)
+                            createImage(character)
                         }
                     }
             initAdapter(id)
             initScrollListener(gridLayoutManager,id)
         }
-
-
         Picasso.get().load(blackFavorite).into(favoriteBtn)
+    }
+
+    fun createImage(character: Character){
+        var url = "${character.thumbnail.path}//landscape_amazing.${character.thumbnail.extension}"
+        url = url.replace("http", "https")
+        Picasso.get().load(url).into(bigpic)
     }
 
     private fun initScrollListener(gridLayoutManager: GridLayoutManager, id: Int) {
