@@ -31,6 +31,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
     private fun createAccount(email: String, password: String, firstName: String, lastName: String) {
         if (email.isNotBlank() && password.isNotBlank() && firstName.isNotBlank() && lastName.isNotBlank()) {
             FireBaseService.createUser(email, password, firstName, lastName, this, view)
+            finish()
         } else {
             snackbarManager.createSnackbar(view, resources.getString(R.string.registration_failed_fields_missing), Color.RED)
         }

@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.Gravity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -17,6 +18,8 @@ import malidaca.marvellisimo.R
 import malidaca.marvellisimo.adapters.SeriesListAdapter
 import malidaca.marvellisimo.models.Character
 import malidaca.marvellisimo.rest.MarvelServiceHandler
+import malidaca.marvellisimo.services.FireBaseService
+import malidaca.marvellisimo.utilities.ActivityHelper
 import malidaca.marvellisimo.utilities.LoadDialog
 import malidaca.marvellisimo.utilities.SnackbarManager
 
@@ -25,13 +28,14 @@ class CharacterActivity : AppCompatActivity() {
 
     private var loadDialog: LoadDialog? = null
     private var favorite: Boolean = false
-    private  var redFavorite: Int = 0
-    private  var blackFavorite: Int = 0
+    private var redFavorite: Int = 0
+    private var blackFavorite: Int = 0
     private lateinit var adapter: SeriesListAdapter
     private lateinit var scrollListener: EndlessRecyclerViewScrollListener
     private lateinit var gridLayoutManager: GridLayoutManager
     private lateinit var topToolbar: Toolbar
     private lateinit var view: View
+    private lateinit var activityHelper: ActivityHelper
 
     @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +44,8 @@ class CharacterActivity : AppCompatActivity() {
         view = findViewById(android.R.id.content)
         topToolbar = findViewById(R.id.top_toolbar)
         setSupportActionBar(topToolbar)
+
+        activityHelper = ActivityHelper()
 
         redFavorite = R.drawable.favorite_red
         blackFavorite = R.drawable.favorite_black
@@ -86,7 +92,7 @@ class CharacterActivity : AppCompatActivity() {
 
     @SuppressLint("CheckResult")
     private fun addItems(offset: Int, id: Int) {
-        if (offset > 1)
+        if (offset > 10)
             SnackbarManager().createSnackbar(view, "Loading content", R.color.colorPrimaryDarkTransparent, Gravity.BOTTOM)
         MarvelServiceHandler.seriesByCharactersId(offset, id).observeOn(AndroidSchedulers.mainThread())
                 .subscribe { data ->
@@ -117,5 +123,20 @@ class CharacterActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.logout -> {
+                FireBaseService.signOut()
+                activityHelper.changeActivity(this, LoginActivity::class.java)
+                finish()
+            }
+            R.id.favorite_characters -> {
+            }
+            R.id.favorite_series -> {
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
