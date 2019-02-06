@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.Toolbar
+import android.view.Menu
 import android.widget.SearchView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_character_list.*
@@ -15,6 +17,7 @@ import malidaca.marvellisimo.models.Series
 
 class SeriesActivity : AppCompatActivity() {
     lateinit var recyclerView: RecyclerView
+    lateinit var topToolbar: Toolbar
     lateinit var viewAdapter: SeriesViewAdapter
     private var search: String = ""
     private var response: List<Series> = emptyList()
@@ -25,6 +28,9 @@ class SeriesActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_series)
+        topToolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(topToolbar)
+
         val viewManager = LinearLayoutManager(this)
         initScrollListener(viewManager)
         MarvelServiceHandler.seriesRequest(0).observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
@@ -84,5 +90,10 @@ class SeriesActivity : AppCompatActivity() {
                 viewAdapter.addItems(response)
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+        return true
     }
 }
