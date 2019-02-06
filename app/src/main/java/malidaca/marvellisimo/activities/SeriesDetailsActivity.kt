@@ -1,12 +1,14 @@
 package malidaca.marvellisimo.activities
 
 import android.content.Intent
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.Menu
+import android.view.MenuItem
 import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_series_details.*
@@ -14,6 +16,8 @@ import malidaca.marvellisimo.R
 import malidaca.marvellisimo.adapters.CharactersViewAdapter
 import malidaca.marvellisimo.models.Series
 import malidaca.marvellisimo.rest.MarvelServiceHandler
+import malidaca.marvellisimo.services.FireBaseService
+import malidaca.marvellisimo.utilities.ActivityHelper
 
 class SeriesDetailsActivity : AppCompatActivity() {
 
@@ -21,18 +25,22 @@ class SeriesDetailsActivity : AppCompatActivity() {
     lateinit var recyclerView: RecyclerView
     lateinit var viewAdapter: RecyclerView.Adapter<*>
     lateinit var topToolbar: Toolbar
+    private lateinit var activityHelper: ActivityHelper
 
+    @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_series_details)
         topToolbar = findViewById(R.id.top_toolbar)
         setSupportActionBar(topToolbar)
+        activityHelper = ActivityHelper()
 
         val id = intent.getIntExtra("id", 0)
         var response: Series
 
+
         MarvelServiceHandler.seriesByIdRequest(id).observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
-            if(data.data.results.isNotEmpty()){
+            if (data.data.results.isNotEmpty()) {
                 response = data.data.results[0]
                 createImage(response)
                 fillViewsWithSeriesData(response)
@@ -42,6 +50,8 @@ class SeriesDetailsActivity : AppCompatActivity() {
         setClickListener()
     }
 
+
+    @SuppressLint("CheckResult")
     fun getCharactersFromSeries(id: Int) {
         MarvelServiceHandler.charactersBySeriesIdRequest(0, id).observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
             var characters = data.data.results
@@ -85,10 +95,24 @@ class SeriesDetailsActivity : AppCompatActivity() {
         return true
     }
 
-    private fun setClickListener(){
+    private fun setClickListener() {
         homeButton3.setOnClickListener {
-            val intent = Intent(this, MenuActivity::class.java)
-            startActivity(intent)
+            activityHelper.changeActivity(this, MenuActivity::class.java)
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.logout -> {
+                FireBaseService.signOut()
+                activityHelper.changeActivity(this, LoginActivity::class.java)
+                finish()
+            }
+            R.id.favorite_characters -> {
+            }
+            R.id.favorite_series -> {
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

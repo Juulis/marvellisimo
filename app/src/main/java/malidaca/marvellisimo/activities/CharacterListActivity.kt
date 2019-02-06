@@ -13,8 +13,11 @@ import malidaca.marvellisimo.rest.MarvelServiceHandler
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.Menu
+import android.view.MenuItem
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.models.Character
+import malidaca.marvellisimo.services.FireBaseService
+import malidaca.marvellisimo.utilities.ActivityHelper
 
 import malidaca.marvellisimo.utilities.LoadDialog
 
@@ -27,6 +30,7 @@ class CharacterListActivity : AppCompatActivity() {
     lateinit var topToolbar: Toolbar
 
     var loadDialog: LoadDialog? = null
+    private lateinit var activityHelper: ActivityHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +45,7 @@ class CharacterListActivity : AppCompatActivity() {
         loadDialog = LoadDialog(this)
         loadDialog!!.showDialog()
         setClickListener()
+        activityHelper = ActivityHelper()
     }
 
     private fun initQueryTextListener() {
@@ -84,7 +89,7 @@ class CharacterListActivity : AppCompatActivity() {
 
             }
         } else {
-            MarvelServiceHandler.characterByNameRequest(offset,search).observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
+            MarvelServiceHandler.characterByNameRequest(offset, search).observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
                 ar = ar + data.data.results.asList()
                 adapter.addItems(ar)
             }
@@ -106,11 +111,26 @@ class CharacterListActivity : AppCompatActivity() {
         return true
     }
 
-    private fun setClickListener(){
+
+    private fun setClickListener() {
         homeButton1.setOnClickListener {
-            val intent = Intent(this, MenuActivity::class.java)
-            startActivity(intent)
+            activityHelper.changeActivity(this, MenuActivity::class.java)
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.logout -> {
+                FireBaseService.signOut()
+                activityHelper.changeActivity(this, LoginActivity::class.java)
+                finish()
+            }
+            R.id.favorite_characters -> {
+            }
+            R.id.favorite_series -> {
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
 
