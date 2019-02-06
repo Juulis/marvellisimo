@@ -1,6 +1,7 @@
 package malidaca.marvellisimo.activities
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -9,8 +10,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_character_list.*
 import malidaca.marvellisimo.adapters.CharacterListAdapter
 import malidaca.marvellisimo.rest.MarvelServiceHandler
-import malidaca.marvellisimo.rest.characters.CharactersApiResponse
-import malidaca.marvellisimo.rest.characters.CharactersDataModel
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.Menu
@@ -41,6 +40,7 @@ class CharacterListActivity : AppCompatActivity() {
         initQueryTextListener()
         loadDialog = LoadDialog(this)
         loadDialog!!.showDialog()
+        setClickListener()
     }
 
     private fun initQueryTextListener() {
@@ -104,6 +104,13 @@ class CharacterListActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
         return true
+    }
+
+    private fun setClickListener(){
+        homeButton1.setOnClickListener {
+            val intent = Intent(this, MenuActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
 

@@ -1,6 +1,7 @@
 package malidaca.marvellisimo.activities
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
@@ -10,13 +11,11 @@ import android.view.Menu
 import android.view.View
 import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
-import kotlinx.android.synthetic.main.activity_character_list.*
 import kotlinx.android.synthetic.main.activity_character_new.*
 import kotlinx.android.synthetic.main.series_list_view.*
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.adapters.SeriesListAdapter
 import malidaca.marvellisimo.models.Character
-import malidaca.marvellisimo.models.Series
 import malidaca.marvellisimo.rest.MarvelServiceHandler
 import malidaca.marvellisimo.utilities.LoadDialog
 
@@ -65,6 +64,14 @@ class CharacterActivity : AppCompatActivity() {
             initScrollListener(gridLayoutManager,id)
         }
         Picasso.get().load(blackFavorite).into(favoriteBtn)
+        setClickListener()
+    }
+
+    private fun setClickListener(){
+        homeButton.setOnClickListener {
+            val intent = Intent(this, MenuActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     fun createImage(character: Character){

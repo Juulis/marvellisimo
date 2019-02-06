@@ -1,5 +1,6 @@
 package malidaca.marvellisimo.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -38,6 +39,7 @@ class SeriesDetailsActivity : AppCompatActivity() {
                 getCharactersFromSeries(id)
             }
         }
+        setClickListener()
     }
 
     fun getCharactersFromSeries(id: Int) {
@@ -81,5 +83,12 @@ class SeriesDetailsActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
         return true
+    }
+
+    private fun setClickListener(){
+        homeButton3.setOnClickListener {
+            val intent = Intent(this, MenuActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
