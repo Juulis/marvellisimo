@@ -1,6 +1,7 @@
 package malidaca.marvellisimo.activities
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -12,7 +13,7 @@ import android.view.View
 import android.view.MenuItem
 import android.widget.SearchView
 import io.reactivex.android.schedulers.AndroidSchedulers
-import kotlinx.android.synthetic.main.activity_character_list.*
+import kotlinx.android.synthetic.main.activity_series.*
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.rest.MarvelServiceHandler
 import malidaca.marvellisimo.adapters.SeriesViewAdapter
@@ -59,11 +60,12 @@ class SeriesActivity : AppCompatActivity() {
                     }
                 }
         initQueryTextListener()
+        setClickListener()
         activityHelper = ActivityHelper()
     }
 
     private fun initQueryTextListener() {
-        SEARCH.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        SEARCH1.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (search == query)
                     return false
@@ -113,6 +115,12 @@ class SeriesActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
         return true
+    }
+
+    private fun setClickListener() {
+        homeButton2.setOnClickListener {
+            activityHelper.changeActivity(this, MenuActivity::class.java)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

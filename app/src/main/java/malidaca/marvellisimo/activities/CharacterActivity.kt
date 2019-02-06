@@ -73,6 +73,13 @@ class CharacterActivity : AppCompatActivity() {
             initScrollListener(gridLayoutManager, id)
         }
         Picasso.get().load(blackFavorite).into(favoriteBtn)
+        setClickListener()
+    }
+
+    private fun setClickListener(){
+        homeButton.setOnClickListener {
+            activityHelper.changeActivity(this, MenuActivity::class.java)
+        }
     }
 
     fun createImage(character: Character){

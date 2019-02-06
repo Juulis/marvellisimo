@@ -54,6 +54,7 @@ class SeriesDetailsActivity : AppCompatActivity() {
                 getCharactersFromSeries(id)
             }
         }
+        setClickListener()
     }
 
     @SuppressLint("CheckResult")
@@ -101,6 +102,12 @@ class SeriesDetailsActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
         return true
+    }
+
+    private fun setClickListener() {
+        homeButton3.setOnClickListener {
+            activityHelper.changeActivity(this, MenuActivity::class.java)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
