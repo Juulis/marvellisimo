@@ -13,7 +13,7 @@ import malidaca.marvellisimo.activities.ItemClickListener
 import malidaca.marvellisimo.activities.SeriesDetailsActivity
 import malidaca.marvellisimo.models.Series
 
-class SeriesListAdapter(private var series: List<Series>, private val context: Context): RecyclerView.Adapter<ViewHolderTwo>() {
+class SeriesListAdapter(private var series: List<Series>, private val context: Context) : RecyclerView.Adapter<ViewHolderTwo>() {
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolderTwo {
         return ViewHolderTwo(LayoutInflater.from(context).inflate(R.layout.series_list_view_card, p0, false))
@@ -24,25 +24,25 @@ class SeriesListAdapter(private var series: List<Series>, private val context: C
     }
 
     override fun onBindViewHolder(holder: ViewHolderTwo, position: Int) {
-        val url = "${series[position].thumbnail.path}/portrait_fantastic.${series[position].thumbnail.extension}"
-
-        var split1 =  url.subSequence(0,4)
-        var split2 =  url.subSequence(4, url.length)
-        val newUrl = "${split1}s$split2"
-
-        Picasso.get().load(newUrl).fit().into(holder.img)
+        createImage(series[position], holder)
 
         holder.setOnItemClickListener(object : ItemClickListener {
             override fun onCustomClickListener(view: View, pos: Int) {
                 val intent = Intent(context, SeriesDetailsActivity::class.java)
-                intent.putExtra("id",series[position].id )
+                intent.putExtra("id", series[position].id)
                 context.startActivity(intent)
             }
         })
     }
 
-    fun addItems(newItems:List<Series>) {
-        series = series+newItems
+    fun createImage(series: Series, holder: ViewHolderTwo) {
+        var url = "${series.thumbnail.path}/portrait_fantastic.${series.thumbnail.extension}"
+        url = url.replace("http", "https")
+        Picasso.get().load(url).fit().into(holder.img)
+    }
+
+    fun addItems(newItems: List<Series>) {
+        series = series + newItems
         notifyDataSetChanged()
     }
 }

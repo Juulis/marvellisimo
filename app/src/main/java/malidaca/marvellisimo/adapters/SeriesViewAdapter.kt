@@ -24,9 +24,7 @@ class SeriesViewAdapter(private var series: List<Series>, private val context: C
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.tag = series[position]
         holder.title.text = series[position].title
-        var url = "${series[position].thumbnail.path}/landscape_large.${series[position].thumbnail.extension}"
-        url = url.replace("http", "https")
-        Picasso.get().load(url).into(holder.img)
+        createImage(series[position], holder)
     }
 
     override fun getItemCount() = series.size
@@ -39,6 +37,12 @@ class SeriesViewAdapter(private var series: List<Series>, private val context: C
     fun resetList(){
         series = emptyList()
         notifyDataSetChanged()
+    }
+
+    fun createImage(series: Series, holder: ViewHolder){
+        var url = "${series.thumbnail.path}/landscape_large.${series.thumbnail.extension}"
+        url = url.replace("http", "https")
+        Picasso.get().load(url).into(holder.img)
     }
 
     override fun onClick(v: View?) {

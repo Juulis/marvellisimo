@@ -23,14 +23,19 @@ class CharactersViewAdapter(private var characters: Array<Character>, private va
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.tag = characters[position].id
         holder.name.text = characters[position].name
-        var url = "${characters[position].thumbnail.path}/portrait_fantastic.${characters[position].thumbnail.extension}"
-        url = url.replace("http", "https")
-        Picasso.get().load(url).fit().into(holder.img)
+        createImage(characters[position], holder)
     }
 
     override fun getItemCount(): Int {
         return characters.size
     }
+
+    fun createImage(character: Character, holder: ViewHolder){
+        var url = "${character.thumbnail.path}/portrait_fantastic.${character.thumbnail.extension}"
+        url = url.replace("http", "https")
+        Picasso.get().load(url).fit().into(holder.img)
+    }
+
 
     override fun onClick(v: View?) {
         val id = v!!.tag as Int

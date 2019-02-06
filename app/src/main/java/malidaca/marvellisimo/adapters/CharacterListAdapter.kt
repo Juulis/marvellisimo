@@ -36,13 +36,7 @@ class CharacterListAdapter(private var characters: List<Character>, private val 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.name.text = characters[position].name.toUpperCase()
-        val url = "${characters[position].thumbnail.path}/landscape_large.${characters[position].thumbnail.extension}"
-
-       var split1 =  url.subSequence(0,4)
-       var split2 =  url.subSequence(4, url.length)
-        val newUrl = "${split1}s$split2"
-
-        Picasso.get().load(newUrl).into(holder.img)
+        createImage(characters[position], holder)
 
         holder.setOnItemClickListener(object : ItemClickListener {
             override fun onCustomClickListener(view: View, pos: Int) {
@@ -52,6 +46,12 @@ class CharacterListAdapter(private var characters: List<Character>, private val 
             }
 
         })
+    }
+
+    fun createImage(character: Character, holder: ViewHolder){
+        var url = "${character.thumbnail.path}/landscape_large.${character.thumbnail.extension}"
+        url = url.replace("http", "https")
+        Picasso.get().load(url).into(holder.img)
     }
 }
 
