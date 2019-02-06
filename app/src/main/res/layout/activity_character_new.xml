@@ -32,11 +32,6 @@
             tools:context=".activities.CharacterActivity">
 
 
-            <include
-                android:id="@+id/toolbar"
-                layout="@layout/toolbar"
-                sothree:layout_constraintTop_toTopOf="parent" />
-
             <ImageView
                 android:id="@+id/bigpic"
                 android:layout_width="0dp"
@@ -45,18 +40,18 @@
                 sothree:layout_constraintEnd_toEndOf="parent"
                 sothree:layout_constraintHorizontal_bias="0.0"
                 sothree:layout_constraintStart_toStartOf="parent"
-                sothree:layout_constraintTop_toBottomOf="@+id/toolbar" />
+                sothree:layout_constraintTop_toTopOf="parent" />
 
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/avatar"
                 android:layout_width="81dp"
                 android:layout_height="81dp"
-                android:layout_marginTop="208dp"
+                android:layout_marginTop="150dp"
                 android:src="@mipmap/marvel_logo_round"
                 sothree:layout_constraintEnd_toEndOf="parent"
                 sothree:layout_constraintStart_toStartOf="parent"
-                sothree:layout_constraintTop_toTopOf="@+id/toolbar" />
+                sothree:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/characterName"

@@ -1,6 +1,5 @@
 package malidaca.marvellisimo.activities
 
-import android.content.Intent
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
