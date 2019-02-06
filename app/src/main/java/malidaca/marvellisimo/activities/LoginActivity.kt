@@ -27,16 +27,6 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
     }
 
-    override fun onPause() {
-        FireBaseService.toggleOnline(false)
-        super.onPause()
-    }
-
-    override fun onResume() {
-        FireBaseService.toggleOnline(true)
-        super.onResume()
-    }
-
     private fun signIn(email: String, password: String) {
         if (email.isNotBlank() && password.isNotBlank()) {
             FireBaseService.signIn(email, password, this, view)

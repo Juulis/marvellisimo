@@ -19,9 +19,9 @@ object FireBaseService {
 
     private var database: DatabaseReference = FirebaseDatabase.getInstance().reference
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
-    private var user: FirebaseUser? = auth.currentUser
+    private  var user: FirebaseUser? = null
     private var snackBarManager: SnackbarManager = SnackbarManager()
-    private var userDataRef = database.child("users").child(user!!.uid)
+    private lateinit var userDataRef: DatabaseReference
 
     fun toggleOnline(status: Boolean) {
         if (user != null)
@@ -34,8 +34,7 @@ object FireBaseService {
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
                         user = auth.currentUser
-
-                        toggleOnline(true)
+                        userDataRef = database.child("users").child(user!!.uid)
                         //updateUI(user)
                         val intent = Intent(context, MenuActivity::class.java)
                         context.startActivity(intent)
@@ -50,9 +49,8 @@ object FireBaseService {
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task: Task<AuthResult> ->
                     if (task.isSuccessful) {
-                        user = null
                         user = auth.currentUser
-
+                        userDataRef = database.child("users").child(user!!.uid)
                         writeNewUser(firstName, lastName, user?.email!!, user?.uid!!)
                         val intent = Intent(context, MenuActivity::class.java)
                         context.startActivity(intent)

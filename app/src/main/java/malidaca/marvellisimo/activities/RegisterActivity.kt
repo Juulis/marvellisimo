@@ -24,16 +24,6 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
 
     }
 
-    override fun onPause() {
-        FireBaseService.toggleOnline(false)
-        super.onPause()
-    }
-
-    override fun onResume() {
-        FireBaseService.toggleOnline(false)
-        super.onResume()
-    }
-
     private fun createAccount(email: String, password: String, firstName: String, lastName: String) {
         if (email.isNotBlank() && password.isNotBlank() && firstName.isNotBlank() && lastName.isNotBlank()) {
             FireBaseService.createUser(email, password, firstName, lastName, this, view)
