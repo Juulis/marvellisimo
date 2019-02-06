@@ -66,11 +66,11 @@ object FireBaseService {
         toggleOnline(true)
     }
 
-    fun addFavorite(itemId: String) {
+    fun addFavorite(itemId: Int) {
         userDataRef.child("favoriteCharacters/$itemId").setValue(true)
     }
 
-    fun deleteFavorite(itemId: String) {
+    fun deleteFavorite(itemId: Int) {
         userDataRef.child("favoriteCharacters/$itemId").removeValue()
     }
 

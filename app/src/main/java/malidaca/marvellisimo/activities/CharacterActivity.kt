@@ -17,6 +17,7 @@ import malidaca.marvellisimo.adapters.SeriesListAdapter
 import malidaca.marvellisimo.models.Character
 import malidaca.marvellisimo.models.Favorite
 import malidaca.marvellisimo.rest.MarvelServiceHandler
+import malidaca.marvellisimo.services.FireBaseService
 import malidaca.marvellisimo.utilities.LoadDialog
 
 
@@ -30,6 +31,7 @@ class CharacterActivity : AppCompatActivity() {
     private lateinit var scrollListener: EndlessRecyclerViewScrollListener
     private lateinit var gridLayoutManager: GridLayoutManager
     private lateinit var topToolbar: Toolbar
+    private var id: Int = 0
 
     @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,10 +39,6 @@ class CharacterActivity : AppCompatActivity() {
         setContentView(R.layout.activity_character_new)
         topToolbar = findViewById(R.id.top_toolbar)
         setSupportActionBar(topToolbar)
-
-        database = FirebaseDatabase.getInstance().reference
-        auth = FirebaseAuth.getInstance()
-        user = auth.currentUser
 
         rFavorite = R.drawable.thumbs_up_yes
         bFavorite = R.drawable.thumbs_up
@@ -123,12 +121,10 @@ class CharacterActivity : AppCompatActivity() {
 
 
    private fun addFavorite() {
-        val fireBaseRef = database.child("users").child(user!!.uid)
-        fireBaseRef.child("favoriteCharacters/$id").setValue(true)
+        FireBaseService.addFavorite(id)
     }
 
    private fun deleteFavorite() {
-        val fireBaseRef = database.child("users").child(user!!.uid)
-        fireBaseRef.child("favoriteCharacters/$id").removeValue()
+        FireBaseService.deleteFavorite(id)
     }
 }
