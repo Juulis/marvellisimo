@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.Menu
+import android.view.MenuItem
 import android.widget.SearchView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_character_list.*
@@ -14,6 +15,8 @@ import malidaca.marvellisimo.R
 import malidaca.marvellisimo.rest.MarvelServiceHandler
 import malidaca.marvellisimo.adapters.SeriesViewAdapter
 import malidaca.marvellisimo.models.Series
+import malidaca.marvellisimo.services.FireBaseService
+import malidaca.marvellisimo.utilities.ActivityHelper
 
 class SeriesActivity : AppCompatActivity() {
     lateinit var recyclerView: RecyclerView
@@ -22,6 +25,7 @@ class SeriesActivity : AppCompatActivity() {
     private var search: String = ""
     private var response: List<Series> = emptyList()
     private lateinit var scrollListener: EndlessRecyclerViewScrollListener
+    private lateinit var activityHelper: ActivityHelper
 
     @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,6 +48,7 @@ class SeriesActivity : AppCompatActivity() {
             }
         }
         initQueryTextListener()
+        activityHelper = ActivityHelper()
     }
 
     private fun initQueryTextListener() {
@@ -95,5 +100,18 @@ class SeriesActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.logout -> {
+                FireBaseService.signOut()
+                activityHelper.changeActivity(this, LoginActivity::class.java)
+                finish()
+            }
+            R.id.favorite_characters -> {}
+            R.id.favorite_series -> {}
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

@@ -14,8 +14,11 @@ import malidaca.marvellisimo.rest.characters.CharactersDataModel
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.Menu
+import android.view.MenuItem
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.models.Character
+import malidaca.marvellisimo.services.FireBaseService
+import malidaca.marvellisimo.utilities.ActivityHelper
 
 import malidaca.marvellisimo.utilities.LoadDialog
 
@@ -28,6 +31,7 @@ class CharacterListActivity : AppCompatActivity() {
     lateinit var topToolbar: Toolbar
 
     var loadDialog: LoadDialog? = null
+    private lateinit var activityHelper: ActivityHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +45,7 @@ class CharacterListActivity : AppCompatActivity() {
         initQueryTextListener()
         loadDialog = LoadDialog(this)
         loadDialog!!.showDialog()
+        activityHelper = ActivityHelper()
     }
 
     private fun initQueryTextListener() {
@@ -104,6 +109,19 @@ class CharacterListActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.logout -> {
+                FireBaseService.signOut()
+                activityHelper.changeActivity(this, LoginActivity::class.java)
+                finish()
+            }
+            R.id.favorite_characters -> {}
+            R.id.favorite_series -> {}
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
 

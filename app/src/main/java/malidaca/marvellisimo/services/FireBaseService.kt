@@ -11,6 +11,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import malidaca.marvellisimo.R
+import malidaca.marvellisimo.activities.LoginActivity
 import malidaca.marvellisimo.activities.MenuActivity
 import malidaca.marvellisimo.models.User
 import malidaca.marvellisimo.utilities.SnackbarManager
@@ -72,6 +73,17 @@ object FireBaseService {
 
     fun deleteFavorite(itemId: String) {
         userDataRef.child("favoriteCharacters/$itemId").removeValue()
+    }
+
+    fun checkIfOnline(context: Context) {
+        if(user == null) {
+            val intent = Intent(context, LoginActivity::class.java)
+            context.startActivity(intent)
+        }
+    }
+
+    fun signOut() {
+        auth.signOut()
     }
 
     /*fun getUserFavorites(type: String): Observable<Array<String>> {
