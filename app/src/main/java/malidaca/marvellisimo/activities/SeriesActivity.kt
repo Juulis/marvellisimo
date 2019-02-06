@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.Gravity
+import android.view.View
 import android.widget.SearchView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_character_list.*
@@ -12,6 +14,8 @@ import malidaca.marvellisimo.R
 import malidaca.marvellisimo.rest.MarvelServiceHandler
 import malidaca.marvellisimo.adapters.SeriesViewAdapter
 import malidaca.marvellisimo.models.Series
+import malidaca.marvellisimo.utilities.LoadDialog
+import malidaca.marvellisimo.utilities.SnackbarManager
 
 class SeriesActivity : AppCompatActivity() {
     lateinit var recyclerView: RecyclerView
@@ -19,12 +23,15 @@ class SeriesActivity : AppCompatActivity() {
     private var search: String = ""
     private var response: List<Series> = emptyList()
     private lateinit var scrollListener: EndlessRecyclerViewScrollListener
+    private lateinit var view: View
 
     @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
+        val loadDialog = LoadDialog(this)
+        loadDialog.hideDialog()
         setContentView(R.layout.activity_series)
+        view = findViewById(android.R.id.content)
         val viewManager = LinearLayoutManager(this)
         initScrollListener(viewManager)
         MarvelServiceHandler.seriesRequest(0).observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
@@ -36,6 +43,7 @@ class SeriesActivity : AppCompatActivity() {
                 adapter = viewAdapter
                 addOnScrollListener(scrollListener)
             }
+            loadDialog.hideDialog()
         }
         initQueryTextListener()
     }
@@ -43,7 +51,7 @@ class SeriesActivity : AppCompatActivity() {
     private fun initQueryTextListener() {
         SEARCH.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                if(search == query)
+                if (search == query)
                     return false
                 search = query!!
                 addItems(search = search)
@@ -74,11 +82,15 @@ class SeriesActivity : AppCompatActivity() {
             response = emptyList()
         }
         if (search.isEmpty()) {
+            if (offset > 1)
+                SnackbarManager().createSnackbar(view, "Loading content", R.color.colorPrimaryDarkTransparent, Gravity.BOTTOM)
             MarvelServiceHandler.seriesRequest(offset).observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
                 response = response + data.data.results.asList()
                 viewAdapter.addItems(response)
             }
         } else {
+            if (offset > 1)
+                SnackbarManager().createSnackbar(view, "Loading content", R.color.colorPrimaryDarkTransparent, Gravity.BOTTOM)
             MarvelServiceHandler.serieByNameRequest(offset, search).observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
                 response = response + data.data.results.asList()
                 viewAdapter.addItems(response)

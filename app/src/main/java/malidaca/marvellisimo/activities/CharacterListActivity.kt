@@ -9,13 +9,14 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_character_list.*
 import malidaca.marvellisimo.adapters.CharacterListAdapter
 import malidaca.marvellisimo.rest.MarvelServiceHandler
-import malidaca.marvellisimo.rest.characters.CharactersApiResponse
-import malidaca.marvellisimo.rest.characters.CharactersDataModel
 import android.support.v7.widget.RecyclerView
+import android.view.Gravity
+import android.view.View
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.models.Character
 
 import malidaca.marvellisimo.utilities.LoadDialog
+import malidaca.marvellisimo.utilities.SnackbarManager
 
 
 class CharacterListActivity : AppCompatActivity() {
@@ -23,6 +24,7 @@ class CharacterListActivity : AppCompatActivity() {
     private lateinit var adapter: CharacterListAdapter
     private var search: String = ""
     private lateinit var scrollListener: EndlessRecyclerViewScrollListener
+    private lateinit var view: View
 
 
     var loadDialog: LoadDialog? = null
@@ -30,6 +32,8 @@ class CharacterListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_character_list)
+        view = findViewById(android.R.id.content)
+
         val linearLayoutManager = LinearLayoutManager(this)
         RECYCLER.layoutManager = linearLayoutManager
         initAdapter()
@@ -74,12 +78,13 @@ class CharacterListActivity : AppCompatActivity() {
             ar = emptyList()
         }
         if (search.isEmpty()) {
+            SnackbarManager().createSnackbar(view,"Loading content",R.color.colorPrimaryDarkTransparent, Gravity.BOTTOM)
             MarvelServiceHandler.charactersRequest(offset).observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
                 ar = ar + data.data.results.asList()
                 adapter.addItems(ar)
-
             }
         } else {
+            SnackbarManager().createSnackbar(view,"Loading content",R.color.colorPrimaryDarkTransparent, Gravity.BOTTOM)
             MarvelServiceHandler.characterByNameRequest(offset,search).observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
                 ar = ar + data.data.results.asList()
                 adapter.addItems(ar)

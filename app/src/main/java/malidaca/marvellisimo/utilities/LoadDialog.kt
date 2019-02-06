@@ -8,9 +8,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget
 import malidaca.marvellisimo.R
 
-class LoadDialog(var activity: Activity) {
+class LoadDialog(private var activity: Activity) {
 
-    var dialog: Dialog = Dialog(activity)
+    private var dialog: Dialog = Dialog(activity)
 
     fun showDialog() {
 
