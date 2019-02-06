@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.Toolbar
+import android.view.Menu
 import android.view.View
 import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -28,11 +30,14 @@ class CharacterActivity : AppCompatActivity() {
     private lateinit var adapter: SeriesListAdapter
     private lateinit var scrollListener: EndlessRecyclerViewScrollListener
     private lateinit var gridLayoutManager: GridLayoutManager
+    private lateinit var topToolbar: Toolbar
 
     @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_character_new)
+        topToolbar = findViewById(R.id.top_toolbar)
+        setSupportActionBar(topToolbar)
 
         redFavorite = R.drawable.favorite_red
         blackFavorite = R.drawable.favorite_black
@@ -103,5 +108,10 @@ class CharacterActivity : AppCompatActivity() {
         } else {
             Picasso.get().load(blackFavorite).into(favoriteBtn)
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+        return true
     }
 }

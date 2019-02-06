@@ -4,6 +4,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="80sp"
+        android:elevation="4dp"></android.support.v7.widget.Toolbar>
+
     <SearchView
         android:id="@+id/SEARCH"
         android:layout_width="match_parent"
