@@ -6,5 +6,6 @@ class Character(
         val description: String,
         val resourceURI: String,
         val thumbnail: Picture,
-        val series: ItemList
+        val series: ItemList,
+        val urls: Array<Url>
 )

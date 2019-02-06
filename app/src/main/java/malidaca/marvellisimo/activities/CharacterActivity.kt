@@ -1,6 +1,8 @@
 package malidaca.marvellisimo.activities
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
@@ -19,26 +21,30 @@ import malidaca.marvellisimo.models.Character
 import malidaca.marvellisimo.models.Series
 import malidaca.marvellisimo.rest.MarvelServiceHandler
 import malidaca.marvellisimo.utilities.LoadDialog
+import malidaca.marvellisimo.utilities.SnackbarManager
 
 
 class CharacterActivity : AppCompatActivity() {
 
     private var loadDialog: LoadDialog? = null
     private var favorite: Boolean = false
-    private  var redFavorite: Int = 0
-    private  var blackFavorite: Int = 0
+    private var redFavorite: Int = 0
+    private var blackFavorite: Int = 0
     private lateinit var adapter: SeriesListAdapter
     private lateinit var scrollListener: EndlessRecyclerViewScrollListener
     private lateinit var gridLayoutManager: GridLayoutManager
     private lateinit var topToolbar: Toolbar
+    private lateinit var context: Context
+    private lateinit var view: View
 
     @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_character_new)
+        view = findViewById(android.R.id.content)
         topToolbar = findViewById(R.id.top_toolbar)
         setSupportActionBar(topToolbar)
-
+        context = this
         redFavorite = R.drawable.favorite_red
         blackFavorite = R.drawable.favorite_black
 
@@ -62,15 +68,29 @@ class CharacterActivity : AppCompatActivity() {
                         }
                     }
             initAdapter(id)
-            initScrollListener(gridLayoutManager,id)
+            initScrollListener(gridLayoutManager, id)
         }
         Picasso.get().load(blackFavorite).into(favoriteBtn)
     }
 
-    fun createImage(character: Character){
+    private fun createImage(character: Character) {
+        var charUrl = character.urls[0].url
+        for (url in character.urls)
+            if (url.type == "detail") {
+                charUrl = url.url
+            }
         var url = "${character.thumbnail.path}//landscape_amazing.${character.thumbnail.extension}"
         url = url.replace("http", "https")
         Picasso.get().load(url).into(bigpic)
+        if (charUrl.isNotEmpty()) {
+            bigpic.setOnClickListener {
+                val intent = Intent(context, WebViewer::class.java)
+                intent.putExtra("url", charUrl)
+                context.startActivity(intent)
+            }
+        }else {
+            SnackbarManager().createSnackbar(view,"No infopage available",R.color.colorPrimaryDark)
+        }
     }
 
     private fun initScrollListener(gridLayoutManager: GridLayoutManager, id: Int) {
