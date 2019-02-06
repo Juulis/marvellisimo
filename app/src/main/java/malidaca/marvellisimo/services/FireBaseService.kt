@@ -62,7 +62,7 @@ object FireBaseService {
 
     private fun writeNewUser(firstName: String, lastName: String, email: String, uid: String) {
         val newUser = User(email, firstName, lastName)
-        userDataRef.child(uid).setValue(newUser)
+        userDataRef.setValue(newUser)
         toggleOnline(true)
     }
 
