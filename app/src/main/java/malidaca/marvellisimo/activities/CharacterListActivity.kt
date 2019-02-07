@@ -1,6 +1,7 @@
 package malidaca.marvellisimo.activities
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -9,15 +10,19 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_character_list.*
 import malidaca.marvellisimo.adapters.CharacterListAdapter
 import malidaca.marvellisimo.rest.MarvelServiceHandler
-import malidaca.marvellisimo.rest.characters.CharactersApiResponse
-import malidaca.marvellisimo.rest.characters.CharactersDataModel
 import android.support.v7.widget.RecyclerView
+import android.view.Gravity
+import android.view.View
 import android.support.v7.widget.Toolbar
 import android.view.Menu
+import android.view.MenuItem
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.models.Character
+import malidaca.marvellisimo.services.FireBaseService
+import malidaca.marvellisimo.utilities.ActivityHelper
 
 import malidaca.marvellisimo.utilities.LoadDialog
+import malidaca.marvellisimo.utilities.SnackbarManager
 
 
 class CharacterListActivity : AppCompatActivity() {
@@ -25,13 +30,18 @@ class CharacterListActivity : AppCompatActivity() {
     private lateinit var adapter: CharacterListAdapter
     private var search: String = ""
     private lateinit var scrollListener: EndlessRecyclerViewScrollListener
+    private lateinit var view: View
+
     lateinit var topToolbar: Toolbar
 
     var loadDialog: LoadDialog? = null
+    private lateinit var activityHelper: ActivityHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_character_list)
+        view = findViewById(android.R.id.content)
+
         topToolbar = findViewById(R.id.top_toolbar)
         setSupportActionBar(topToolbar)
         val linearLayoutManager = LinearLayoutManager(this)
@@ -41,6 +51,8 @@ class CharacterListActivity : AppCompatActivity() {
         initQueryTextListener()
         loadDialog = LoadDialog(this)
         loadDialog!!.showDialog()
+        setClickListener()
+        activityHelper = ActivityHelper()
     }
 
     private fun initQueryTextListener() {
@@ -78,12 +90,13 @@ class CharacterListActivity : AppCompatActivity() {
             ar = emptyList()
         }
         if (search.isEmpty()) {
+            SnackbarManager().createSnackbar(view,"Loading content",R.color.colorPrimaryDarkTransparent, Gravity.BOTTOM)
             MarvelServiceHandler.charactersRequest(offset).observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
                 ar = ar + data.data.results.asList()
                 adapter.addItems(ar)
-
             }
         } else {
+            SnackbarManager().createSnackbar(view,"Loading content",R.color.colorPrimaryDarkTransparent, Gravity.BOTTOM)
             MarvelServiceHandler.characterByNameRequest(offset,search).observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
                 ar = ar + data.data.results.asList()
                 adapter.addItems(ar)
@@ -104,6 +117,28 @@ class CharacterListActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
         return true
+    }
+
+
+    private fun setClickListener() {
+        homeButton1.setOnClickListener {
+            activityHelper.changeActivity(this, MenuActivity::class.java)
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.logout -> {
+                FireBaseService.signOut()
+                activityHelper.changeActivity(this, LoginActivity::class.java)
+                finish()
+            }
+            R.id.favorite_characters -> {
+            }
+            R.id.favorite_series -> {
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
 

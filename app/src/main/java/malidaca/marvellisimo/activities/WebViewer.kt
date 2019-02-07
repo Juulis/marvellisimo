@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.webkit.WebView
 import malidaca.marvellisimo.R
 import android.webkit.WebViewClient
+import malidaca.marvellisimo.utilities.SnackbarManager
+import java.lang.Exception
 
 
 class WebViewer : AppCompatActivity() {
