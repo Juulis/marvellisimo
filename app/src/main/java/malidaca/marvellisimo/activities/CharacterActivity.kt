@@ -10,6 +10,9 @@ import android.view.Menu
 import android.view.View
 import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.realm.Realm
+import io.realm.kotlin.delete
+import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_character_new.*
 import kotlinx.android.synthetic.main.series_list_view.*
 import malidaca.marvellisimo.R
@@ -22,11 +25,9 @@ import malidaca.marvellisimo.utilities.LoadDialog
 
 
 class CharacterActivity : AppCompatActivity() {
-
+    private lateinit var realm: Realm
     private var loadDialog: LoadDialog? = null
     private var favorite: Boolean = false
-    private var rFavorite: Int = 0
-    private var bFavorite: Int = 0
     private lateinit var adapter: SeriesListAdapter
     private lateinit var scrollListener: EndlessRecyclerViewScrollListener
     private lateinit var gridLayoutManager: GridLayoutManager
@@ -35,14 +36,13 @@ class CharacterActivity : AppCompatActivity() {
 
     @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        realm = Realm.getDefaultInstance()
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_character_new)
         topToolbar = findViewById(R.id.top_toolbar)
         setSupportActionBar(topToolbar)
-
-        rFavorite = R.drawable.thumbs_up_yes
-        bFavorite = R.drawable.thumbs_up
-
         loadDialog = LoadDialog(this)
         loadDialog!!.showDialog()
         gridLayoutManager = GridLayoutManager(this, 2)
@@ -52,6 +52,7 @@ class CharacterActivity : AppCompatActivity() {
         if (extras != null) {
             id = extras.getInt("itemId")
 
+            checkIfIsFavorite(id)
             MarvelServiceHandler.charactersByIdRequest(id).observeOn(AndroidSchedulers.mainThread())
                     .subscribe { data ->
                         if (data.data.results.isNotEmpty()) {
@@ -59,12 +60,7 @@ class CharacterActivity : AppCompatActivity() {
 
                             characterName.text = character.name
                             infoText.text = character.description
-                            val url = "${character.thumbnail.path}//landscape_amazing.${character.thumbnail.extension}"
-                            var split1 = url.subSequence(0, 4)
-                            var split2 = url.subSequence(4, url.length)
-                            val newUrl = "${split1}s$split2"
-
-                            Picasso.get().load(newUrl).into(bigpic)
+                            createImage(character)
                         }
                     }
             initAdapter(id)
@@ -72,7 +68,12 @@ class CharacterActivity : AppCompatActivity() {
         }
 
 
-        Picasso.get().load(bFavorite).into(favoriteBtn)
+    }
+
+    fun createImage(character: Character) {
+        var url = "${character.thumbnail.path}//landscape_amazing.${character.thumbnail.extension}"
+        url = url.replace("http", "https")
+        Picasso.get().load(url).into(bigpic)
     }
 
     private fun initScrollListener(gridLayoutManager: GridLayoutManager, id: Int) {
@@ -106,10 +107,10 @@ class CharacterActivity : AppCompatActivity() {
     fun changeFavorite(view: View) {
         favorite = !favorite
         if (favorite) {
-            Picasso.get().load(rFavorite).into(favoriteBtn)
+            Picasso.get().load(R.drawable.thumbs_up_yes).into(favoriteBtn)
             addFavorite()
         } else {
-            Picasso.get().load(bFavorite).into(favoriteBtn)
+            Picasso.get().load(R.drawable.thumbs_up).into(favoriteBtn)
             deleteFavorite()
         }
     }
@@ -119,12 +120,40 @@ class CharacterActivity : AppCompatActivity() {
         return true
     }
 
-
-   private fun addFavorite() {
+    private fun addFavorite() {
         FireBaseService.addFavorite(id)
+
+        realm.beginTransaction()
+        val favorite = Favorite().apply {
+            itemId = id
+            type = "character"
+        }
+        realm.copyToRealmOrUpdate(favorite)
+        realm.commitTransaction()
+
     }
 
-   private fun deleteFavorite() {
+    private fun deleteFavorite() {
         FireBaseService.deleteFavorite(id)
+
+        realm.executeTransaction {
+            it.where<Favorite>()
+                    .equalTo("itemId", id).findAll().deleteAllFromRealm()
+        }
+    }
+
+    private fun checkIfIsFavorite(thisId: Int) {
+        val result = realm.where<Favorite>().equalTo("itemId", thisId).findFirst()
+        if (result != null) {
+            Picasso.get().load(R.drawable.thumbs_up_yes).into(favoriteBtn)
+            favorite = true
+        } else {
+            Picasso.get().load(R.drawable.thumbs_up).into(favoriteBtn)
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        realm.close()
     }
 }

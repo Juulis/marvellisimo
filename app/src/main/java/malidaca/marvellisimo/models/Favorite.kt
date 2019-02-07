@@ -1,9 +1,12 @@
 package malidaca.marvellisimo.models
 
-import com.google.firebase.database.IgnoreExtraProperties
+import io.realm.RealmObject
+import io.realm.annotations.PrimaryKey
 
-@IgnoreExtraProperties
-data class Favorite(
 
-        val itemId: Int
-)
+open class Favorite : RealmObject() {
+    @PrimaryKey
+    var itemId: Int? = null
+    var type: String? = null
+}
+

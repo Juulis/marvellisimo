@@ -7,6 +7,8 @@ import malidaca.marvellisimo.R
 import android.view.View
 import kotlinx.android.synthetic.main.activity_login.*
 import android.graphics.Color
+import io.realm.Realm
+import io.realm.RealmConfiguration
 import malidaca.marvellisimo.services.FireBaseService
 import malidaca.marvellisimo.utilities.SnackbarManager
 
@@ -16,6 +18,14 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var snackbarManager: SnackbarManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        Realm.init(this)
+        val configuration = RealmConfiguration.Builder()
+                .schemaVersion(1)
+                .deleteRealmIfMigrationNeeded()
+                .build()
+        Realm.setDefaultConfiguration(configuration)
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 

@@ -9,11 +9,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_character_list.*
 import malidaca.marvellisimo.adapters.CharacterListAdapter
 import malidaca.marvellisimo.rest.MarvelServiceHandler
-import malidaca.marvellisimo.rest.characters.CharactersApiResponse
-import malidaca.marvellisimo.rest.characters.CharactersDataModel
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.Menu
+import io.realm.Realm
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.models.Character
 
@@ -21,16 +20,19 @@ import malidaca.marvellisimo.utilities.LoadDialog
 
 
 class CharacterListActivity : AppCompatActivity() {
-    private var ar: List<Character> = emptyList()
+    private lateinit var realm: Realm
+    private var characterList: List<Character> = emptyList()
     private lateinit var adapter: CharacterListAdapter
     private var search: String = ""
     private lateinit var scrollListener: EndlessRecyclerViewScrollListener
     lateinit var topToolbar: Toolbar
 
+
     var loadDialog: LoadDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        realm = Realm.getDefaultInstance()
         setContentView(R.layout.activity_character_list)
         topToolbar = findViewById(R.id.top_toolbar)
         setSupportActionBar(topToolbar)
@@ -75,18 +77,18 @@ class CharacterListActivity : AppCompatActivity() {
         if (offset == 0) {
             scrollListener.resetState()
             adapter.resetList()
-            ar = emptyList()
+            characterList = emptyList()
         }
         if (search.isEmpty()) {
             MarvelServiceHandler.charactersRequest(offset).observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
-                ar = ar + data.data.results.asList()
-                adapter.addItems(ar)
+                characterList = characterList + data.data.results.asList()
+                adapter.addItems(characterList)
 
             }
         } else {
             MarvelServiceHandler.characterByNameRequest(offset,search).observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
-                ar = ar + data.data.results.asList()
-                adapter.addItems(ar)
+                characterList = characterList + data.data.results.asList()
+                adapter.addItems(characterList)
             }
         }
     }
@@ -94,8 +96,8 @@ class CharacterListActivity : AppCompatActivity() {
     @SuppressLint("CheckResult")
     fun initAdapter() {
         MarvelServiceHandler.charactersRequest(0).observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
-            ar = ar + data.data.results.asList()
-            adapter = CharacterListAdapter(ar, this)
+            characterList = characterList + data.data.results.asList()
+            adapter = CharacterListAdapter(characterList, this, realm)
             RECYCLER.adapter = adapter
             loadDialog!!.hideDialog()
         }
