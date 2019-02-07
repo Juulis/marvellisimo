@@ -20,6 +20,7 @@ class MenuActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var activityHelper: ActivityHelper
     private var allowedBack = false
     private lateinit var view: View
+    private lateinit var fab: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +31,7 @@ class MenuActivity : AppCompatActivity(), View.OnClickListener {
         setSupportActionBar(topToolbar)
         activityHelper = ActivityHelper()
         view = findViewById(android.R.id.content)
-
+        initFab()
         menu_button_characters.setOnClickListener(this)
         menu_button_series.setOnClickListener(this)
 
@@ -97,6 +98,13 @@ class MenuActivity : AppCompatActivity(), View.OnClickListener {
         } else {
             val snackbarManager = SnackbarManager()
             snackbarManager.createSnackbar(view, "Loading", Color.BLUE)
+        }
+    }
+
+    private fun initFab(){
+        fab = findViewById(R.id.fab)
+        fab.setOnClickListener {
+            activityHelper.changeActivity(this, InboxActivity::class.java)
         }
     }
 }

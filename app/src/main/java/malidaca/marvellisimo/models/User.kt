@@ -9,5 +9,6 @@ data class User(
         var lastName: String = "",
         var favoriteCharacters: MutableCollection<String>? = null,
         var favoriteSeries: MutableCollection<String>? = null,
+        var messages: MutableCollection<Message>? = null,
         var isOnline: Boolean = false
 )

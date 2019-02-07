@@ -27,14 +27,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.SeriesActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".activities.SeriesActivity" />
         <activity android:name=".activities.SeriesDetailsActivity" />
+        <activity android:name=".activities.InboxActivity" />
     </application>
 
 </manifest>
