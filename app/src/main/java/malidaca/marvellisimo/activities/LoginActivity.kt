@@ -39,7 +39,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                             finish()
                         }
                     },
-                    10000
+                    3000
             )
         } else {
             snackbarManager.createSnackbar(view, resources.getString(R.string.signin_failed_missing_fields), Color.RED)
