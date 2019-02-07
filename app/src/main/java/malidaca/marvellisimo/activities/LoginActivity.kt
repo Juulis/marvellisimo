@@ -3,12 +3,15 @@ package malidaca.marvellisimo.activities
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import malidaca.marvellisimo.R
 import android.view.View
 import kotlinx.android.synthetic.main.activity_login.*
 import android.graphics.Color
+import malidaca.marvellisimo.R
 import malidaca.marvellisimo.services.FireBaseService
 import malidaca.marvellisimo.utilities.SnackbarManager
+import java.util.*
+
+
 
 
 class LoginActivity : AppCompatActivity(), View.OnClickListener {
@@ -30,7 +33,14 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     private fun signIn(email: String, password: String) {
         if (email.isNotBlank() && password.isNotBlank()) {
             FireBaseService.signIn(email, password, this, view)
-            finish()
+            Timer().schedule(
+                    object : java.util.TimerTask() {
+                        override fun run() {
+                            finish()
+                        }
+                    },
+                    10000
+            )
         } else {
             snackbarManager.createSnackbar(view, resources.getString(R.string.signin_failed_missing_fields), Color.RED)
 

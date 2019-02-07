@@ -10,11 +10,13 @@ import kotlinx.android.synthetic.main.activity_menu.*
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.services.FireBaseService
 import malidaca.marvellisimo.utilities.ActivityHelper
+import java.util.*
 
 class MenuActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var topToolbar: android.support.v7.widget.Toolbar
     private lateinit var activityHelper: ActivityHelper
+    private var allowedBack = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +29,16 @@ class MenuActivity : AppCompatActivity(), View.OnClickListener {
 
         menu_button_characters.setOnClickListener(this)
         menu_button_series.setOnClickListener(this)
+
+        //time on create to disable backbutton before login/register activity is closed
+        Timer().schedule(
+                object : java.util.TimerTask() {
+                    override fun run() {
+                        allowedBack = true
+                    }
+                },
+                10000
+        )
     }
 
     override fun onPause() {
@@ -73,9 +85,11 @@ class MenuActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onBackPressed() {
-        if (isTaskRoot) {
-            FireBaseService.signOut()
+        if (allowedBack) {
+            if (isTaskRoot) {
+                FireBaseService.signOut()
+            }
+            super.onBackPressed()
         }
-        super.onBackPressed()
     }
 }
