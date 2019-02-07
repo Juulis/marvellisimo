@@ -20,7 +20,7 @@ object FireBaseService {
 
     private var database: DatabaseReference = FirebaseDatabase.getInstance().reference
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
-    private  var user: FirebaseUser? = null
+    private var user: FirebaseUser? = null
     private var snackBarManager: SnackbarManager = SnackbarManager()
     private lateinit var userDataRef: DatabaseReference
 

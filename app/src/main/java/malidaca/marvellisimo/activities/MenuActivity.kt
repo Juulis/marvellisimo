@@ -1,6 +1,7 @@
 package malidaca.marvellisimo.activities
 
 import android.app.Activity
+import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -10,11 +11,15 @@ import kotlinx.android.synthetic.main.activity_menu.*
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.services.FireBaseService
 import malidaca.marvellisimo.utilities.ActivityHelper
+import malidaca.marvellisimo.utilities.SnackbarManager
+import java.util.*
 
 class MenuActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var topToolbar: android.support.v7.widget.Toolbar
     private lateinit var activityHelper: ActivityHelper
+    private var allowedBack = false
+    private lateinit var view: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,9 +29,20 @@ class MenuActivity : AppCompatActivity(), View.OnClickListener {
         topToolbar = findViewById(R.id.top_toolbar)
         setSupportActionBar(topToolbar)
         activityHelper = ActivityHelper()
+        view = findViewById(android.R.id.content)
 
         menu_button_characters.setOnClickListener(this)
         menu_button_series.setOnClickListener(this)
+
+        //time on create to disable backbutton before login/register activity is closed
+        Timer().schedule(
+                object : java.util.TimerTask() {
+                    override fun run() {
+                        allowedBack = true
+                    }
+                },
+                3000
+        )
     }
 
     override fun onPause() {
@@ -73,9 +89,14 @@ class MenuActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onBackPressed() {
-        if (isTaskRoot) {
-            FireBaseService.signOut()
+        if (allowedBack) {
+            if (isTaskRoot) {
+                FireBaseService.signOut()
+            }
+            super.onBackPressed()
+        } else {
+            val snackbarManager = SnackbarManager()
+            snackbarManager.createSnackbar(view, "Loading", Color.BLUE)
         }
-        super.onBackPressed()
     }
 }
