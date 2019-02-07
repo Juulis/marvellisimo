@@ -7,10 +7,15 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label=""
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
+        <activity
+            android:name=".activities.WebViewer"
+            android:label="@string/title_activity_web_viewer"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.CharacterListActivity" />
         <activity android:name=".activities.CharacterActivity" />
         <activity android:name=".activities.MenuActivity" />
@@ -29,7 +34,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.SeriesDetailsActivity"></activity>
+        <activity android:name=".activities.SeriesDetailsActivity" />
     </application>
 
 </manifest>

@@ -8,6 +8,7 @@ import kotlinx.android.synthetic.main.activity_register.*
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.services.FireBaseService
 import malidaca.marvellisimo.utilities.SnackbarManager
+import java.util.*
 
 class RegisterActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -27,6 +28,14 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
     private fun createAccount(email: String, password: String, firstName: String, lastName: String) {
         if (email.isNotBlank() && password.isNotBlank() && firstName.isNotBlank() && lastName.isNotBlank()) {
             FireBaseService.createUser(email, password, firstName, lastName, this, view)
+            Timer().schedule(
+                    object : java.util.TimerTask() {
+                        override fun run() {
+                            finish()
+                        }
+                    },
+                    3000
+            )
         } else {
             snackbarManager.createSnackbar(view, resources.getString(R.string.registration_failed_fields_missing), Color.RED)
         }
