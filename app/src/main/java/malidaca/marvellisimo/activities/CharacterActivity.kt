@@ -1,6 +1,8 @@
 package malidaca.marvellisimo.activities
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
@@ -10,6 +12,7 @@ import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.webkit.WebView
 import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_character_new.*
@@ -22,6 +25,7 @@ import malidaca.marvellisimo.services.FireBaseService
 import malidaca.marvellisimo.utilities.ActivityHelper
 import malidaca.marvellisimo.utilities.LoadDialog
 import malidaca.marvellisimo.utilities.SnackbarManager
+import java.lang.Exception
 
 
 class CharacterActivity : AppCompatActivity() {
@@ -34,6 +38,7 @@ class CharacterActivity : AppCompatActivity() {
     private lateinit var scrollListener: EndlessRecyclerViewScrollListener
     private lateinit var gridLayoutManager: GridLayoutManager
     private lateinit var topToolbar: Toolbar
+    private lateinit var context: Context
     private lateinit var view: View
     private lateinit var activityHelper: ActivityHelper
 
@@ -44,6 +49,7 @@ class CharacterActivity : AppCompatActivity() {
         view = findViewById(android.R.id.content)
         topToolbar = findViewById(R.id.top_toolbar)
         setSupportActionBar(topToolbar)
+        context = this
 
         activityHelper = ActivityHelper()
 
@@ -76,16 +82,38 @@ class CharacterActivity : AppCompatActivity() {
         setClickListener()
     }
 
-    private fun setClickListener(){
+    private fun setClickListener() {
         homeButton.setOnClickListener {
             activityHelper.changeActivity(this, MenuActivity::class.java)
         }
     }
 
-    fun createImage(character: Character){
+    private fun createImage(character: Character) {
+        var webViewExist = true
+        try {
+            WebView(context).settings.userAgentString
+        } catch (e: Exception) {
+            webViewExist = false
+            println(e.localizedMessage)
+        }
+
+        var charUrl = character.urls[0].url
+        for (url in character.urls)
+            if (url.type == "detail") {
+                charUrl = url.url
+            }
         var url = "${character.thumbnail.path}//landscape_amazing.${character.thumbnail.extension}"
         url = url.replace("http", "https")
         Picasso.get().load(url).into(bigpic)
+        bigpic.setOnClickListener {
+            if (webViewExist && charUrl.isNotEmpty()) {
+                val intent = Intent(context, WebViewer::class.java)
+                intent.putExtra("url", charUrl)
+                context.startActivity(intent)
+            }else {
+                SnackbarManager().createSnackbar(view, "No infopage available", R.color.colorPrimaryDark)
+            }
+        }
     }
 
     private fun initScrollListener(gridLayoutManager: GridLayoutManager, id: Int) {

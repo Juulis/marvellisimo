@@ -1,35 +1,35 @@
 package malidaca.marvellisimo.activities
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.Gravity
 import android.view.View
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
+import android.webkit.WebView
 import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
-import kotlinx.android.synthetic.main.activity_character_new.*
 import kotlinx.android.synthetic.main.activity_series_details.*
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.adapters.CharactersViewAdapter
 import malidaca.marvellisimo.models.Series
 import malidaca.marvellisimo.rest.MarvelServiceHandler
-import malidaca.marvellisimo.utilities.LoadDialog
-import malidaca.marvellisimo.utilities.SnackbarManager
+import malidaca.marvellisimo.utilities.*
 import malidaca.marvellisimo.services.FireBaseService
-import malidaca.marvellisimo.utilities.ActivityHelper
+import java.lang.Exception
 
 class SeriesDetailsActivity : AppCompatActivity() {
 
     lateinit var viewManager: RecyclerView.LayoutManager
     lateinit var recyclerView: RecyclerView
     lateinit var viewAdapter: RecyclerView.Adapter<*>
-    lateinit var view: View
     lateinit var topToolbar: Toolbar
+    lateinit var view: View
     private lateinit var activityHelper: ActivityHelper
     private lateinit var loadDialog: LoadDialog
 
@@ -42,6 +42,7 @@ class SeriesDetailsActivity : AppCompatActivity() {
         view = findViewById(android.R.id.content)
         topToolbar = findViewById(R.id.top_toolbar)
         setSupportActionBar(topToolbar)
+        val context = this
         activityHelper = ActivityHelper()
 
         val id = intent.getIntExtra("id", 0)
@@ -49,7 +50,7 @@ class SeriesDetailsActivity : AppCompatActivity() {
         MarvelServiceHandler.seriesByIdRequest(id).observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
             if (data.data.results.isNotEmpty()) {
                 response = data.data.results[0]
-                createImage(response)
+                createImage(response, context)
                 fillViewsWithSeriesData(response)
                 getCharactersFromSeries(id)
             }
@@ -64,21 +65,44 @@ class SeriesDetailsActivity : AppCompatActivity() {
                     loadDialog.hideDialog()
                 }
                 .subscribe { data ->
-            var characters = data.data.results
-            viewManager = LinearLayoutManager(this)
-            viewAdapter = CharactersViewAdapter(characters, this)
-            recyclerView = findViewById<RecyclerView>(R.id.characters_recycler_view).apply {
-                setHasFixedSize(true)
-                layoutManager = viewManager
-                adapter = viewAdapter
-            }
-        }
+                    var characters = data.data.results
+                    viewManager = LinearLayoutManager(this)
+                    viewAdapter = CharactersViewAdapter(characters, this)
+                    recyclerView = findViewById<RecyclerView>(R.id.characters_recycler_view).apply {
+                        setHasFixedSize(true)
+                        layoutManager = viewManager
+                        adapter = viewAdapter
+                    }
+                }
     }
 
-    fun createImage(series: Series) {
+    private fun createImage(series: Series, context: Context) {
+        var webViewExist = true
+        try {
+            WebView(context).settings.userAgentString
+        } catch (e: Exception) {
+            webViewExist = false
+            println(e.localizedMessage)
+        }
+
+        var charUrl = series.urls[0].url
+        for (url in series.urls)
+            if (url.type == "detail") {
+                charUrl = url.url
+            }
         var path = "${series.thumbnail.path}/landscape_incredible.${series.thumbnail.extension}"
         path = path.replace("http", "https")
         Picasso.get().load(path).resize(928, 522).into(series_picture)
+        series_picture.setOnClickListener {
+            if (webViewExist && charUrl.isNotEmpty()) {
+                val intent = Intent(context, WebViewer::class.java)
+                intent.putExtra("url", charUrl)
+                context.startActivity(intent)
+            } else {
+                SnackbarManager().createSnackbar(view, "No infopage available", R.color.colorPrimaryDark)
+            }
+
+        }
     }
 
     fun fillViewsWithSeriesData(series: Series) {

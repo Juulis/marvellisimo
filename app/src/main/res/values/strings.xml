@@ -29,5 +29,6 @@
     <string name="registration_failed_fields_missing">Register failed, not all fields were filled</string>
     <string name="signin_failed_wrong_credentials">Sign in failed, wrong credentials</string>
     <string name="signin_failed_missing_fields">Sign in failed, not all fields are set</string>
+    <string name="title_activity_web_viewer">WebViewer</string>
     <!--***********************END SNACKBAR MESSAGES**************************-->
 </resources>
