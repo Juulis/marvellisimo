@@ -7,7 +7,7 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="50sp"
+        android:layout_height="@dimen/toolbarheight"
         android:elevation="4dp">
         <TextView
             android:id="@+id/homeButton2"
