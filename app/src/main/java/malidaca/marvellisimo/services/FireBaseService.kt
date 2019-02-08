@@ -8,8 +8,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.activities.LoginActivity
 import malidaca.marvellisimo.activities.MenuActivity
@@ -23,6 +22,7 @@ object FireBaseService {
     private var user: FirebaseUser? = null
     private var snackBarManager: SnackbarManager = SnackbarManager()
     private lateinit var userDataRef: DatabaseReference
+    lateinit var firebaseUsers: ArrayList<User>
 
     fun toggleOnline(status: Boolean) {
         if (user != null)
@@ -84,6 +84,20 @@ object FireBaseService {
 
     fun signOut() {
         auth.signOut()
+    }
+
+    fun updateOnlineRealtime() {
+        firebaseUsers = ArrayList()
+        database.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val user = dataSnapshot.getValue<User>(User::class.java)!!
+                firebaseUsers.add(user)
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                println("The read failed: " + databaseError.code)
+            }
+        })
     }
 
     /*fun getUserFavorites(type: String): Observable<Array<String>> {

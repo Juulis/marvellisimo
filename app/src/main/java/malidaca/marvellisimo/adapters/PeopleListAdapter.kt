@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.people_online_card.view.*
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.activities.ItemClickListener
+import malidaca.marvellisimo.services.FireBaseService
 
 
 class PeopleListAdapter(private var names: List<String>) : RecyclerView.Adapter<PeopleListAdapter.ViewHolder>() {//}, View.OnClickListener {
@@ -18,7 +19,7 @@ class PeopleListAdapter(private var names: List<String>) : RecyclerView.Adapter<
         //return ViewHolder(LayoutInflater.from(context).inflate(R.layout.people_online_card, viewGroup, false))
 
         val itemLayoutView = LayoutInflater.from(parent.context).inflate(R.layout.people_online_card, parent,false)
-
+        changeData()
         //itemLayoutView.setOnClickListener(this)
         // create ViewHolder
 
@@ -28,6 +29,10 @@ class PeopleListAdapter(private var names: List<String>) : RecyclerView.Adapter<
     fun addItems(list: List<String>){
         names = list
         notifyDataSetChanged()
+    }
+
+    fun changeData() {
+        FireBaseService.updateOnlineRealtime()
     }
 
     /*override fun onBindViewHolder(holder: ViewHolder, position: Int) {
