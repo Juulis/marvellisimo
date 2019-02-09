@@ -31,4 +31,8 @@
     <string name="signin_failed_missing_fields">Sign in failed, not all fields are set</string>
     <string name="title_activity_web_viewer">WebViewer</string>
     <!--***********************END SNACKBAR MESSAGES**************************-->
+
+    <!--***********************VIEW ELEMENTS TEXT*****************************-->
+    <string name="share_button_text">Share</string>
+    <!--**********************END VIEW ELEMENTS TEXT**************************-->
 </resources>

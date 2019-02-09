@@ -1,6 +1,7 @@
 package malidaca.marvellisimo.activities
 
 import android.app.Activity
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -103,7 +104,10 @@ class MenuActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun initFab(){
         fab = findViewById(R.id.fab)
+        fab.backgroundTintList = ColorStateList.valueOf(Color.BLUE)
         fab.setOnClickListener {
+            if(fab.backgroundTintList != ColorStateList.valueOf(Color.BLUE))
+                fab.backgroundTintList = ColorStateList.valueOf(Color.BLUE)
             activityHelper.changeActivity(this, InboxActivity::class.java)
         }
     }

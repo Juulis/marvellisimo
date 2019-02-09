@@ -20,6 +20,8 @@ import kotlinx.android.synthetic.main.series_list_view.*
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.adapters.SeriesListAdapter
 import malidaca.marvellisimo.models.Character
+import malidaca.marvellisimo.models.Message
+import malidaca.marvellisimo.models.User
 import malidaca.marvellisimo.rest.MarvelServiceHandler
 import malidaca.marvellisimo.services.FireBaseService
 import malidaca.marvellisimo.utilities.ActivityHelper
@@ -73,18 +75,21 @@ class CharacterActivity : AppCompatActivity() {
                             characterName.text = character.name
                             infoText.text = character.description
                             createImage(character)
+                            setClickListener(character)
                         }
                     }
             initAdapter(id)
             initScrollListener(gridLayoutManager, id)
         }
         Picasso.get().load(blackFavorite).into(favoriteBtn)
-        setClickListener()
     }
 
-    private fun setClickListener() {
+    private fun setClickListener(character: Character) {
         homeButton.setOnClickListener {
             activityHelper.changeActivity(this, MenuActivity::class.java)
+        }
+        share_button.setOnClickListener {
+            shareCharacter(character)
         }
     }
 
@@ -173,5 +178,20 @@ class CharacterActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun shareCharacter(character: Character){
+        val itemName = character.name
+        val itemType = resources.getString(R.string.menu_characters)
+        val itemId = character.id
+        var sender: String
+        FireBaseService.getUsersName()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { data ->
+                    var user = data.getValue(User::class.java)
+                    sender = "${user!!.firstName} ${user!!.lastName}"
+                    val message = Message(sender, itemName, itemType, itemId)
+                }
+
     }
 }
