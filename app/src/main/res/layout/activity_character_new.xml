@@ -1,103 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sothree="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/top_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="80sp"
+        android:layout_height="@dimen/toolbarheight"
         android:elevation="4dp">
-        <Button
+
+        <TextView
             android:id="@+id/homeButton"
+            android:textSize="@dimen/titlesize"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/app_name" />
     </android.support.v7.widget.Toolbar>
 
     <com.sothree.slidinguppanel.SlidingUpPanelLayout
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        xmlns:sothree="http://schemas.android.com/apk/res-auto"
         android:id="@+id/sliding_layout"
         android:gravity="bottom"
-        sothree:umanoPanelHeight="68dp"
+        sothree:umanoPanelHeight="30dp"
         sothree:umanoShadowHeight="4dp"
         >
 
-        <android.support.constraint.ConstraintLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context=".activities.CharacterActivity">
+            android:layout_height="match_parent">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".activities.CharacterActivity">
 
 
-            <ImageView
-                android:id="@+id/bigpic"
-                android:layout_width="0dp"
-                android:layout_height="194dp"
-                android:scaleType="centerCrop"
-                sothree:layout_constraintEnd_toEndOf="parent"
-                sothree:layout_constraintHorizontal_bias="0.0"
-                sothree:layout_constraintStart_toStartOf="parent"
-                sothree:layout_constraintTop_toTopOf="parent" />
+                <ImageView
+                    android:id="@+id/bigpic"
+                    android:layout_width="0dp"
+                    android:layout_height="194dp"
+                    android:scaleType="centerCrop"
+                    sothree:layout_constraintEnd_toEndOf="parent"
+                    sothree:layout_constraintHorizontal_bias="0.0"
+                    sothree:layout_constraintStart_toStartOf="parent"
+                    sothree:layout_constraintTop_toTopOf="parent" />
 
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/avatar"
-                android:layout_width="81dp"
-                android:layout_height="81dp"
-                android:layout_marginTop="150dp"
-                android:src="@mipmap/marvel_logo_round"
-                sothree:layout_constraintEnd_toEndOf="parent"
-                sothree:layout_constraintStart_toStartOf="parent"
-                sothree:layout_constraintTop_toTopOf="parent" />
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/avatar"
+                    android:layout_width="81dp"
+                    android:layout_height="81dp"
+                    android:layout_marginTop="150dp"
+                    android:src="@mipmap/marvel_logo_round"
+                    sothree:layout_constraintEnd_toEndOf="parent"
+                    sothree:layout_constraintStart_toStartOf="parent"
+                    sothree:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/characterName"
-                android:layout_width="175dp"
-                android:layout_height="31dp"
-                android:layout_marginTop="8dp"
-                android:textAlignment="center"
-                android:textSize="24sp"
-                sothree:layout_constraintEnd_toEndOf="parent"
-                sothree:layout_constraintHorizontal_bias="0.502"
-                sothree:layout_constraintStart_toStartOf="parent"
-                sothree:layout_constraintTop_toBottomOf="@+id/avatar" />
+                <TextView
+                    android:id="@+id/characterName"
+                    android:layout_width="175dp"
+                    android:layout_height="31dp"
+                    android:layout_marginTop="8dp"
+                    android:textAlignment="center"
+                    android:textSize="24sp"
+                    sothree:layout_constraintEnd_toEndOf="parent"
+                    sothree:layout_constraintHorizontal_bias="0.502"
+                    sothree:layout_constraintStart_toStartOf="parent"
+                    sothree:layout_constraintTop_toBottomOf="@+id/avatar" />
 
-            <TextView
-                android:id="@+id/infoText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="8dp"
-                android:fontFamily="sans-serif-black"
-                android:textAlignment="center"
-                android:textColor="@android:color/black"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                sothree:layout_constraintEnd_toEndOf="parent"
-                sothree:layout_constraintStart_toStartOf="parent"
-                sothree:layout_constraintTop_toBottomOf="@+id/characterName"
-                />
+                <TextView
+                    android:id="@+id/infoText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="8dp"
+                    android:fontFamily="sans-serif-black"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    sothree:layout_constraintEnd_toEndOf="parent"
+                    sothree:layout_constraintStart_toStartOf="parent"
+                    sothree:layout_constraintTop_toBottomOf="@+id/characterName" />
 
-            <ImageView
-                android:id="@+id/favoriteBtn"
-                android:layout_width="59dp"
-                android:layout_height="47dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
-                android:onClick="changeFavorite"
-                sothree:layout_constraintBottom_toBottomOf="parent"
-                sothree:layout_constraintEnd_toEndOf="parent"
-                sothree:layout_constraintTop_toBottomOf="@+id/bigpic"
-                sothree:layout_constraintVertical_bias="0.005"
-                sothree:srcCompat="@color/colorAccent" />
+                <ImageView
+                    android:id="@+id/favoriteBtn"
+                    android:layout_width="59dp"
+                    android:layout_height="47dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:onClick="changeFavorite"
+                    sothree:layout_constraintBottom_toBottomOf="parent"
+                    sothree:layout_constraintEnd_toEndOf="parent"
+                    sothree:layout_constraintTop_toBottomOf="@+id/bigpic"
+                    sothree:layout_constraintVertical_bias="0.005"
+                    sothree:srcCompat="@color/colorAccent" />
 
 
-        </android.support.constraint.ConstraintLayout>
+            </android.support.constraint.ConstraintLayout>
+        </ScrollView>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -108,19 +115,21 @@
                 android:id="@+id/movie"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_gravity="top"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="20dp"
                 android:fontFamily="monospace"
+                android:gravity="center_horizontal|top"
                 android:text="@string/character_view_movie_header"
-                android:textAlignment="center"
-                android:textSize="22sp" />
+                android:textSize="14dp" />
 
             <include
 
                 layout="@layout/series_list_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginEnd="8dp" />
 
         </LinearLayout>
