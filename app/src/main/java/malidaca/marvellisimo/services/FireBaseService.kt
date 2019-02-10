@@ -100,7 +100,7 @@ object FireBaseService {
                 }
 
                 override fun onCancelled(p0: DatabaseError) {
-
+                    println(p0)
                 }
             })
         })
@@ -116,7 +116,7 @@ object FireBaseService {
                 }
 
                 override fun onCancelled(p0: DatabaseError) {
-
+                    println(p0)
                 }
             })
         })

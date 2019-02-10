@@ -3,12 +3,12 @@ package malidaca.marvellisimo.activities
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_inbox.*
 import malidaca.marvellisimo.R
@@ -31,21 +31,21 @@ class InboxActivity : AppCompatActivity() {
         activityHelper = ActivityHelper()
         initToolbar()
         val viewManager = LinearLayoutManager(this)
-        val fab: FloatingActionButton = findViewById(R.id.fab)
- /*       FireBaseService.getMessages()
-                .observeOn(Schedulers.io())
+        FireBaseService.getMessages()
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { data ->
-                    var messages = mutableListOf<Message>()
-                    fab.backgroundTintList = ColorStateList.valueOf(Color.RED)
-                    for (item in data.children)
-                        messages.add(data.getValue(Message::class.java)!!)
-                    viewAdapter = MessageAdapter(messages, this)
-                    recyclerView = findViewById<RecyclerView>(R.id.inbox_recycler_view).apply {
-                        setHasFixedSize(true)
-                        layoutManager = viewManager
-                        adapter = viewAdapter
+                    if (data != null) {
+                        var messages = mutableListOf<Message>()
+                        for (item in data.children)
+                            messages.add(data.getValue(Message::class.java)!!)
+                        viewAdapter = MessageAdapter(messages, this)
+                        recyclerView = findViewById<RecyclerView>(R.id.inbox_recycler_view).apply {
+                            setHasFixedSize(true)
+                            layoutManager = viewManager
+                            adapter = viewAdapter
+                        }
+                    }
                 }
-        }*/
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
