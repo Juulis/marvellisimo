@@ -31,4 +31,11 @@
     <string name="signin_failed_missing_fields">Sign in failed, not all fields are set</string>
     <string name="title_activity_web_viewer">WebViewer</string>
     <!--***********************END SNACKBAR MESSAGES**************************-->
+
+    <!--************************OPTIONS MENU MESSAGES*************************-->
+    <string name="options_menu_favorite_characters">Favorite Characters</string>
+    <string name="options_menu_favorite_series">Favorite Series</string>
+    <string name="options_menu_show_online">People online</string>
+    <string name="options_menu_logout">Log out</string>
+    <!--*********************END OPTIONS MENU MESSAGES************************-->
 </resources>
