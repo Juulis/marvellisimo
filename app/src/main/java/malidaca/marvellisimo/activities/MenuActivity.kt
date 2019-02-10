@@ -24,8 +24,6 @@ class MenuActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val activity: Activity = this
-        activity.title = resources.getString(R.string.app_name)
         setContentView(R.layout.activity_menu)
         topToolbar = findViewById(R.id.top_toolbar)
         setSupportActionBar(topToolbar)
