@@ -17,6 +17,7 @@ import malidaca.marvellisimo.utilities.SnackbarManager
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.ChildEventListener
+import malidaca.marvellisimo.adapters.PeopleListAdapter
 import java.util.function.Predicate
 
 
@@ -27,7 +28,7 @@ object FireBaseService {
     private var user: FirebaseUser? = null
     private var snackBarManager: SnackbarManager = SnackbarManager()
     private lateinit var userDataRef: DatabaseReference
-    lateinit var firebaseUsers: MutableMap<String, User>
+    //var firebaseUsers: MutableMap<String, User> = mutableMapOf()
 
     fun toggleOnline(status: Boolean) {
         if (user != null)
@@ -91,19 +92,20 @@ object FireBaseService {
         auth.signOut()
     }
 
-    fun updateOnlineRealtime() {
-        firebaseUsers = mutableMapOf<String, User>()
+    fun updateOnlineRealtime(firebaseUsers: MutableMap<String, User>, adapter: PeopleListAdapter) {
+        //firebaseUsers = mutableMapOf()
 
         val databaseReference = database.child("users")
         databaseReference.addChildEventListener(object : ChildEventListener {
-            
+
             override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
                 val user = dataSnapshot.getValue(User::class.java)!!
                 val userKey = dataSnapshot.key!!
-                if(!firebaseUsers.containsKey(user.id) && user.isOnline) {
+                if(!firebaseUsers.containsKey(userKey) && user.isOnline) {
                     firebaseUsers[userKey] = user
                     println(user)
                 }
+                adapter.notifyDataSetChanged()
             }
 
             override fun onChildChanged(dataSnapshot: DataSnapshot, s: String?) {
@@ -118,6 +120,7 @@ object FireBaseService {
                         println(user)
                     }
                 }
+                adapter.notifyDataSetChanged()
             }
 
             override fun onChildRemoved(dataSnapshot: DataSnapshot) {
@@ -127,6 +130,7 @@ object FireBaseService {
                     firebaseUsers.remove(userKey)
                     println(user)
                 }
+                adapter.notifyDataSetChanged()
             }
 
             override fun onChildMoved(dataSnapshot: DataSnapshot, s: String?) {

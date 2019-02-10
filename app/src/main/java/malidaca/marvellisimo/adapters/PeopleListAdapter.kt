@@ -7,10 +7,13 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.people_online_card.view.*
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.activities.ItemClickListener
+import malidaca.marvellisimo.models.User
 import malidaca.marvellisimo.services.FireBaseService
 
 
-class PeopleListAdapter(private var names: List<String>) : RecyclerView.Adapter<PeopleListAdapter.ViewHolder>() {//}, View.OnClickListener {
+
+
+class PeopleListAdapter(private var names: MutableMap<String, User>) : RecyclerView.Adapter<PeopleListAdapter.ViewHolder>() {//}, View.OnClickListener {
     //override fun onClick(v: View?) {
     //    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     //}
@@ -19,20 +22,11 @@ class PeopleListAdapter(private var names: List<String>) : RecyclerView.Adapter<
         //return ViewHolder(LayoutInflater.from(context).inflate(R.layout.people_online_card, viewGroup, false))
 
         val itemLayoutView = LayoutInflater.from(parent.context).inflate(R.layout.people_online_card, parent,false)
-        changeData()
+        //changeData()
         //itemLayoutView.setOnClickListener(this)
         // create ViewHolder
 
         return ViewHolder(itemLayoutView)
-    }
-
-    fun addItems(list: List<String>){
-        names = list
-        notifyDataSetChanged()
-    }
-
-    fun changeData() {
-        FireBaseService.updateOnlineRealtime()
     }
 
     /*override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -43,7 +37,11 @@ class PeopleListAdapter(private var names: List<String>) : RecyclerView.Adapter<
     }*/
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.name.text = names[position]
+        val l = names.values.toMutableList()[position]
+        val firstName = l.firstName
+        val lastName = l.lastName
+        val text = "$firstName $lastName"
+        holder.name.text = text
     }
 
 
