@@ -4,12 +4,11 @@ import android.app.Activity
 import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v4.app.FragmentManager
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import kotlinx.android.synthetic.main.activity_menu.*
-import malidaca.marvellisimo.PeopleOnline
+import malidaca.marvellisimo.fragments.PeopleOnline
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.services.FireBaseService
 import malidaca.marvellisimo.utilities.ActivityHelper

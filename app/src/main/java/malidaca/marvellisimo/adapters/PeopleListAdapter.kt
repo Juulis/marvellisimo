@@ -14,27 +14,14 @@ import malidaca.marvellisimo.services.FireBaseService
 
 
 class PeopleListAdapter(private var names: MutableMap<String, User>) : RecyclerView.Adapter<PeopleListAdapter.ViewHolder>() {//}, View.OnClickListener {
-    //override fun onClick(v: View?) {
-    //    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    //}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PeopleListAdapter.ViewHolder {
-        //return ViewHolder(LayoutInflater.from(context).inflate(R.layout.people_online_card, viewGroup, false))
 
         val itemLayoutView = LayoutInflater.from(parent.context).inflate(R.layout.people_online_card, parent,false)
-        //changeData()
         //itemLayoutView.setOnClickListener(this)
-        // create ViewHolder
 
         return ViewHolder(itemLayoutView)
     }
-
-    /*override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.setOnItemClickListener(object : ItemClickListener {
-            override fun onCustomClickListener(view: View, pos: Int) {
-            }
-        })
-    }*/
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val l = names.values.toMutableList()[position]
@@ -42,6 +29,11 @@ class PeopleListAdapter(private var names: MutableMap<String, User>) : RecyclerV
         val lastName = l.lastName
         val text = "$firstName $lastName"
         holder.name.text = text
+
+        /*holder.setOnItemClickListener(object : ItemClickListener {
+            override fun onCustomClickListener(view: View, pos: Int) {
+            }
+        })*/
     }
 
 
