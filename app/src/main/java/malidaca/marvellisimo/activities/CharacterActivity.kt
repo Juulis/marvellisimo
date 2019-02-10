@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.activity_character_new.*
 import kotlinx.android.synthetic.main.series_list_view.*
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.adapters.SeriesListAdapter
+import malidaca.marvellisimo.fragments.PeopleOnline
 import malidaca.marvellisimo.models.Character
 import malidaca.marvellisimo.models.Message
 import malidaca.marvellisimo.models.User
@@ -176,11 +177,20 @@ class CharacterActivity : AppCompatActivity() {
             }
             R.id.favorite_series -> {
             }
+            R.id.people_online -> {
+                val fragment = PeopleOnline()
+                val fragmentManager = supportFragmentManager
+                fragmentManager.beginTransaction()
+                        .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
+                        .addToBackStack(null)
+                        .add(R.id.fragment_container, fragment)
+                        .commit()
+            }
         }
         return super.onOptionsItemSelected(item)
     }
 
-    private fun shareCharacter(character: Character){
+    private fun shareCharacter(character: Character) {
         val itemName = character.name
         val itemType = resources.getString(R.string.menu_characters)
         val itemId = character.id
@@ -192,6 +202,14 @@ class CharacterActivity : AppCompatActivity() {
                     sender = "${user!!.firstName} ${user!!.lastName}"
                     val message = Message(sender, itemName, itemType, itemId)
                 }
+    }
 
+    override fun onBackPressed() {
+        val count = supportFragmentManager.backStackEntryCount
+        if(count == 0) {
+            super.onBackPressed()
+        } else {
+            supportFragmentManager.popBackStack()
+        }
     }
 }

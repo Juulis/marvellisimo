@@ -32,7 +32,16 @@
     <string name="title_activity_web_viewer">WebViewer</string>
     <!--***********************END SNACKBAR MESSAGES**************************-->
 
+
     <!--***********************VIEW ELEMENTS TEXT*****************************-->
     <string name="share_button_text">Share</string>
     <!--**********************END VIEW ELEMENTS TEXT**************************-->
+
+    <!--************************OPTIONS MENU MESSAGES*************************-->
+    <string name="options_menu_favorite_characters">Favorite Characters</string>
+    <string name="options_menu_favorite_series">Favorite Series</string>
+    <string name="options_menu_show_online">People online</string>
+    <string name="options_menu_logout">Log out</string>
+    <!--*********************END OPTIONS MENU MESSAGES************************-->
+
 </resources>
