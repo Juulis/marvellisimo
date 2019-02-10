@@ -18,20 +18,19 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.ChildEventListener
 import malidaca.marvellisimo.adapters.PeopleListAdapter
-import java.util.function.Predicate
 
 
 object FireBaseService {
 
     private var database: DatabaseReference = FirebaseDatabase.getInstance().reference
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
-    private var user: FirebaseUser? = null
+    private var mUser: FirebaseUser? = null
     private var snackBarManager: SnackbarManager = SnackbarManager()
     private lateinit var userDataRef: DatabaseReference
     //var firebaseUsers: MutableMap<String, User> = mutableMapOf()
 
     fun toggleOnline(status: Boolean) {
-        if (user != null)
+        if (mUser != null)
             userDataRef.child("online").setValue(status)
     }
 
@@ -39,10 +38,10 @@ object FireBaseService {
         auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task: Task<AuthResult> ->
                     if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
-                        user = auth.currentUser
-                        userDataRef = database.child("users").child(user!!.uid)
-                        //updateUI(user)
+                        // Sign in success, update UI with the signed-in mUser's information
+                        mUser = auth.currentUser
+                        userDataRef = database.child("users").child(mUser!!.uid)
+                        //updateUI(mUser)
                         val intent = Intent(context, MenuActivity::class.java)
                         context.startActivity(intent)
                     } else {
@@ -56,9 +55,9 @@ object FireBaseService {
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task: Task<AuthResult> ->
                     if (task.isSuccessful) {
-                        user = auth.currentUser
-                        userDataRef = database.child("users").child(user!!.uid)
-                        writeNewUser(firstName, lastName, user?.email!!, user?.uid!!)
+                        mUser = auth.currentUser
+                        userDataRef = database.child("users").child(mUser!!.uid)
+                        writeNewUser(firstName, lastName, mUser?.email!!, mUser?.uid!!)
                         val intent = Intent(context, MenuActivity::class.java)
                         context.startActivity(intent)
                     } else {
@@ -82,7 +81,7 @@ object FireBaseService {
     }
 
     fun checkIfOnline(context: Context) {
-        if(user == null) {
+        if(mUser == null) {
             val intent = Intent(context, LoginActivity::class.java)
             context.startActivity(intent)
         }
@@ -101,7 +100,7 @@ object FireBaseService {
             override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
                 val user = dataSnapshot.getValue(User::class.java)!!
                 val userKey = dataSnapshot.key!!
-                if(!firebaseUsers.containsKey(userKey) && user.isOnline) {
+                if(!firebaseUsers.containsKey(userKey) && user.isOnline && mUser!!.uid != userKey) {
                     firebaseUsers[userKey] = user
                     println(user)
                 }
@@ -111,7 +110,7 @@ object FireBaseService {
             override fun onChildChanged(dataSnapshot: DataSnapshot, s: String?) {
                 val user = dataSnapshot.getValue(User::class.java)!!
                 val userKey = dataSnapshot.key!!
-                if(!user.isOnline) {
+                if(!user.isOnline && mUser!!.uid != userKey) {
                     firebaseUsers.remove(userKey)
                     println(user)
                 } else {
@@ -126,7 +125,7 @@ object FireBaseService {
             override fun onChildRemoved(dataSnapshot: DataSnapshot) {
                 val user = dataSnapshot.getValue(User::class.java)!!
                 val userKey = dataSnapshot.key!!
-                if(!user.isOnline) {
+                if(!user.isOnline && mUser!!.uid != userKey) {
                     firebaseUsers.remove(userKey)
                     println(user)
                 }
