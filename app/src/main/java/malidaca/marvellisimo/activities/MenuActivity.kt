@@ -90,6 +90,8 @@ class MenuActivity : AppCompatActivity(), View.OnClickListener {
                 val fragment = PeopleOnline()
                 val fragmentManager = supportFragmentManager
                 fragmentManager.beginTransaction()
+                        .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
+                        .addToBackStack(null)
                         .add(R.id.fragment_container, fragment)
                         .commit()
             }
@@ -98,11 +100,17 @@ class MenuActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onBackPressed() {
+        val count = supportFragmentManager.backStackEntryCount
+
         if (allowedBack) {
             if (isTaskRoot) {
-                FireBaseService.signOut()
+                if(count == 0) {
+                    FireBaseService.signOut()
+                    super.onBackPressed()
+                } else {
+                    supportFragmentManager.popBackStack()
+                }
             }
-            super.onBackPressed()
         } else {
             val snackbarManager = SnackbarManager()
             snackbarManager.createSnackbar(view, "Loading", Color.BLUE)
