@@ -1,7 +1,6 @@
 package malidaca.marvellisimo.services
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.view.View
 import com.google.android.gms.tasks.Task
@@ -13,6 +12,7 @@ import io.reactivex.ObservableOnSubscribe
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.activities.LoginActivity
 import malidaca.marvellisimo.activities.MenuActivity
+import malidaca.marvellisimo.models.Message
 import malidaca.marvellisimo.models.User
 import malidaca.marvellisimo.utilities.ActivityHelper
 import malidaca.marvellisimo.utilities.SnackbarManager
@@ -120,5 +120,10 @@ object FireBaseService {
                 }
             })
         })
+    }
+
+    fun writeMessage(message: Message, userId: String) {
+        val newMsgRef = database.child("users").child(userId).child("messages").push()
+        newMsgRef.setValue(message)
     }
 }
