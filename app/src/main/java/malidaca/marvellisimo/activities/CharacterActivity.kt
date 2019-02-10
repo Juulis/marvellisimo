@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.activity_character_new.*
 import kotlinx.android.synthetic.main.series_list_view.*
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.adapters.SeriesListAdapter
+import malidaca.marvellisimo.fragments.PeopleOnline
 import malidaca.marvellisimo.models.Character
 import malidaca.marvellisimo.rest.MarvelServiceHandler
 import malidaca.marvellisimo.services.FireBaseService
@@ -171,7 +172,25 @@ class CharacterActivity : AppCompatActivity() {
             }
             R.id.favorite_series -> {
             }
+            R.id.people_online -> {
+                val fragment = PeopleOnline()
+                val fragmentManager = supportFragmentManager
+                fragmentManager.beginTransaction()
+                        .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
+                        .addToBackStack(null)
+                        .add(R.id.fragment_container, fragment)
+                        .commit()
+            }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onBackPressed() {
+        val count = supportFragmentManager.backStackEntryCount
+        if(count == 0) {
+            super.onBackPressed()
+        } else {
+            supportFragmentManager.popBackStack()
+        }
     }
 }
