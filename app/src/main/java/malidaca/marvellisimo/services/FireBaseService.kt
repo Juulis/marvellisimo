@@ -14,6 +14,11 @@ import malidaca.marvellisimo.activities.LoginActivity
 import malidaca.marvellisimo.activities.MenuActivity
 import malidaca.marvellisimo.models.User
 import malidaca.marvellisimo.utilities.SnackbarManager
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.ChildEventListener
+
+
 
 object FireBaseService {
 
@@ -88,16 +93,59 @@ object FireBaseService {
 
     fun updateOnlineRealtime() {
         firebaseUsers = ArrayList()
-        database.addValueEventListener(object : ValueEventListener {
+
+        /*val userListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val user = dataSnapshot.getValue<User>(User::class.java)!!
-                firebaseUsers.add(user)
+                println(dataSnapshot)
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+        }*/
+
+        val databaseReference = database.child("users")
+        databaseReference.addChildEventListener(object : ChildEventListener {
+            override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
+                //value add then it will call
+                //val user = dataSnapshot.value
+                val user = dataSnapshot.getValue(User::class.java)
+                println(user)
+            }
+
+            override fun onChildChanged(dataSnapshot: DataSnapshot, s: String?) {
+                //value change
+                val user = dataSnapshot.value
+                println(user)
+            }
+
+            override fun onChildRemoved(dataSnapshot: DataSnapshot) {
+                // value remove
+                val user = dataSnapshot.value
+                println(user)
+            }
+
+            override fun onChildMoved(dataSnapshot: DataSnapshot, s: String?) {
+                val user = dataSnapshot.value
+                println(user)
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+
+            }
+        })
+        /*databaseReference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                //val user = dataSnapshot.child("users").getValue(User::class.java)!!
+                val user = dataSnapshot.value
+                println(user)
+                //firebaseUsers.add(user)
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
                 println("The read failed: " + databaseError.code)
             }
-        })
+        })*/
     }
 
     /*fun getUserFavorites(type: String): Observable<Array<String>> {
