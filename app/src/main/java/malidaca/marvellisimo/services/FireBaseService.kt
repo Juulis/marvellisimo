@@ -17,7 +17,7 @@ import malidaca.marvellisimo.utilities.SnackbarManager
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.ChildEventListener
-
+import java.util.function.Predicate
 
 
 object FireBaseService {
@@ -27,7 +27,7 @@ object FireBaseService {
     private var user: FirebaseUser? = null
     private var snackBarManager: SnackbarManager = SnackbarManager()
     private lateinit var userDataRef: DatabaseReference
-    lateinit var firebaseUsers: ArrayList<User>
+    lateinit var firebaseUsers: MutableMap<String, User>
 
     fun toggleOnline(status: Boolean) {
         if (user != null)
@@ -92,60 +92,51 @@ object FireBaseService {
     }
 
     fun updateOnlineRealtime() {
-        firebaseUsers = ArrayList()
-
-        /*val userListener = object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                println(dataSnapshot)
-            }
-
-            override fun onCancelled(p0: DatabaseError) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-        }*/
+        firebaseUsers = mutableMapOf<String, User>()
 
         val databaseReference = database.child("users")
         databaseReference.addChildEventListener(object : ChildEventListener {
+            
             override fun onChildAdded(dataSnapshot: DataSnapshot, s: String?) {
-                //value add then it will call
-                //val user = dataSnapshot.value
-                val user = dataSnapshot.getValue(User::class.java)
-                println(user)
+                val user = dataSnapshot.getValue(User::class.java)!!
+                val userKey = dataSnapshot.key!!
+                if(!firebaseUsers.containsKey(user.id) && user.isOnline) {
+                    firebaseUsers[userKey] = user
+                    println(user)
+                }
             }
 
             override fun onChildChanged(dataSnapshot: DataSnapshot, s: String?) {
-                //value change
-                val user = dataSnapshot.value
-                println(user)
+                val user = dataSnapshot.getValue(User::class.java)!!
+                val userKey = dataSnapshot.key!!
+                if(!user.isOnline) {
+                    firebaseUsers.remove(userKey)
+                    println(user)
+                } else {
+                    if(!firebaseUsers.containsKey(userKey)) {
+                        firebaseUsers[userKey] = user
+                        println(user)
+                    }
+                }
             }
 
             override fun onChildRemoved(dataSnapshot: DataSnapshot) {
-                // value remove
-                val user = dataSnapshot.value
-                println(user)
+                val user = dataSnapshot.getValue(User::class.java)!!
+                val userKey = dataSnapshot.key!!
+                if(!user.isOnline) {
+                    firebaseUsers.remove(userKey)
+                    println(user)
+                }
             }
 
             override fun onChildMoved(dataSnapshot: DataSnapshot, s: String?) {
-                val user = dataSnapshot.value
-                println(user)
+                println("User moved")
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-
+                println("Error HUE HUE HUE HUE")
             }
         })
-        /*databaseReference.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                //val user = dataSnapshot.child("users").getValue(User::class.java)!!
-                val user = dataSnapshot.value
-                println(user)
-                //firebaseUsers.add(user)
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                println("The read failed: " + databaseError.code)
-            }
-        })*/
     }
 
     /*fun getUserFavorites(type: String): Observable<Array<String>> {
