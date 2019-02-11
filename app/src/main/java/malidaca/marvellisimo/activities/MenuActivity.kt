@@ -9,6 +9,7 @@ import android.view.MenuItem
 import android.view.View
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_menu.*
+import malidaca.marvellisimo.fragments.PeopleOnline
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.services.FireBaseService
 import malidaca.marvellisimo.services.RealmService
@@ -26,8 +27,6 @@ class MenuActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         realm = Realm.getDefaultInstance()
         super.onCreate(savedInstanceState)
-        val activity: Activity = this
-        activity.title = resources.getString(R.string.app_name)
         setContentView(R.layout.activity_menu)
         topToolbar = findViewById(R.id.top_toolbar)
         setSupportActionBar(topToolbar)
@@ -90,16 +89,31 @@ class MenuActivity : AppCompatActivity(), View.OnClickListener {
             R.id.favorite_series -> {
                 activityHelper.changeActivityFavorite(this, FavoriteActivity::class.java, "Series")
             }
+            R.id.people_online -> {
+                val fragment = PeopleOnline()
+                val fragmentManager = supportFragmentManager
+                fragmentManager.beginTransaction()
+                        .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
+                        .addToBackStack(null)
+                        .add(R.id.fragment_container, fragment)
+                        .commit()
+            }
         }
         return super.onOptionsItemSelected(item)
     }
 
     override fun onBackPressed() {
+        val count = supportFragmentManager.backStackEntryCount
+
         if (allowedBack) {
             if (isTaskRoot) {
-                FireBaseService.signOut()
+                if(count == 0) {
+                    FireBaseService.signOut()
+                    super.onBackPressed()
+                } else {
+                    supportFragmentManager.popBackStack()
+                }
             }
-            super.onBackPressed()
         } else {
             val snackbarManager = SnackbarManager()
             snackbarManager.createSnackbar(view, "Loading", Color.BLUE)

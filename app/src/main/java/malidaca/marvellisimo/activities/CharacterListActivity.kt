@@ -19,6 +19,7 @@ import io.realm.Realm
 import io.realm.RealmResults
 import io.realm.kotlin.where
 import malidaca.marvellisimo.R
+import malidaca.marvellisimo.fragments.PeopleOnline
 import malidaca.marvellisimo.models.Character
 import malidaca.marvellisimo.models.Favorite
 import malidaca.marvellisimo.services.FireBaseService
@@ -152,8 +153,26 @@ class CharacterListActivity : AppCompatActivity() {
             R.id.favorite_series -> {
                 activityHelper.changeActivityFavorite(this, FavoriteActivity::class.java, "Series")
             }
+            R.id.people_online -> {
+                val fragment = PeopleOnline()
+                val fragmentManager = supportFragmentManager
+                fragmentManager.beginTransaction()
+                        .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
+                        .addToBackStack(null)
+                        .add(R.id.fragment_container, fragment)
+                        .commit()
+            }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onBackPressed() {
+        val count = supportFragmentManager.backStackEntryCount
+        if(count == 0) {
+            super.onBackPressed()
+        } else {
+            supportFragmentManager.popBackStack()
+        }
     }
 }
 

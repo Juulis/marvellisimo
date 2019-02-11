@@ -7,7 +7,7 @@ data class User(
         var email: String = "",
         var firstName: String = "",
         var lastName: String = "",
-        var favoriteCharacters: MutableCollection<String>? = null,
-        var favoriteSeries: MutableCollection<String>? = null,
+        var favoriteCharacters: Map<String, Boolean>? = null,
+        var favoriteSeries: Map<String, Boolean>? = null,
         var isOnline: Boolean = false
 )
