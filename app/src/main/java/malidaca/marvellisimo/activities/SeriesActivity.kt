@@ -98,7 +98,7 @@ class SeriesActivity : AppCompatActivity() {
             viewAdapter.resetList()
             response = emptyList()
         } else {
-            SnackbarManager().createSnackbar(view, "Loading content", R.color.colorPrimaryDarkTransparent, Gravity.BOTTOM)
+            SnackbarManager().createSnackbar(view, getString(R.string.loading_content), R.color.colorPrimaryDarkTransparent, Gravity.BOTTOM)
         }
         if (search.isEmpty()) {
             MarvelServiceHandler.seriesRequest(offset).observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
