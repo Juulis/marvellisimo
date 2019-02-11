@@ -16,6 +16,7 @@ import android.webkit.WebView
 import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.realm.Realm
+import io.realm.RealmResults
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_character_new.*
 import kotlinx.android.synthetic.main.series_list_view.*
@@ -45,6 +46,8 @@ class CharacterActivity : AppCompatActivity() {
     private lateinit var view: View
     private lateinit var activityHelper: ActivityHelper
     private var id: Int = 0
+    private lateinit var userFavorites: RealmResults<Favorite>
+
 
     @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,6 +62,8 @@ class CharacterActivity : AppCompatActivity() {
         context = this
 
         activityHelper = ActivityHelper()
+        userFavorites = realm.where<Favorite>().equalTo("type", "Series").findAll()
+        userFavorites.addChangeListener{ data -> adapter.addFavorites(data)}
 
         loadDialog = LoadDialog(this)
         loadDialog!!.showDialog()
@@ -144,7 +149,7 @@ class CharacterActivity : AppCompatActivity() {
     private fun initAdapter(id: Int) {
         MarvelServiceHandler.seriesByCharactersId(0, id).observeOn(AndroidSchedulers.mainThread())
                 .subscribe { data ->
-                    adapter = SeriesListAdapter(data.data.results.asList(), this)
+                    adapter = SeriesListAdapter(data.data.results.asList(), this, userFavorites )
                     series_grid_view.adapter = adapter
                     loadDialog!!.hideDialog()
                 }

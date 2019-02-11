@@ -16,9 +16,10 @@
         android:scaleType="center"
         app:srcCompat="@android:color/background_dark" />
 
-    <TextView
-        android:id="@+id/series_name"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textAlignment="center" />
+    <ImageView
+        android:id="@+id/s_favorite"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        app:srcCompat="@color/colorAccent"
+        card_view:srcCompat="@tools:sample/avatars" />
 </android.support.v7.widget.CardView>

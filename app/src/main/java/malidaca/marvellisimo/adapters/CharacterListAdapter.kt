@@ -74,14 +74,6 @@ class CharacterListAdapter(private var characters: List<Character>, private val 
         return false
     }
 
-  /*  private fun checkIfIsFavorite(thisId: Int): Boolean {
-        val result = realm.where<Favorite>().equalTo("itemId", thisId).findFirst()
-        if (result != null) {
-            return true
-        }
-        return false
-    }*/
-
 }
 
 class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
