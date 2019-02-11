@@ -81,10 +81,10 @@ class MenuActivity : AppCompatActivity(), View.OnClickListener {
                 finish()
             }
             R.id.favorite_characters -> {
-                activityHelper.changeAvtivityFavorite(this, FavoriteCharacterActivity::class.java, "character")
+                activityHelper.changeAvtivityFavorite(this, FavoriteCharacterActivity::class.java, "Characters")
             }
             R.id.favorite_series -> {
-//                activityHelper.changeAvtivityFavorite(this, FavoriteCharacterActivity::class.java, "series")
+//                activityHelper.changeAvtivityFavorite(this, FavoriteCharacterActivity::class.java, "Series")
             }
         }
         return super.onOptionsItemSelected(item)

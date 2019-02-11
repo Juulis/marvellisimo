@@ -72,12 +72,12 @@ object FireBaseService {
         toggleOnline(true)
     }
 
-    fun addFavorite(itemId: Int) {
-        userDataRef.child("favoriteCharacters/$itemId").setValue(true)
+    fun addFavorite(itemId: Int, type: String) {
+        userDataRef.child("favorite$type/$itemId").setValue(true)
     }
 
-    fun deleteFavorite(itemId: Int) {
-        userDataRef.child("favoriteCharacters/$itemId").removeValue()
+    fun deleteFavorite(itemId: Int, type: String) {
+        userDataRef.child("favorite$type/$itemId").removeValue()
     }
 
     fun checkIfOnline(context: Context) {

@@ -36,7 +36,7 @@ class FavoriteCharacterActivity : AppCompatActivity() {
     }
 
     @SuppressLint("CheckResult")
-    private fun getCharacterFavorites() {
+    private fun getCharacterFavorites(type: String) {
 
         characterAdapter = CharacterListAdapter(characterList, this, realm)
         RECYCLER_FAVORITES.adapter = characterAdapter
@@ -52,7 +52,7 @@ class FavoriteCharacterActivity : AppCompatActivity() {
     }
 
     @SuppressLint("CheckResult")
-    private fun getSeriesFavorites() {
+    private fun getSeriesFavorites(type: String) {
         seriesAdapter = SeriesListAdapter(seriesList, this)
         RECYCLER_FAVORITES.adapter = seriesAdapter
         val favorites = realm.where<Favorite>().equalTo("type", type).findAll()
@@ -67,9 +67,9 @@ class FavoriteCharacterActivity : AppCompatActivity() {
     }
 
     private fun setItems() {
-        if (type.equals("character")) {
+        if (type.equals("Characters")) {
             characterAdapter.addItems(characterList)
-        } else if (type.equals("series")) {
+        } else if (type.equals("Series")) {
             seriesAdapter.addItems(seriesList)
         }
     }
@@ -81,8 +81,8 @@ class FavoriteCharacterActivity : AppCompatActivity() {
         if (extras != null) {
             type = extras.getString("type")
             when (type) {
-                "character" -> getCharacterFavorites()
-                "series" -> getSeriesFavorites()
+                "Characters" -> getCharacterFavorites(type!!)
+                "Series" -> getSeriesFavorites(type!!)
             }
         }
     }

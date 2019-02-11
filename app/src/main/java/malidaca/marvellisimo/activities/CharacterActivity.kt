@@ -25,6 +25,7 @@ import malidaca.marvellisimo.models.Character
 import malidaca.marvellisimo.models.Favorite
 import malidaca.marvellisimo.rest.MarvelServiceHandler
 import malidaca.marvellisimo.services.FireBaseService
+import malidaca.marvellisimo.services.RealmService
 import malidaca.marvellisimo.utilities.ActivityHelper
 import malidaca.marvellisimo.utilities.LoadDialog
 import malidaca.marvellisimo.utilities.SnackbarManager
@@ -112,7 +113,7 @@ class CharacterActivity : AppCompatActivity() {
                 val intent = Intent(context, WebViewer::class.java)
                 intent.putExtra("url", charUrl)
                 context.startActivity(intent)
-            }else {
+            } else {
                 SnackbarManager().createSnackbar(view, "No info page available", R.color.colorPrimaryDark)
             }
         }
@@ -152,10 +153,10 @@ class CharacterActivity : AppCompatActivity() {
         favorite = !favorite
         if (favorite) {
             Picasso.get().load(R.drawable.thumbs_up_yes).into(favoriteBtn)
-            addFavorite()
+            RealmService.addFavorite(realm, id, "Characters")
         } else {
             Picasso.get().load(R.drawable.thumbs_up).into(favoriteBtn)
-            deleteFavorite()
+            RealmService.deleteFavorite(realm, id, "Characters")
         }
     }
 
@@ -177,28 +178,6 @@ class CharacterActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun addFavorite() {
-        FireBaseService.addFavorite(id)
-
-        realm.beginTransaction()
-        val favorite = Favorite().apply {
-            itemId = id
-            type = "character"
-        }
-        realm.copyToRealmOrUpdate(favorite)
-        realm.commitTransaction()
-
-    }
-
-    private fun deleteFavorite() {
-        FireBaseService.deleteFavorite(id)
-
-        realm.executeTransaction {
-            it.where<Favorite>()
-                    .equalTo("itemId", id).findAll().deleteAllFromRealm()
-        }
     }
 
     private fun checkIfIsFavorite(thisId: Int) {
