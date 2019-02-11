@@ -1,7 +1,5 @@
 package malidaca.marvellisimo.activities
 
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -9,10 +7,10 @@ import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_inbox.*
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.adapters.MessageAdapter
+import malidaca.marvellisimo.fragments.PeopleOnline
 import malidaca.marvellisimo.models.Message
 import malidaca.marvellisimo.services.FireBaseService
 import malidaca.marvellisimo.utilities.ActivityHelper
@@ -36,8 +34,9 @@ class InboxActivity : AppCompatActivity() {
                 .subscribe { data ->
                     if (data != null) {
                         var messages = mutableListOf<Message>()
-                        for (item in data.children)
-                            messages.add(data.getValue(Message::class.java)!!)
+                        for (item in data.children) {
+                            messages.add(item.getValue(Message::class.java)!!)
+                        }
                         viewAdapter = MessageAdapter(messages, this)
                         recyclerView = findViewById<RecyclerView>(R.id.inbox_recycler_view).apply {
                             setHasFixedSize(true)
@@ -64,6 +63,15 @@ class InboxActivity : AppCompatActivity() {
             }
             R.id.favorite_series -> {
             }
+            R.id.people_online -> {
+                val fragment = PeopleOnline()
+                val fragmentManager = supportFragmentManager
+                fragmentManager.beginTransaction()
+                        .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
+                        .addToBackStack(null)
+                        .add(R.id.fragment_container, fragment)
+                        .commit()
+            }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -77,6 +85,15 @@ class InboxActivity : AppCompatActivity() {
     private fun setClickListener() {
         homeButton4.setOnClickListener {
             activityHelper.changeActivity(this, MenuActivity::class.java)
+        }
+    }
+
+    override fun onBackPressed() {
+        val count = supportFragmentManager.backStackEntryCount
+        if (count == 0) {
+            super.onBackPressed()
+        } else {
+            supportFragmentManager.popBackStack()
         }
     }
 }

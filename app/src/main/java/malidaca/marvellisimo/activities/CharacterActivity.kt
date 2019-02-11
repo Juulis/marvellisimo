@@ -201,6 +201,13 @@ class CharacterActivity : AppCompatActivity() {
                     var user = data.getValue(User::class.java)
                     sender = "${user!!.firstName} ${user!!.lastName}"
                     val message = Message(sender, itemName, itemType, itemId)
+                    val fragment = PeopleOnline.newInstance(message)
+                    val fragmentManager = supportFragmentManager
+                    fragmentManager.beginTransaction()
+                            .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
+                            .addToBackStack(null)
+                            .add(R.id.fragment_container, fragment)
+                            .commit()
                 }
     }
 

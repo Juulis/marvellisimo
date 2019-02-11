@@ -157,6 +157,7 @@ object FireBaseService {
 
                 override fun onCancelled(p0: DatabaseError) {
                     println(p0)
+                    it.onError(error("error getting messages"))
                 }
             })
         })
@@ -173,6 +174,7 @@ object FireBaseService {
 
                 override fun onCancelled(p0: DatabaseError) {
                     println(p0)
+                    it.onError(error("error getting user"))
                 }
             })
         })
