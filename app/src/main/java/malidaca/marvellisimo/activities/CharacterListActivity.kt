@@ -1,7 +1,6 @@
 package malidaca.marvellisimo.activities
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -17,8 +16,11 @@ import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import io.realm.Realm
+import io.realm.RealmResults
+import io.realm.kotlin.where
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.models.Character
+import malidaca.marvellisimo.models.Favorite
 import malidaca.marvellisimo.services.FireBaseService
 import malidaca.marvellisimo.utilities.ActivityHelper
 
@@ -33,6 +35,7 @@ class CharacterListActivity : AppCompatActivity() {
     private var search: String = ""
     private lateinit var scrollListener: EndlessRecyclerViewScrollListener
     private lateinit var view: View
+    private lateinit var userFavorites: RealmResults<Favorite>
 
     lateinit var topToolbar: Toolbar
 
@@ -57,6 +60,11 @@ class CharacterListActivity : AppCompatActivity() {
         loadDialog!!.showDialog()
         setClickListener()
         activityHelper = ActivityHelper()
+
+        userFavorites = realm.where<Favorite>().equalTo("type", "Characters").findAll()
+        userFavorites.addChangeListener{ data -> adapter.addFavorites(data)}
+
+
     }
 
     private fun initQueryTextListener() {
@@ -113,7 +121,7 @@ class CharacterListActivity : AppCompatActivity() {
     fun initAdapter() {
         MarvelServiceHandler.charactersRequest(0).observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
             characterList = characterList + data.data.results.asList()
-            adapter = CharacterListAdapter(characterList, this, realm)
+            adapter = CharacterListAdapter(characterList, this, realm, userFavorites)
             RECYCLER.adapter = adapter
             loadDialog!!.hideDialog()
         }
@@ -139,10 +147,10 @@ class CharacterListActivity : AppCompatActivity() {
                 finish()
             }
             R.id.favorite_characters -> {
-                activityHelper.changeActivityFavorite(this, FavoriteCharacterActivity::class.java, "Characters")
+                activityHelper.changeActivityFavorite(this, FavoriteActivity::class.java, "Characters")
             }
             R.id.favorite_series -> {
-                activityHelper.changeActivityFavorite(this, FavoriteCharacterActivity::class.java, "Series")
+                activityHelper.changeActivityFavorite(this, FavoriteActivity::class.java, "Series")
             }
         }
         return super.onOptionsItemSelected(item)

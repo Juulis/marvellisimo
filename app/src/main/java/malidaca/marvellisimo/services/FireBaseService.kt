@@ -81,7 +81,7 @@ object FireBaseService {
     }
 
     fun checkIfOnline(context: Context) {
-        if(user == null) {
+        if (user == null) {
             val intent = Intent(context, LoginActivity::class.java)
             context.startActivity(intent)
         }
@@ -91,31 +91,31 @@ object FireBaseService {
         auth.signOut()
     }
 
-     fun getUserFavorites(context: Context, realm: Realm) {
+    fun getUserFavorites(context: Context, realm: Realm) {
         userDataRef.child("favoriteCharacters")
                 .addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         for (snap in snapshot.children) {
                             RealmService.addFavorite(realm, snap.key!!.toInt(), "Characters")
                         }
-                        }
+                    }
+
                     override fun onCancelled(error: DatabaseError) {
                         println("error in db: $error")
                     }
                 })
-         userDataRef.child("favoriteSeries")
-                 .addValueEventListener(object : ValueEventListener {
-                     override fun onDataChange(snapshot: DataSnapshot) {
-                         for (snap in snapshot.children) {
-                             RealmService.addFavorite(realm, snap.key!!.toInt(), "Series")
-                         }
-                     }
-                     override fun onCancelled(error: DatabaseError) {
-                         println("error in db: $error")
-                     }
-                 })
+        userDataRef.child("favoriteSeries")
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        for (snap in snapshot.children) {
+                            RealmService.addFavorite(realm, snap.key!!.toInt(), "Series")
+                        }
+                    }
 
-
-     }
+                    override fun onCancelled(error: DatabaseError) {
+                        println("error in db: $error")
+                    }
+                })
+    }
 
 }

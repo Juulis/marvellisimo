@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.squareup.picasso.Picasso
 import io.realm.Realm
+import io.realm.RealmResults
 import io.realm.kotlin.where
 
 import kotlinx.android.synthetic.main.character_list_card.view.*
@@ -17,7 +18,7 @@ import malidaca.marvellisimo.activities.ItemClickListener
 import malidaca.marvellisimo.models.Character
 import malidaca.marvellisimo.models.Favorite
 
-class CharacterListAdapter(private var characters: List<Character>, private val context: Context, private val realm: Realm) : RecyclerView.Adapter<ViewHolder>() {
+class CharacterListAdapter(private var characters: List<Character>, private val context: Context, private val realm: Realm, private var favoriteList: RealmResults<Favorite>) : RecyclerView.Adapter<ViewHolder>() {
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(context).inflate(R.layout.character_list_card, p0, false))
@@ -37,12 +38,17 @@ class CharacterListAdapter(private var characters: List<Character>, private val 
         notifyDataSetChanged()
     }
 
+    fun addFavorites(data: RealmResults<Favorite>) {
+        favoriteList = data
+        notifyDataSetChanged()
+    }
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.name.text = characters[position].name.toUpperCase()
         createImage(characters[position], holder)
         if (checkIfIsFavorite(characters[position].id)){
             Picasso.get().load(R.drawable.thumbs_up_yes).into(holder.favoriteImg)
-        }
+        } else {holder.favoriteImg.setImageDrawable(null)}
 
         holder.setOnItemClickListener(object : ItemClickListener {
             override fun onCustomClickListener(view: View, pos: Int) {
@@ -61,12 +67,21 @@ class CharacterListAdapter(private var characters: List<Character>, private val 
     }
 
     private fun checkIfIsFavorite(thisId: Int): Boolean {
-        val result = realm.where<Favorite>().equalTo("itemId", thisId).findFirst()
+       val result = favoriteList.where().equalTo("itemId", thisId).findFirst()
         if (result != null) {
             return true
         }
         return false
     }
+
+  /*  private fun checkIfIsFavorite(thisId: Int): Boolean {
+        val result = realm.where<Favorite>().equalTo("itemId", thisId).findFirst()
+        if (result != null) {
+            return true
+        }
+        return false
+    }*/
+
 }
 
 class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {

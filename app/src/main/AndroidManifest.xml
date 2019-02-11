@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activities.FavoriteCharacterActivity"></activity>
+        <activity android:name=".activities.FavoriteActivity"></activity>
         <activity
             android:name=".activities.WebViewer"
             android:label="@string/title_activity_web_viewer"

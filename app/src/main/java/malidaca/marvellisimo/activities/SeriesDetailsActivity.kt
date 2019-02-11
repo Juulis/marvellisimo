@@ -151,10 +151,10 @@ class SeriesDetailsActivity : AppCompatActivity() {
                 finish()
             }
             R.id.favorite_characters -> {
-                activityHelper.changeActivityFavorite(this, FavoriteCharacterActivity::class.java, "Characters")
+                activityHelper.changeActivityFavorite(this, FavoriteActivity::class.java, "Characters")
             }
             R.id.favorite_series -> {
-                activityHelper.changeActivityFavorite(this, FavoriteCharacterActivity::class.java, "Series")
+                activityHelper.changeActivityFavorite(this, FavoriteActivity::class.java, "Series")
             }
         }
         return super.onOptionsItemSelected(item)
