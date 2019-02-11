@@ -7,21 +7,24 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_menu.*
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.services.FireBaseService
+import malidaca.marvellisimo.services.RealmService
 import malidaca.marvellisimo.utilities.ActivityHelper
 import malidaca.marvellisimo.utilities.SnackbarManager
 import java.util.*
 
 class MenuActivity : AppCompatActivity(), View.OnClickListener {
-
+    private lateinit var realm: Realm
     private lateinit var topToolbar: android.support.v7.widget.Toolbar
     private lateinit var activityHelper: ActivityHelper
     private var allowedBack = false
     private lateinit var view: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        realm = Realm.getDefaultInstance()
         super.onCreate(savedInstanceState)
         val activity: Activity = this
         activity.title = resources.getString(R.string.app_name)
@@ -31,6 +34,7 @@ class MenuActivity : AppCompatActivity(), View.OnClickListener {
         activityHelper = ActivityHelper()
         view = findViewById(android.R.id.content)
 
+        updateFavoriteList()
         menu_button_characters.setOnClickListener(this)
         menu_button_series.setOnClickListener(this)
 
@@ -81,10 +85,10 @@ class MenuActivity : AppCompatActivity(), View.OnClickListener {
                 finish()
             }
             R.id.favorite_characters -> {
-                activityHelper.changeAvtivityFavorite(this, FavoriteCharacterActivity::class.java, "Characters")
+                activityHelper.changeActivityFavorite(this, FavoriteCharacterActivity::class.java, "Characters")
             }
             R.id.favorite_series -> {
-//                activityHelper.changeAvtivityFavorite(this, FavoriteCharacterActivity::class.java, "Series")
+                activityHelper.changeActivityFavorite(this, FavoriteCharacterActivity::class.java, "Series")
             }
         }
         return super.onOptionsItemSelected(item)
@@ -101,4 +105,9 @@ class MenuActivity : AppCompatActivity(), View.OnClickListener {
             snackbarManager.createSnackbar(view, "Loading", Color.BLUE)
         }
     }
+
+   private fun updateFavoriteList() {
+       RealmService.deleteAll(realm)
+       FireBaseService.getUserFavorites(this, realm)
+   }
 }

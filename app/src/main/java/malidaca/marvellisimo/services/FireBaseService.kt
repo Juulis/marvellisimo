@@ -18,6 +18,7 @@ import malidaca.marvellisimo.utilities.SnackbarManager
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.ValueEventListener
+import io.realm.Realm
 
 
 object FireBaseService {
@@ -40,7 +41,6 @@ object FireBaseService {
                         // Sign in success, update UI with the signed-in user's information
                         user = auth.currentUser
                         userDataRef = database.child("users").child(user!!.uid)
-                        getUserFavorites(context)
                         //updateUI(user)
                         val intent = Intent(context, MenuActivity::class.java)
                         context.startActivity(intent)
@@ -91,21 +91,31 @@ object FireBaseService {
         auth.signOut()
     }
 
-    private fun getUserFavorites(context: Context) {
-        val favoriteList: MutableList<String> = arrayListOf()
+     fun getUserFavorites(context: Context, realm: Realm) {
         userDataRef.child("favoriteCharacters")
                 .addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         for (snap in snapshot.children) {
-                            favoriteList.add(snap.key!!)
+                            RealmService.addFavorite(realm, snap.key!!.toInt(), "Characters")
                         }
                         }
-
                     override fun onCancelled(error: DatabaseError) {
                         println("error in db: $error")
                     }
                 })
+         userDataRef.child("favoriteSeries")
+                 .addValueEventListener(object : ValueEventListener {
+                     override fun onDataChange(snapshot: DataSnapshot) {
+                         for (snap in snapshot.children) {
+                             RealmService.addFavorite(realm, snap.key!!.toInt(), "Series")
+                         }
+                     }
+                     override fun onCancelled(error: DatabaseError) {
+                         println("error in db: $error")
+                     }
+                 })
 
-    }
+
+     }
 
 }

@@ -149,7 +149,7 @@ class CharacterActivity : AppCompatActivity() {
                 }
     }
 
-    fun changeFavorite(view: View) {
+    fun changeCharacterFavorite(view: View) {
         favorite = !favorite
         if (favorite) {
             Picasso.get().load(R.drawable.thumbs_up_yes).into(favoriteBtn)
@@ -173,8 +173,10 @@ class CharacterActivity : AppCompatActivity() {
                 finish()
             }
             R.id.favorite_characters -> {
+                activityHelper.changeActivityFavorite(this, FavoriteCharacterActivity::class.java, "Characters")
             }
             R.id.favorite_series -> {
+                activityHelper.changeActivityFavorite(this, FavoriteCharacterActivity::class.java, "Series")
             }
         }
         return super.onOptionsItemSelected(item)

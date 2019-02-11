@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -82,19 +83,19 @@
                 sothree:layout_constraintTop_toBottomOf="@+id/characterName"
                 />
 
-        <ImageView
-            android:id="@+id/favoriteBtn"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="216dp"
-            android:layout_marginEnd="8dp"
-            android:onClick="changeFavorite"
-            sothree:layout_constraintEnd_toEndOf="parent"
-            sothree:layout_constraintHorizontal_bias="0.584"
-            sothree:layout_constraintStart_toEndOf="@+id/avatar"
-            sothree:layout_constraintTop_toTopOf="parent"
-            sothree:srcCompat="@color/colorAccent" />
+            <ImageView
+                android:id="@+id/favoriteBtn"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="164dp"
+                android:layout_marginEnd="8dp"
+                android:onClick="changeCharacterFavorite"
+                sothree:layout_constraintEnd_toEndOf="parent"
+                sothree:layout_constraintHorizontal_bias="0.573"
+                sothree:layout_constraintStart_toEndOf="@+id/avatar"
+                sothree:layout_constraintTop_toTopOf="parent"
+                sothree:srcCompat="@color/colorAccent" />
 
 
         </android.support.constraint.ConstraintLayout>

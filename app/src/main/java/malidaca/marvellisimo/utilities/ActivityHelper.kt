@@ -9,7 +9,7 @@ class ActivityHelper {
         context.startActivity(intent)
     }
 
-   fun changeAvtivityFavorite(context: Context, cls: Class<*>, value: String) {
+   fun changeActivityFavorite(context: Context, cls: Class<*>, value: String) {
        val intent = Intent(context, cls)
        intent.putExtra("type", value)
        context.startActivity(intent)

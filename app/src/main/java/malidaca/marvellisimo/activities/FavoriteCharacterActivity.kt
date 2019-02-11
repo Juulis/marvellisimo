@@ -40,12 +40,12 @@ class FavoriteCharacterActivity : AppCompatActivity() {
 
         characterAdapter = CharacterListAdapter(characterList, this, realm)
         RECYCLER_FAVORITES.adapter = characterAdapter
-        val favorites = realm.where<Favorite>().equalTo("type", type).findAll()
-        for (i in 0 until favorites.size) {
-            MarvelServiceHandler.charactersByIdRequest(favorites[i]!!.itemId!!).observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
+        val characterFavorites = realm.where<Favorite>().equalTo("type", type).findAll()
+        for (i in 0 until characterFavorites.size) {
+            MarvelServiceHandler.charactersByIdRequest(characterFavorites[i]!!.itemId!!).observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
                 characterList.add(data.data.results[0])
-                if (i + 1 == favorites.size) {
-                    setItems()
+                if (i + 1 == characterFavorites.size) {
+                    setItems(type)
                 }
             }
         }
@@ -55,29 +55,28 @@ class FavoriteCharacterActivity : AppCompatActivity() {
     private fun getSeriesFavorites(type: String) {
         seriesAdapter = SeriesListAdapter(seriesList, this)
         RECYCLER_FAVORITES.adapter = seriesAdapter
-        val favorites = realm.where<Favorite>().equalTo("type", type).findAll()
-        for (i in 0 until favorites.size) {
-            MarvelServiceHandler.seriesByIdRequest(favorites[i]!!.itemId!!).observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
+        val seriesFavorites = realm.where<Favorite>().equalTo("type", type).findAll()
+        for (i in 0 until seriesFavorites.size) {
+            MarvelServiceHandler.seriesByIdRequest(seriesFavorites[i]!!.itemId!!).observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
                 seriesList.add(data.data.results[0])
-                if (i + 1 == favorites.size) {
-                    setItems()
+                if (i + 1 == seriesFavorites.size) {
+                    setItems(type)
+                    println(seriesList.size)
                 }
             }
         }
     }
 
-    private fun setItems() {
-        if (type.equals("Characters")) {
+    private fun setItems(type: String) {
+        if (type == "Characters") {
             characterAdapter.addItems(characterList)
-        } else if (type.equals("Series")) {
+        } else if (type == "Series") {
             seriesAdapter.addItems(seriesList)
         }
     }
 
-
     private fun checkType() {
         val extras = intent.extras
-
         if (extras != null) {
             type = extras.getString("type")
             when (type) {

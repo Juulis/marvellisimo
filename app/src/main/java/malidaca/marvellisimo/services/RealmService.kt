@@ -26,4 +26,9 @@ object RealmService {
                     .equalTo("itemId", id).findAll().deleteAllFromRealm()
         }
     }
+
+    fun deleteAll(realm: Realm) {
+        realm.executeTransaction{ it.where<Favorite>().findAll().deleteAllFromRealm()
+        }
+    }
 }
