@@ -103,14 +103,14 @@ class CharacterListActivity : AppCompatActivity() {
             characterList = emptyList()
         }
         if (search.isEmpty()) {
-            SnackbarManager().createSnackbar(view,"Loading content",R.color.colorPrimaryDarkTransparent, Gravity.BOTTOM)
+            SnackbarManager().createSnackbar(view,  getString(R.string.loading_content),R.color.colorPrimaryDarkTransparent, Gravity.BOTTOM)
             MarvelServiceHandler.charactersRequest(offset).observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
                 characterList = characterList + data.data.results.asList()
                 adapter.addItems(characterList)
 
             }
         } else {
-            SnackbarManager().createSnackbar(view,"Loading content",R.color.colorPrimaryDarkTransparent, Gravity.BOTTOM)
+            SnackbarManager().createSnackbar(view, getString(R.string.loading_content),R.color.colorPrimaryDarkTransparent, Gravity.BOTTOM)
             MarvelServiceHandler.characterByNameRequest(offset,search).observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
                 characterList = characterList + data.data.results.asList()
                 adapter.addItems(characterList)
