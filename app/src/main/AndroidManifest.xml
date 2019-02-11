@@ -10,8 +10,9 @@
         android:label=""
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".activities.FavoriteCharacterActivity"></activity>
         <activity
             android:name=".activities.WebViewer"
             android:label="@string/title_activity_web_viewer"
