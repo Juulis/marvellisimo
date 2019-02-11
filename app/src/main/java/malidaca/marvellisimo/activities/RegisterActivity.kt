@@ -37,7 +37,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
                     3000
             )
         } else {
-            snackbarManager.createSnackbar(view, resources.getString(R.string.registration_failed_fields_missing), Color.RED)
+            snackbarManager.createSnackbar(view, getString(R.string.registration_failed_fields_missing), Color.RED)
         }
     }
 

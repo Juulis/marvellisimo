@@ -42,7 +42,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                     3000
             )
         } else {
-            snackbarManager.createSnackbar(view, resources.getString(R.string.signin_failed_missing_fields), Color.RED)
+            snackbarManager.createSnackbar(view, getString(R.string.signin_failed_missing_fields), Color.RED)
 
         }
     }
