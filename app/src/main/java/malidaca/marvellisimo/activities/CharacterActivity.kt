@@ -24,6 +24,8 @@ import malidaca.marvellisimo.R
 import malidaca.marvellisimo.adapters.SeriesListAdapter
 import malidaca.marvellisimo.fragments.PeopleOnline
 import malidaca.marvellisimo.models.Character
+import malidaca.marvellisimo.models.Message
+import malidaca.marvellisimo.models.User
 import malidaca.marvellisimo.models.Favorite
 import malidaca.marvellisimo.rest.MarvelServiceHandler
 import malidaca.marvellisimo.services.FireBaseService
@@ -83,17 +85,20 @@ class CharacterActivity : AppCompatActivity() {
                             characterName.text = character.name
                             infoText.text = character.description
                             createImage(character)
+                            setClickListener(character)
                         }
                     }
             initAdapter(id)
             initScrollListener(gridLayoutManager, id)
         }
-        setClickListener()
     }
 
-    private fun setClickListener() {
+    private fun setClickListener(character: Character) {
         homeButton.setOnClickListener {
             activityHelper.changeActivity(this, MenuActivity::class.java)
+        }
+        share_button.setOnClickListener {
+            shareCharacter(character)
         }
     }
 
@@ -195,6 +200,27 @@ class CharacterActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun shareCharacter(character: Character) {
+        val itemName = character.name
+        val itemType = resources.getString(R.string.menu_characters)
+        val itemId = character.id
+        var sender: String
+        FireBaseService.getUsersName()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { data ->
+                    var user = data.getValue(User::class.java)
+                    sender = "${user!!.firstName} ${user!!.lastName}"
+                    val message = Message(sender, itemName, itemType, itemId)
+                    val fragment = PeopleOnline.newInstance(message)
+                    val fragmentManager = supportFragmentManager
+                    fragmentManager.beginTransaction()
+                            .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
+                            .addToBackStack(null)
+                            .add(R.id.fragment_container, fragment)
+                            .commitAllowingStateLoss()
+                }
     }
 
     override fun onBackPressed() {

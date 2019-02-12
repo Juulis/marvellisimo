@@ -19,9 +19,11 @@ import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_series_details.*
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.adapters.CharactersViewAdapter
+import malidaca.marvellisimo.models.Message
 import malidaca.marvellisimo.fragments.PeopleOnline
 import malidaca.marvellisimo.models.Favorite
 import malidaca.marvellisimo.models.Series
+import malidaca.marvellisimo.models.User
 import malidaca.marvellisimo.rest.MarvelServiceHandler
 import malidaca.marvellisimo.utilities.*
 import malidaca.marvellisimo.services.FireBaseService
@@ -48,8 +50,7 @@ class SeriesDetailsActivity : AppCompatActivity() {
         loadDialog.showDialog()
         setContentView(R.layout.activity_series_details)
         view = findViewById(android.R.id.content)
-        topToolbar = findViewById(R.id.top_toolbar)
-        setSupportActionBar(topToolbar)
+        initToolbar()
         val context = this
         activityHelper = ActivityHelper()
 
@@ -62,10 +63,11 @@ class SeriesDetailsActivity : AppCompatActivity() {
                 response = data.data.results[0]
                 createImage(response, context)
                 fillViewsWithSeriesData(response)
+                setClickListener(response)
                 getCharactersFromSeries(id)
             }
         }
-        setClickListener()
+
     }
 
     @SuppressLint("CheckResult")
@@ -94,7 +96,6 @@ class SeriesDetailsActivity : AppCompatActivity() {
             webViewExist = false
             println(e.localizedMessage)
         }
-
         var charUrl = series.urls[0].url
         for (url in series.urls)
             if (url.type == "detail") {
@@ -111,7 +112,6 @@ class SeriesDetailsActivity : AppCompatActivity() {
             } else {
                 SnackbarManager().createSnackbar(view, getString(R.string.no_infopage), R.color.colorPrimaryDark)
             }
-
         }
     }
 
@@ -138,9 +138,12 @@ class SeriesDetailsActivity : AppCompatActivity() {
         return true
     }
 
-    private fun setClickListener() {
+    private fun setClickListener(series: Series) {
         homeButton3.setOnClickListener {
             activityHelper.changeActivity(this, MenuActivity::class.java)
+        }
+        share_button.setOnClickListener {
+            shareSeries(series)
         }
     }
 
@@ -168,6 +171,32 @@ class SeriesDetailsActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun initToolbar() {
+        topToolbar = findViewById(R.id.top_toolbar)
+        setSupportActionBar(topToolbar)
+    }
+
+    private fun shareSeries(series: Series) {
+        val itemName = series.title
+        val itemType = resources.getString(R.string.menu_series)
+        val itemId = series.id
+        var sender: String
+        FireBaseService.getUsersName()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe{ data ->
+                    var user = data.getValue(User::class.java)
+                    sender = "${user!!.firstName} ${user!!.lastName}"
+                    val message = Message(sender, itemName, itemType, itemId)
+                    val fragment = PeopleOnline.newInstance(message)
+                    val fragmentManager = supportFragmentManager
+                    fragmentManager.beginTransaction()
+                            .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
+                            .addToBackStack(null)
+                            .add(R.id.fragment_container, fragment)
+                            .commitAllowingStateLoss()
+                }
     }
 
     override fun onBackPressed() {

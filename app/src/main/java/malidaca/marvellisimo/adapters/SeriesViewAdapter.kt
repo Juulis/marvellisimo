@@ -1,15 +1,13 @@
 package malidaca.marvellisimo.adapters
+
 import android.content.Context
 import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import com.squareup.picasso.Picasso
-import io.realm.Realm
 import io.realm.RealmResults
-import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.character_list_card.view.*
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.activities.SeriesDetailsActivity
@@ -36,12 +34,12 @@ class SeriesViewAdapter(private var series: List<Series>, private val context: C
 
     override fun getItemCount() = series.size
 
-    fun addItems(list:List<Series>){
+    fun addItems(list: List<Series>) {
         series = list
         notifyDataSetChanged()
     }
 
-    fun resetList(){
+    fun resetList() {
         series = emptyList()
         notifyDataSetChanged()
     }
@@ -71,7 +69,6 @@ class SeriesViewAdapter(private var series: List<Series>, private val context: C
         intent.putExtra("id", selected.id)
         context.startActivity(intent)
     }
-
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
 

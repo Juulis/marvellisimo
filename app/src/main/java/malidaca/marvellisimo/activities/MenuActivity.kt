@@ -1,6 +1,6 @@
 package malidaca.marvellisimo.activities
 
-import android.app.Activity
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -23,6 +23,7 @@ class MenuActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var activityHelper: ActivityHelper
     private var allowedBack = false
     private lateinit var view: View
+    private lateinit var fab: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         realm = Realm.getDefaultInstance()
@@ -32,7 +33,7 @@ class MenuActivity : AppCompatActivity(), View.OnClickListener {
         setSupportActionBar(topToolbar)
         activityHelper = ActivityHelper()
         view = findViewById(android.R.id.content)
-
+        initFab()
         updateFavoriteList()
         menu_button_characters.setOnClickListener(this)
         menu_button_series.setOnClickListener(this)
@@ -119,6 +120,16 @@ class MenuActivity : AppCompatActivity(), View.OnClickListener {
         } else {
             val snackbarManager = SnackbarManager()
             snackbarManager.createSnackbar(view, getString(R.string.loading_content), Color.BLUE)
+        }
+    }
+
+    private fun initFab(){
+        fab = findViewById(R.id.fab)
+        fab.backgroundTintList = ColorStateList.valueOf(Color.BLUE)
+        fab.setOnClickListener {
+            if(fab.backgroundTintList != ColorStateList.valueOf(Color.BLUE))
+                fab.backgroundTintList = ColorStateList.valueOf(Color.BLUE)
+            activityHelper.changeActivity(this, InboxActivity::class.java)
         }
     }
 
