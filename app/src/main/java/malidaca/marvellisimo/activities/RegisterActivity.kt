@@ -4,6 +4,8 @@ import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity;
 import android.view.View
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_register.*
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.services.FireBaseService
@@ -22,7 +24,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener {
 
         view = findViewById(android.R.id.content)
         snackbarManager = SnackbarManager()
-
+        Picasso.get().load(R.drawable.background).placeholder(R.drawable.background).fit().into(register_background)
     }
 
     private fun createAccount(email: String, password: String, firstName: String, lastName: String) {

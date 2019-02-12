@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.View
 import kotlinx.android.synthetic.main.activity_login.*
 import android.graphics.Color
+import android.widget.ImageView
+import com.squareup.picasso.Picasso
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import malidaca.marvellisimo.R
@@ -21,7 +23,6 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var snackbarManager: SnackbarManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         Realm.init(this)
         val configuration = RealmConfiguration.Builder()
                 .schemaVersion(1)
@@ -31,6 +32,8 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+        Picasso.get().load(R.drawable.background).placeholder(R.drawable.background).fit().into(login_background)
 
         login_login_button.setOnClickListener(this)
         login_register_button.setOnClickListener(this)

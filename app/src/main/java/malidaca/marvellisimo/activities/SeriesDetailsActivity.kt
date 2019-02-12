@@ -55,7 +55,7 @@ class SeriesDetailsActivity : AppCompatActivity() {
         activityHelper = ActivityHelper()
 
         id = intent.getIntExtra("id", 0)
-
+Picasso.get().load(R.drawable.share_icon).placeholder(R.drawable.share_icon).into(share_series_button)
         checkIfIsFavorite(id)
         var response: Series
         MarvelServiceHandler.seriesByIdRequest(id).observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
@@ -142,7 +142,7 @@ class SeriesDetailsActivity : AppCompatActivity() {
         homeButton3.setOnClickListener {
             activityHelper.changeActivity(this, MenuActivity::class.java)
         }
-        share_button.setOnClickListener {
+        share_series_button.setOnClickListener {
             shareSeries(series)
         }
     }
