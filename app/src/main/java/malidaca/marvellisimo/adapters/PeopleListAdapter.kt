@@ -33,8 +33,10 @@ class PeopleListAdapter(private var names: MutableMap<String, User>, private val
 
         holder.setOnItemClickListener(object : ItemClickListener {
             override fun onCustomClickListener(view: View, pos: Int) {
-                if (message != null)
+                if (message != null){
                     FireBaseService.writeMessage(message, key)
+                    SnackbarManager().createSnackbar(view,"${message.itemType} sent", R.color.colorPrimaryDark)
+                }
             }
         })
     }

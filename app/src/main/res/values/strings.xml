@@ -60,5 +60,6 @@
     <!--*********************************MISC*********************************-->
     <string name="no_infopage">No infopage available</string>
     <string name="loading_content">Loading content</string>
+    <string name="sent_msg">sent</string>
     <!--*******************************END MISC*******************************-->
 </resources>
