@@ -1,7 +1,6 @@
 package malidaca.marvellisimo.activities
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -13,11 +12,15 @@ import android.view.View
 import android.view.MenuItem
 import android.widget.SearchView
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.realm.Realm
+import io.realm.RealmResults
+import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_series.*
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.rest.MarvelServiceHandler
 import malidaca.marvellisimo.adapters.SeriesViewAdapter
 import malidaca.marvellisimo.fragments.PeopleOnline
+import malidaca.marvellisimo.models.Favorite
 import malidaca.marvellisimo.models.Series
 import malidaca.marvellisimo.utilities.LoadDialog
 import malidaca.marvellisimo.utilities.SnackbarManager
@@ -25,6 +28,7 @@ import malidaca.marvellisimo.services.FireBaseService
 import malidaca.marvellisimo.utilities.ActivityHelper
 
 class SeriesActivity : AppCompatActivity() {
+    private lateinit var realm: Realm
     lateinit var recyclerView: RecyclerView
     lateinit var topToolbar: Toolbar
     lateinit var viewAdapter: SeriesViewAdapter
@@ -33,16 +37,22 @@ class SeriesActivity : AppCompatActivity() {
     private lateinit var scrollListener: EndlessRecyclerViewScrollListener
     private lateinit var view: View
     private lateinit var activityHelper: ActivityHelper
+    private lateinit var userFavorites: RealmResults<Favorite>
+
 
     @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val loadDialog = LoadDialog(this)
         loadDialog.showDialog()
+        realm = Realm.getDefaultInstance()
         setContentView(R.layout.activity_series)
         view = findViewById(android.R.id.content)
         topToolbar = findViewById(R.id.toolbar)
         setSupportActionBar(topToolbar)
+
+        userFavorites = realm.where<Favorite>().equalTo("type", "Series").findAll()
+        userFavorites.addChangeListener { data -> viewAdapter.addFavorites(data) }
 
         val viewManager = LinearLayoutManager(this)
         initScrollListener(viewManager)
@@ -52,7 +62,7 @@ class SeriesActivity : AppCompatActivity() {
                     loadDialog.hideDialog()
                 }.subscribe { data ->
                     response += data.data.results.asList()
-                    viewAdapter = SeriesViewAdapter(response, this)
+                    viewAdapter = SeriesViewAdapter(response, this, userFavorites)
                     recyclerView = findViewById<RecyclerView>(R.id.series_recycler_view).apply {
                         setHasFixedSize(true)
                         layoutManager = viewManager
@@ -132,8 +142,10 @@ class SeriesActivity : AppCompatActivity() {
                 finish()
             }
             R.id.favorite_characters -> {
+                activityHelper.changeActivityFavorite(this, FavoriteActivity::class.java, "Characters")
             }
             R.id.favorite_series -> {
+                activityHelper.changeActivityFavorite(this, FavoriteActivity::class.java, "Series")
             }
             R.id.people_online -> {
                 val fragment = PeopleOnline()

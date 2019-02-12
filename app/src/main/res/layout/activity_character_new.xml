@@ -94,19 +94,19 @@
                     sothree:layout_constraintStart_toStartOf="parent"
                     sothree:layout_constraintTop_toBottomOf="@+id/characterName" />
 
-                <ImageView
-                    android:id="@+id/favoriteBtn"
-                    android:layout_width="59dp"
-                    android:layout_height="47dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="8dp"
-                    android:onClick="changeFavorite"
-                    sothree:layout_constraintBottom_toBottomOf="parent"
-                    sothree:layout_constraintEnd_toEndOf="parent"
-                    sothree:layout_constraintTop_toBottomOf="@+id/bigpic"
-                    sothree:layout_constraintVertical_bias="0.005"
-                    sothree:srcCompat="@color/colorAccent" />
+            <ImageView
+                android:id="@+id/favoriteBtn"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="164dp"
+                android:layout_marginEnd="8dp"
+                android:onClick="changeCharacterFavorite"
+                sothree:layout_constraintEnd_toEndOf="parent"
+                sothree:layout_constraintHorizontal_bias="0.573"
+                sothree:layout_constraintStart_toEndOf="@+id/avatar"
+                sothree:layout_constraintTop_toTopOf="parent"
+                sothree:srcCompat="@color/colorAccent" />
 
 
             </android.support.constraint.ConstraintLayout>

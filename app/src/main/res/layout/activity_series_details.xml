@@ -34,7 +34,14 @@
                 <ImageView
                     android:id="@+id/series_picture"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="194dp" />
+
+                <ImageView
+                    android:id="@+id/series_f_btn"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:onClick="changeSeriesFavorite"
+                     />
 
                 <TextView
                     android:id="@+id/series_title"
