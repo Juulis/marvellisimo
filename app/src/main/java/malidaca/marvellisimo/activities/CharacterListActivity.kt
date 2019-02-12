@@ -122,7 +122,7 @@ class CharacterListActivity : AppCompatActivity() {
     fun initAdapter() {
         MarvelServiceHandler.charactersRequest(0).observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
             characterList = characterList + data.data.results.asList()
-            adapter = CharacterListAdapter(characterList, this, realm, userFavorites)
+            adapter = CharacterListAdapter(characterList, this, userFavorites)
             RECYCLER.adapter = adapter
             loadDialog!!.hideDialog()
         }
@@ -174,5 +174,6 @@ class CharacterListActivity : AppCompatActivity() {
             supportFragmentManager.popBackStack()
         }
     }
+
 }
 

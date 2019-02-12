@@ -34,15 +34,14 @@ class FavoriteActivity : AppCompatActivity() {
         setContentView(R.layout.activity_favorite)
         realm = Realm.getDefaultInstance()
         RECYCLER_FAVORITES.layoutManager = linearLayoutManager
-        checkType()
     }
 
     @SuppressLint("CheckResult")
     private fun getCharacterFavorites(type: String) {
-
+        characterList.clear()
         userFavorites = realm.where<Favorite>().equalTo("type", "Characters").findAll()
         userFavorites.addChangeListener { data -> characterAdapter.addFavorites(data) }
-        characterAdapter = CharacterListAdapter(characterList, this, realm, userFavorites)
+        characterAdapter = CharacterListAdapter(characterList, this, userFavorites)
 
         RECYCLER_FAVORITES.adapter = characterAdapter
         val characterFavorites = realm.where<Favorite>().equalTo("type", type).findAll()
@@ -53,12 +52,13 @@ class FavoriteActivity : AppCompatActivity() {
                     setItems(type)
                 }
             }
+            characterAdapter.notifyDataSetChanged()
         }
     }
 
     @SuppressLint("CheckResult")
     private fun getSeriesFavorites(type: String) {
-
+        seriesList.clear()
         userFavorites = realm.where<Favorite>().equalTo("type", "Series").findAll()
         userFavorites.addChangeListener { data -> seriesAdapter.addFavorites(data) }
         seriesAdapter = SeriesViewAdapter(seriesList, this, userFavorites)
@@ -72,25 +72,11 @@ class FavoriteActivity : AppCompatActivity() {
                     setItems(type)
                     println(seriesList.size)
                 }
+
             }
+            seriesAdapter.notifyDataSetChanged()
         }
     }
-
-/*    @SuppressLint("CheckResult")
-    private fun getSeriesFavorites(type: String) {
-        seriesAdapter = SeriesListAdapter(seriesList, this)
-        RECYCLER_FAVORITES.adapter = seriesAdapter
-        val seriesFavorites = realm.where<Favorite>().equalTo("type", type).findAll()
-        for (i in 0 until seriesFavorites.size) {
-            MarvelServiceHandler.seriesByIdRequest(seriesFavorites[i]!!.itemId!!).observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
-                seriesList.add(data.data.results[0])
-                if (i + 1 == seriesFavorites.size) {
-                    setItems(type)
-                    println(seriesList.size)
-                }
-            }
-        }
-    }*/
 
     private fun setItems(type: String) {
         if (type == "Characters") {
@@ -101,6 +87,7 @@ class FavoriteActivity : AppCompatActivity() {
     }
 
     private fun checkType() {
+
         val extras = intent.extras
         if (extras != null) {
             type = extras.getString("type")
@@ -111,4 +98,8 @@ class FavoriteActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        checkType()
+        super.onResume()
+    }
 }

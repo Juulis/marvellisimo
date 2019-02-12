@@ -18,7 +18,7 @@ import malidaca.marvellisimo.activities.ItemClickListener
 import malidaca.marvellisimo.models.Character
 import malidaca.marvellisimo.models.Favorite
 
-class CharacterListAdapter(private var characters: List<Character>, private val context: Context, private val realm: Realm, private var favoriteList: RealmResults<Favorite>) : RecyclerView.Adapter<ViewHolder>() {
+class CharacterListAdapter(private var characters: List<Character>, private val context: Context, private var favoriteList: RealmResults<Favorite>) : RecyclerView.Adapter<ViewHolder>() {
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(context).inflate(R.layout.character_list_card, p0, false))
