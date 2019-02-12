@@ -1,0 +1,13 @@
+Login Activity test
+*****************************************************************************************************
+TESTA LOGGA IN MED FEL ANVÄNDARE
+*****************************************************************************************************
+1. Starta appen
+2. logga in med en användare som inte finns
+3. Du ska få en röd snackbar som säger att du har fel inloggningsuppgifter
+*****************************************************************************************************
+TESTA LOGGA IN MED TOMMA FÄLT
+*****************************************************************************************************
+1. Start appen
+2. klicka på logga in
+3. Du ska få en röd snackbar som säger att alla fält inte är ifyllda
