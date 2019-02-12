@@ -1,0 +1,29 @@
+Register activity test
+*****************************************************************************************************
+TESTA REGISTRERA EN ANVÄNDARE SOM REDAN FINNS
+*****************************************************************************************************
+1. Klicka på Register i Login Activity
+2. Fyll it följande:
+	Max
+	Barnell
+	test@test.com
+	qwerty
+3. Klicka på registrera
+4. En snackbar ska dyka upp högst upp som är röd och informerar att denna användaren redan finns.
+
+*****************************************************************************************************
+TESTA REGISTRERA EN ANVÄNDARE SOM INTE FINNS
+*****************************************************************************************************
+1. Klicka på Register i Login Activity
+2. Fyll i med uppgifter som inte finns i databasen redan
+3. Du ska skickas till menyn som
+
+
+*****************************************************************************************************
+TESTA REGISTREA UTAN ATT FYLLA I ALLA FÄLT
+*****************************************************************************************************
+1. Start appen
+2. Klicka på Register
+3. Klicka på Register
+4. Du ska få en röd snackbar som säger att alla fält inte är ifyllda
+
