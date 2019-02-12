@@ -103,7 +103,7 @@ Picasso.get().load(R.drawable.share_icon).placeholder(R.drawable.share_icon).int
             }
         var path = "${series.thumbnail.path}/landscape_incredible.${series.thumbnail.extension}"
         path = path.replace("http", "https")
-        Picasso.get().load(path).resize(928, 522).into(series_picture)
+        Picasso.get().load(path).into(series_picture)
         series_picture.setOnClickListener {
             if (webViewExist && charUrl.isNotEmpty()) {
                 val intent = Intent(context, WebViewer::class.java)
@@ -178,6 +178,7 @@ Picasso.get().load(R.drawable.share_icon).placeholder(R.drawable.share_icon).int
         setSupportActionBar(topToolbar)
     }
 
+    @SuppressLint("CheckResult")
     private fun shareSeries(series: Series) {
         val itemName = series.title
         val itemType = resources.getString(R.string.menu_series)
