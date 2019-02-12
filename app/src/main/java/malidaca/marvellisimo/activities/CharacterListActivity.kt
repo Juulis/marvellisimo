@@ -15,9 +15,13 @@ import android.view.View
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
+import io.realm.Realm
+import io.realm.RealmResults
+import io.realm.kotlin.where
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.fragments.PeopleOnline
 import malidaca.marvellisimo.models.Character
+import malidaca.marvellisimo.models.Favorite
 import malidaca.marvellisimo.services.FireBaseService
 import malidaca.marvellisimo.utilities.ActivityHelper
 
@@ -26,19 +30,23 @@ import malidaca.marvellisimo.utilities.SnackbarManager
 
 
 class CharacterListActivity : AppCompatActivity() {
-    private var ar: List<Character> = emptyList()
+    private lateinit var realm: Realm
+    private var characterList: List<Character> = emptyList()
     private lateinit var adapter: CharacterListAdapter
     private var search: String = ""
     private lateinit var scrollListener: EndlessRecyclerViewScrollListener
     private lateinit var view: View
+    private lateinit var userFavorites: RealmResults<Favorite>
 
     lateinit var topToolbar: Toolbar
+
 
     var loadDialog: LoadDialog? = null
     private lateinit var activityHelper: ActivityHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        realm = Realm.getDefaultInstance()
         setContentView(R.layout.activity_character_list)
         view = findViewById(android.R.id.content)
 
@@ -53,6 +61,11 @@ class CharacterListActivity : AppCompatActivity() {
         loadDialog!!.showDialog()
         setClickListener()
         activityHelper = ActivityHelper()
+
+        userFavorites = realm.where<Favorite>().equalTo("type", "Characters").findAll()
+        userFavorites.addChangeListener{ data -> adapter.addFavorites(data)}
+
+
     }
 
     private fun initQueryTextListener() {
@@ -87,19 +100,20 @@ class CharacterListActivity : AppCompatActivity() {
         if (offset == 0) {
             scrollListener.resetState()
             adapter.resetList()
-            ar = emptyList()
+            characterList = emptyList()
         }
         if (search.isEmpty()) {
             SnackbarManager().createSnackbar(view,  getString(R.string.loading_content),R.color.colorPrimaryDarkTransparent, Gravity.BOTTOM)
             MarvelServiceHandler.charactersRequest(offset).observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
-                ar = ar + data.data.results.asList()
-                adapter.addItems(ar)
+                characterList = characterList + data.data.results.asList()
+                adapter.addItems(characterList)
+
             }
         } else {
             SnackbarManager().createSnackbar(view, getString(R.string.loading_content),R.color.colorPrimaryDarkTransparent, Gravity.BOTTOM)
             MarvelServiceHandler.characterByNameRequest(offset,search).observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
-                ar = ar + data.data.results.asList()
-                adapter.addItems(ar)
+                characterList = characterList + data.data.results.asList()
+                adapter.addItems(characterList)
             }
         }
     }
@@ -107,8 +121,8 @@ class CharacterListActivity : AppCompatActivity() {
     @SuppressLint("CheckResult")
     fun initAdapter() {
         MarvelServiceHandler.charactersRequest(0).observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
-            ar = ar + data.data.results.asList()
-            adapter = CharacterListAdapter(ar, this)
+            characterList = characterList + data.data.results.asList()
+            adapter = CharacterListAdapter(characterList, this, userFavorites)
             RECYCLER.adapter = adapter
             loadDialog!!.hideDialog()
         }
@@ -134,8 +148,10 @@ class CharacterListActivity : AppCompatActivity() {
                 finish()
             }
             R.id.favorite_characters -> {
+                activityHelper.changeActivityFavorite(this, FavoriteActivity::class.java, "Characters")
             }
             R.id.favorite_series -> {
+                activityHelper.changeActivityFavorite(this, FavoriteActivity::class.java, "Series")
             }
             R.id.people_online -> {
                 val fragment = PeopleOnline()
@@ -158,5 +174,6 @@ class CharacterListActivity : AppCompatActivity() {
             supportFragmentManager.popBackStack()
         }
     }
+
 }
 

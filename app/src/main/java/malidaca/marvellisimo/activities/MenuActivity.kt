@@ -7,16 +7,18 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_menu.*
 import malidaca.marvellisimo.fragments.PeopleOnline
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.services.FireBaseService
+import malidaca.marvellisimo.services.RealmService
 import malidaca.marvellisimo.utilities.ActivityHelper
 import malidaca.marvellisimo.utilities.SnackbarManager
 import java.util.*
 
 class MenuActivity : AppCompatActivity(), View.OnClickListener {
-
+    private lateinit var realm: Realm
     private lateinit var topToolbar: android.support.v7.widget.Toolbar
     private lateinit var activityHelper: ActivityHelper
     private var allowedBack = false
@@ -24,6 +26,7 @@ class MenuActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var fab: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        realm = Realm.getDefaultInstance()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
         topToolbar = findViewById(R.id.top_toolbar)
@@ -31,6 +34,7 @@ class MenuActivity : AppCompatActivity(), View.OnClickListener {
         activityHelper = ActivityHelper()
         view = findViewById(android.R.id.content)
         initFab()
+        updateFavoriteList()
         menu_button_characters.setOnClickListener(this)
         menu_button_series.setOnClickListener(this)
 
@@ -81,8 +85,10 @@ class MenuActivity : AppCompatActivity(), View.OnClickListener {
                 finish()
             }
             R.id.favorite_characters -> {
+                activityHelper.changeActivityFavorite(this, FavoriteActivity::class.java, "Characters")
             }
             R.id.favorite_series -> {
+                activityHelper.changeActivityFavorite(this, FavoriteActivity::class.java, "Series")
             }
             R.id.people_online -> {
                 val fragment = PeopleOnline()
@@ -126,4 +132,9 @@ class MenuActivity : AppCompatActivity(), View.OnClickListener {
             activityHelper.changeActivity(this, InboxActivity::class.java)
         }
     }
+
+   private fun updateFavoriteList() {
+       RealmService.deleteAll(realm)
+       FireBaseService.getUserFavorites(this, realm)
+   }
 }

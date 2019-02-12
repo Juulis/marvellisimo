@@ -20,6 +20,8 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.ChildEventListener
 import malidaca.marvellisimo.adapters.PeopleListAdapter
+import com.google.firebase.database.ValueEventListener
+import io.realm.Realm
 
 
 object FireBaseService {
@@ -75,12 +77,12 @@ object FireBaseService {
         toggleOnline(true)
     }
 
-    fun addFavorite(itemId: String) {
-        userDataRef.child("favoriteCharacters/$itemId").setValue(true)
+    fun addFavorite(itemId: Int, type: String) {
+        userDataRef.child("favorite$type/$itemId").setValue(true)
     }
 
-    fun deleteFavorite(itemId: String) {
-        userDataRef.child("favoriteCharacters/$itemId").removeValue()
+    fun deleteFavorite(itemId: Int, type: String) {
+        userDataRef.child("favorite$type/$itemId").removeValue()
     }
 
     fun checkIfOnline(context: Context) {
@@ -144,9 +146,32 @@ object FireBaseService {
         })
     }
 
-    /*fun getUserFavorites(type: String): Observable<Array<String>> {
-         return  userDataRef.child("favorite$type").orderByKey()
-    }*/
+    fun getUserFavorites(context: Context, realm: Realm) {
+        userDataRef.child("favoriteCharacters")
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        for (snap in snapshot.children) {
+                            RealmService.addFavorite(realm, snap.key!!.toInt(), "Characters")
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        println("error in db: $error")
+                    }
+                })
+        userDataRef.child("favoriteSeries")
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        for (snap in snapshot.children) {
+                            RealmService.addFavorite(realm, snap.key!!.toInt(), "Series")
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        println("error in db: $error")
+                    }
+                })
+    }
 
     fun getMessages(): io.reactivex.Observable<DataSnapshot> {
         return io.reactivex.Observable.create(ObservableOnSubscribe {

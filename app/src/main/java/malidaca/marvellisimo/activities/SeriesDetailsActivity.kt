@@ -14,20 +14,26 @@ import android.view.MenuItem
 import android.webkit.WebView
 import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.realm.Realm
+import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_series_details.*
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.adapters.CharactersViewAdapter
 import malidaca.marvellisimo.models.Message
 import malidaca.marvellisimo.fragments.PeopleOnline
+import malidaca.marvellisimo.models.Favorite
 import malidaca.marvellisimo.models.Series
 import malidaca.marvellisimo.models.User
 import malidaca.marvellisimo.rest.MarvelServiceHandler
 import malidaca.marvellisimo.utilities.*
 import malidaca.marvellisimo.services.FireBaseService
+import malidaca.marvellisimo.services.RealmService
 import java.lang.Exception
 
 class SeriesDetailsActivity : AppCompatActivity() {
-
+    private lateinit var realm: Realm
+    private var id: Int = 0
+    private var favorite: Boolean = false
     lateinit var viewManager: RecyclerView.LayoutManager
     lateinit var recyclerView: RecyclerView
     lateinit var viewAdapter: RecyclerView.Adapter<*>
@@ -38,6 +44,7 @@ class SeriesDetailsActivity : AppCompatActivity() {
 
     @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
+        realm = Realm.getDefaultInstance()
         super.onCreate(savedInstanceState)
         loadDialog = LoadDialog(this)
         loadDialog.showDialog()
@@ -47,7 +54,9 @@ class SeriesDetailsActivity : AppCompatActivity() {
         val context = this
         activityHelper = ActivityHelper()
 
-        val id = intent.getIntExtra("id", 0)
+        id = intent.getIntExtra("id", 0)
+
+        checkIfIsFavorite(id)
         var response: Series
         MarvelServiceHandler.seriesByIdRequest(id).observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
             if (data.data.results.isNotEmpty()) {
@@ -146,8 +155,10 @@ class SeriesDetailsActivity : AppCompatActivity() {
                 finish()
             }
             R.id.favorite_characters -> {
+                activityHelper.changeActivityFavorite(this, FavoriteActivity::class.java, "Characters")
             }
             R.id.favorite_series -> {
+                activityHelper.changeActivityFavorite(this, FavoriteActivity::class.java, "Series")
             }
             R.id.people_online -> {
                 val fragment = PeopleOnline()
@@ -195,5 +206,31 @@ class SeriesDetailsActivity : AppCompatActivity() {
         } else {
             supportFragmentManager.popBackStack()
         }
+    }
+
+    fun changeSeriesFavorite(view: View) {
+        favorite = !favorite
+        if (favorite) {
+            Picasso.get().load(R.drawable.thumbs_up_yes).into(series_f_btn)
+            RealmService.addFavorite(realm, id, "Series")
+        } else {
+            Picasso.get().load(R.drawable.thumbs_up).into(series_f_btn)
+            RealmService.deleteFavorite(realm, id, "Series")
+        }
+    }
+
+    private fun checkIfIsFavorite(thisId: Int) {
+        val result = realm.where<Favorite>().equalTo("itemId", thisId).findFirst()
+        if (result != null) {
+            Picasso.get().load(R.drawable.thumbs_up_yes).into(series_f_btn)
+            favorite = true
+        } else {
+            Picasso.get().load(R.drawable.thumbs_up).into(series_f_btn)
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        realm.close()
     }
 }
