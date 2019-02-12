@@ -107,6 +107,8 @@ class MenuActivity : AppCompatActivity(), View.OnClickListener {
                 } else {
                     supportFragmentManager.popBackStack()
                 }
+            } else {
+                super.onBackPressed()
             }
         } else {
             val snackbarManager = SnackbarManager()
