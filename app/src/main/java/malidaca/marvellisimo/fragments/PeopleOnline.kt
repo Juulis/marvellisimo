@@ -30,7 +30,7 @@ class PeopleOnline : Fragment() {
         val peopleOnline = rootView.people_online_list
         peopleOnline.layoutManager = LinearLayoutManager(activity)
         mMessage = arguments?.getSerializable(messageKey) as Message? ?: null
-        adapter = PeopleListAdapter(names, mMessage)
+        adapter = PeopleListAdapter(names, mMessage, context!!)
         peopleOnline.adapter = adapter
         peopleOnline.itemAnimator = DefaultItemAnimator()
         addNames(names)

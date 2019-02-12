@@ -1,5 +1,6 @@
 package malidaca.marvellisimo.adapters
 
+import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -13,13 +14,12 @@ import malidaca.marvellisimo.services.FireBaseService
 import malidaca.marvellisimo.utilities.SnackbarManager
 
 
-class PeopleListAdapter(private var names: MutableMap<String, User>, private val message: Message?) : RecyclerView.Adapter<PeopleListAdapter.ViewHolder>() {//}, View.OnClickListener {
+class PeopleListAdapter(private var names: MutableMap<String, User>, private val message: Message?, val context: Context) : RecyclerView.Adapter<PeopleListAdapter.ViewHolder>() {//}, View.OnClickListener {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PeopleListAdapter.ViewHolder {
 
         val itemLayoutView = LayoutInflater.from(parent.context).inflate(R.layout.people_online_card, parent, false)
         //itemLayoutView.setOnClickListener(this)
-
         return ViewHolder(itemLayoutView)
     }
 
@@ -30,12 +30,12 @@ class PeopleListAdapter(private var names: MutableMap<String, User>, private val
         val text = "$firstName $lastName"
         holder.name.text = text
         val key = getUserKey(l)
-
+        val snackbarMsg = "${message?.itemType} ${context.resources.getString(R.string.sent_msg)}"
         holder.setOnItemClickListener(object : ItemClickListener {
             override fun onCustomClickListener(view: View, pos: Int) {
                 if (message != null){
                     FireBaseService.writeMessage(message, key)
-                    SnackbarManager().createSnackbar(view,"${message.itemType} sent", R.color.colorPrimaryDark)
+                    SnackbarManager().createSnackbar(view,snackbarMsg, R.color.colorPrimaryDark)
                 }
             }
         })

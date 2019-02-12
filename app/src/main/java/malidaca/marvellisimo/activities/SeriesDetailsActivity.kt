@@ -174,7 +174,7 @@ class SeriesDetailsActivity : AppCompatActivity() {
         var sender: String
         FireBaseService.getUsersName()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { data ->
+                .subscribe{ data ->
                     var user = data.getValue(User::class.java)
                     sender = "${user!!.firstName} ${user!!.lastName}"
                     val message = Message(sender, itemName, itemType, itemId)
@@ -184,7 +184,7 @@ class SeriesDetailsActivity : AppCompatActivity() {
                             .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
                             .addToBackStack(null)
                             .add(R.id.fragment_container, fragment)
-                            .commit()
+                            .commitAllowingStateLoss()
                 }
     }
 

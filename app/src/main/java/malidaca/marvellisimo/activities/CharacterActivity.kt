@@ -207,7 +207,7 @@ class CharacterActivity : AppCompatActivity() {
                             .setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
                             .addToBackStack(null)
                             .add(R.id.fragment_container, fragment)
-                            .commit()
+                            .commitAllowingStateLoss()
                 }
     }
 
