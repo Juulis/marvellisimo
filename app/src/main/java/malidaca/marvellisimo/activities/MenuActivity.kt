@@ -112,7 +112,7 @@ class MenuActivity : AppCompatActivity(), View.OnClickListener {
             }
         } else {
             val snackbarManager = SnackbarManager()
-            snackbarManager.createSnackbar(view, "Loading", Color.BLUE)
+            snackbarManager.createSnackbar(view, getString(R.string.loading_content), Color.BLUE)
         }
     }
 

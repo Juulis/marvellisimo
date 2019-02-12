@@ -22,6 +22,7 @@
     <string name="register_email">Email</string>
     <string name="register_password">Password</string>
     <string name="register_signup_button">Sign up</string>
+    <string name="register_already_registered">User is already registered</string>
     <!--*****************************END REGISTER*****************************-->
 
     <!--**************************SNACKBAR MESSAGES***************************-->
@@ -44,4 +45,20 @@
     <string name="options_menu_logout">Log out</string>
     <!--*********************END OPTIONS MENU MESSAGES************************-->
 
+    <!--******************************CHARACTER*******************************-->
+
+    <!--***************************END CHARACTER******************************-->
+
+    <!--*****************************SERIES***********************************-->
+    <string name="start_year">START: %1$s</string>
+    <string name="end_year">END: %1$s</string>
+    <string name="rating">RATING: %1$s</string>
+    <string name="creators">CREATORS: %1$s</string>
+    <string name="comics">COMICS: %1$s</string>
+    <!--***************************END SERIES*********************************-->
+
+    <!--*********************************MISC*********************************-->
+    <string name="no_infopage">No infopage available</string>
+    <string name="loading_content">Loading content</string>
+    <!--*******************************END MISC*******************************-->
 </resources>

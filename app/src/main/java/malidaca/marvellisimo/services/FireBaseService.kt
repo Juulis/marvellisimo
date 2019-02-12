@@ -64,6 +64,9 @@ object FireBaseService {
                         snackBarManager.createSnackbar(view, context.getString(R.string.registration_failed), Color.RED)
                     }
                 }
+                .addOnFailureListener {
+                    snackBarManager.createSnackbar(view, context.getString(R.string.register_already_registered), Color.RED)
+                }
     }
 
     private fun writeNewUser(firstName: String, lastName: String, email: String, uid: String) {

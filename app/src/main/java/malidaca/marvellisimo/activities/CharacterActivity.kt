@@ -117,7 +117,7 @@ class CharacterActivity : AppCompatActivity() {
                 intent.putExtra("url", charUrl)
                 context.startActivity(intent)
             }else {
-                SnackbarManager().createSnackbar(view, "No infopage available", R.color.colorPrimaryDark)
+                SnackbarManager().createSnackbar(view, getString(R.string.no_infopage), R.color.colorPrimaryDark)
             }
         }
     }
@@ -134,7 +134,7 @@ class CharacterActivity : AppCompatActivity() {
     @SuppressLint("CheckResult")
     private fun addItems(offset: Int, id: Int) {
         if (offset > 10)
-            SnackbarManager().createSnackbar(view, "Loading content", R.color.colorPrimaryDarkTransparent, Gravity.BOTTOM)
+            SnackbarManager().createSnackbar(view, getString(R.string.loading_content), R.color.colorPrimaryDarkTransparent, Gravity.BOTTOM)
         MarvelServiceHandler.seriesByCharactersId(offset, id).observeOn(AndroidSchedulers.mainThread())
                 .subscribe { data ->
                     adapter.addItems(data.data.results.asList())

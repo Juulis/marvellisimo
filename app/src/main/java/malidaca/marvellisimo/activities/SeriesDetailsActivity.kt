@@ -101,7 +101,7 @@ class SeriesDetailsActivity : AppCompatActivity() {
                 intent.putExtra("url", charUrl)
                 context.startActivity(intent)
             } else {
-                SnackbarManager().createSnackbar(view, "No infopage available", R.color.colorPrimaryDark)
+                SnackbarManager().createSnackbar(view, getString(R.string.no_infopage), R.color.colorPrimaryDark)
             }
         }
     }
@@ -109,19 +109,19 @@ class SeriesDetailsActivity : AppCompatActivity() {
     fun fillViewsWithSeriesData(series: Series) {
         series_title.text = series.title
         series_description.text = series.description
-        series_start_year.text = "START YEAR: " + series.startYear.toString()
-        series_end_year.text = "END YEAR: " + series.endYear.toString()
-        series_rating.text = "RATING: " + series.rating
+        series_start_year.text = getString(R.string.start_year, series.startYear.toString())//"START YEAR: " + series.startYear.toString()
+        series_end_year.text = getString(R.string.end_year, series.endYear.toString())//"END YEAR: " + series.endYear.toString()
+        series_rating.text = getString(R.string.rating, series.rating)//"RATING: " + series.rating
         val creators = series.creators.items
         var creatorsNames = ""
         for (cr in creators)
             creatorsNames += "${cr.name}, "
-        series_creators.text = "CREATORS: $creatorsNames"
+        series_creators.text = getString(R.string.creators, creatorsNames)//"CREATORS: $creatorsNames"
         val comics = series.comics.items
         var comicsTitles = ""
         for (co in comics)
             comicsTitles += "${co.name}, "
-        series_comics.text = "COMICS: $comicsTitles"
+        series_comics.text = getString(R.string.comics, comicsTitles)//"COMICS: $comicsTitles"
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
