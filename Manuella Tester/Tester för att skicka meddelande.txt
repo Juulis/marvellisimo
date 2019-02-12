@@ -5,4 +5,4 @@ TESTA ATT SKICKA EN SERIE/KARAKTÄR
 2. Det ska visas lista på användare som är online
 3. Clicka på en användare
 4. Vald serie/karaktär skickas till vald användare
-5. Det ska visas en snackbar med meddelande 
+5. Det ska visas en snackbar med meddelande
