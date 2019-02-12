@@ -1,6 +1,5 @@
 package malidaca.marvellisimo.activities
 
-import android.app.Activity
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.support.v7.app.AppCompatActivity

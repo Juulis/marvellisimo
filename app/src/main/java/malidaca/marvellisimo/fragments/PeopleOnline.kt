@@ -7,7 +7,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.people_online_fragment.view.*
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.adapters.PeopleListAdapter
@@ -42,7 +41,7 @@ class PeopleOnline : Fragment() {
     }
 
     companion object {
-        fun newInstance(message: Message): PeopleOnline{
+        fun newInstance(message: Message): PeopleOnline {
             val messageKey = "message_key"
             val fragment = PeopleOnline()
             val bundle = Bundle()
