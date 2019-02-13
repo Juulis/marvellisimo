@@ -57,7 +57,7 @@
                         android:layout_width="81dp"
                         android:layout_height="81dp"
                         android:layout_marginTop="150dp"
-                        android:src="@mipmap/marvel_logo_round"
+                        android:src="@mipmap/iron_man_avatar_round"
                         sothree:layout_constraintEnd_toEndOf="parent"
                         sothree:layout_constraintStart_toStartOf="parent"
                         sothree:layout_constraintTop_toTopOf="parent" />
