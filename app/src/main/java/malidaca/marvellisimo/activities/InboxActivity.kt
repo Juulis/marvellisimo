@@ -58,6 +58,17 @@ class InboxActivity : AppCompatActivity() {
         return true
     }
 
+    override fun onPause() {
+        FireBaseService.toggleOnline(false)
+        super.onPause()
+    }
+
+    override fun onResume() {
+        FireBaseService.checkIfOnline(this)
+        FireBaseService.toggleOnline(true)
+        super.onResume()
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.logout -> {

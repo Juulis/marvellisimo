@@ -78,6 +78,17 @@ class SeriesActivity : AppCompatActivity() {
         activityHelper = ActivityHelper()
     }
 
+    override fun onPause() {
+        FireBaseService.toggleOnline(false)
+        super.onPause()
+    }
+
+    override fun onResume() {
+        FireBaseService.checkIfOnline(this)
+        FireBaseService.toggleOnline(true)
+        super.onResume()
+    }
+
     private fun initQueryTextListener() {
         SEARCH1.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
