@@ -17,6 +17,7 @@ import malidaca.marvellisimo.models.Character
 import malidaca.marvellisimo.models.Favorite
 import malidaca.marvellisimo.models.Series
 import malidaca.marvellisimo.rest.MarvelServiceHandler
+import malidaca.marvellisimo.services.FireBaseService
 
 class FavoriteActivity : AppCompatActivity() {
 
@@ -34,6 +35,18 @@ class FavoriteActivity : AppCompatActivity() {
         setContentView(R.layout.activity_favorite)
         realm = Realm.getDefaultInstance()
         RECYCLER_FAVORITES.layoutManager = linearLayoutManager
+    }
+
+    override fun onPause() {
+        FireBaseService.toggleOnline(false)
+        super.onPause()
+    }
+
+    override fun onResume() {
+        checkType()
+        FireBaseService.checkIfOnline(this)
+        FireBaseService.toggleOnline(true)
+        super.onResume()
     }
 
     @SuppressLint("CheckResult")
@@ -96,10 +109,5 @@ class FavoriteActivity : AppCompatActivity() {
                 "Series" -> getSeriesFavorites(type!!)
             }
         }
-    }
-
-    override fun onResume() {
-        checkType()
-        super.onResume()
     }
 }

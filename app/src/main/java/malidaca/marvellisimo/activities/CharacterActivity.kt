@@ -93,6 +93,17 @@ class CharacterActivity : AppCompatActivity() {
         }
     }
 
+    override fun onPause() {
+        FireBaseService.toggleOnline(false)
+        super.onPause()
+    }
+
+    override fun onResume() {
+        FireBaseService.checkIfOnline(this)
+        FireBaseService.toggleOnline(true)
+        super.onResume()
+    }
+
     private fun setClickListener(character: Character) {
         homeButton.setOnClickListener {
             activityHelper.changeActivity(this, MenuActivity::class.java)
