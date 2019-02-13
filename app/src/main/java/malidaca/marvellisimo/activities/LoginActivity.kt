@@ -14,8 +14,6 @@ import malidaca.marvellisimo.utilities.SnackbarManager
 import java.util.*
 
 
-
-
 class LoginActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var view: View
     private lateinit var snackbarManager: SnackbarManager
@@ -42,15 +40,17 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun signIn(email: String, password: String) {
         if (email.isNotBlank() && password.isNotBlank()) {
-            FireBaseService.signIn(email, password, this, view)
-            Timer().schedule(
-                    object : java.util.TimerTask() {
-                        override fun run() {
-                            finish()
-                        }
-                    },
-                    3000
-            )
+
+            if (FireBaseService.signIn(email, password, this, view)) {
+                Timer().schedule(
+                        object : java.util.TimerTask() {
+                            override fun run() {
+                                finish()
+                            }
+                        },
+                        3000
+                )
+            }
         } else {
             snackbarManager.createSnackbar(view, getString(R.string.signin_failed_missing_fields), Color.RED)
 
