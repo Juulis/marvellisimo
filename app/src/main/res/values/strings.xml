@@ -1,3 +1,70 @@
 <resources>
     <string name="app_name">Marvellisimo</string>
+
+    <!--*********************************MENU*********************************-->
+    <string name="menu_series">Series</string>
+    <string name="menu_characters">Characters</string>
+    <string name="menu_search">Search</string>
+    <string name="character_view_movie_header">SERIES</string>
+    <!--*******************************END MENU*******************************-->
+
+    <!--*********************************LOGIN********************************-->
+    <string name="login_hint_email">Email</string>
+    <string name="login_hint_password">Password</string>
+    <string name="login_login_button">Login</string>
+    <string name="login_register_button">Register</string>
+    <string name="title_activity_register">RegisterActivity</string>
+    <!--*******************************END LOGIN******************************-->
+
+    <!--*******************************REGISTER*******************************-->
+    <string name="register_first_name">First Name</string>
+    <string name="register_last_name">Last Name</string>
+    <string name="register_email">Email</string>
+    <string name="register_password">Password</string>
+    <string name="register_signup_button">Sign up</string>
+    <string name="register_already_registered">User is already registered</string>
+    <!--*****************************END REGISTER*****************************-->
+
+    <!--**************************SNACKBAR MESSAGES***************************-->
+    <string name="registration_failed">Registration failed, try again later</string>
+    <string name="registration_failed_fields_missing">Register failed, not all fields were filled</string>
+    <string name="signin_failed_wrong_credentials">Sign in failed, wrong credentials</string>
+    <string name="signin_failed_missing_fields">Sign in failed, not all fields are set</string>
+    <string name="title_activity_web_viewer">WebViewer</string>
+    <!--***********************END SNACKBAR MESSAGES**************************-->
+
+
+    <!--***********************VIEW ELEMENTS TEXT*****************************-->
+    <string name="share_button_text">Share</string>
+    <!--**********************END VIEW ELEMENTS TEXT**************************-->
+
+    <!--************************OPTIONS MENU MESSAGES*************************-->
+    <string name="options_menu_favorite_characters">Favorite Characters</string>
+    <string name="options_menu_favorite_series">Favorite Series</string>
+    <string name="options_menu_show_online">People online</string>
+    <string name="options_menu_logout">Log out</string>
+    <!--*********************END OPTIONS MENU MESSAGES************************-->
+
+    <!--******************************CHARACTER*******************************-->
+
+    <!--***************************END CHARACTER******************************-->
+
+    <!--*****************************SERIES***********************************-->
+    <string name="start_year">START: %1$s</string>
+    <string name="end_year">END: %1$s</string>
+    <string name="rating">RATING: %1$s</string>
+    <string name="creators">CREATORS: %1$s</string>
+    <string name="comics">COMICS: %1$s</string>
+    <!--***************************END SERIES*********************************-->
+
+    <!--*********************************MISC*********************************-->
+    <string name="no_infopage">No infopage available</string>
+    <string name="loading_content">Loading content</string>
+    <string name="sent_msg">sent</string>
+    <!--*******************************END MISC*******************************-->
+    <!--****************************** HEADERS *******************************-->
+
+    <string name="inbox_header">Inbox</string>
+    <string name="people_online_header">People Online</string>
+    <!--***************************** END HEADERS *****************************-->
 </resources>

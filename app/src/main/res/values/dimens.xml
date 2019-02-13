@@ -1,0 +1,7 @@
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="msg_txt_size">22dp</dimen>
+    <dimen name="msg_txt_margin">20dp</dimen>
+    <dimen name="titlesize">18dp</dimen>
+    <dimen name="toolbarheight">50sp</dimen>
+</resources>

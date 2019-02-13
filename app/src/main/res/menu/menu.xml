@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <item
+        android:id="@+id/favorite_characters"
+        android:title="@string/options_menu_favorite_characters"></item>
+
+    <item
+        android:id="@+id/favorite_series"
+        android:title="@string/options_menu_favorite_series"></item>
+
+    <item
+        android:id="@+id/people_online"
+        android:title="@string/options_menu_show_online"></item>
+
+    <item
+        android:id="@+id/logout"
+        android:title="@string/options_menu_logout"></item>
+
+</menu>

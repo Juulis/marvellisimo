@@ -1,0 +1,11 @@
+
+TESTA ÖPPNA INBOX
+*****************************************************************************************************
+1. Efter att ha loggat in, tryck på brev-knappen
+2. Det ska visas ett nytt aktivitet med lista på meddelande
+3. Varje meddelande innehåller namn på avsändare och namn på serie/karaktär
+*****************************************************************************************************
+TESTA VISA MER INFO OM SERIE/KARAKTÄR I MEDDELANDE
+*****************************************************************************************************
+1. I meddelandelistan, tryck på namn på serie/karaktär
+2. Det ska visas ett nytt aktivitet med detaljerat info
