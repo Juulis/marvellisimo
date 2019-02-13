@@ -1,13 +1,16 @@
 package malidaca.marvellisimo.activities
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
+import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_inbox.*
+import kotlinx.android.synthetic.main.activity_series.*
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.adapters.MessageAdapter
 import malidaca.marvellisimo.fragments.PeopleOnline
@@ -23,11 +26,14 @@ class InboxActivity : AppCompatActivity() {
     lateinit var viewAdapter: MessageAdapter
 
 
+    @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_inbox)
         activityHelper = ActivityHelper()
         initToolbar()
+        Picasso.get().load(R.drawable.marvel_logo_test).placeholder(R.drawable.marvel_logo_test).into(homeButton4)
+
         val viewManager = LinearLayoutManager(this)
         FireBaseService.getMessages()
                 .observeOn(AndroidSchedulers.mainThread())

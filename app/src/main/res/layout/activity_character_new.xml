@@ -17,13 +17,10 @@
             android:layout_height="@dimen/toolbarheight"
             android:elevation="4dp">
 
-            <TextView
+            <ImageView
                 android:id="@+id/homeButton"
-                android:textColor="@color/colorAccent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/app_name"
-                android:textSize="@dimen/titlesize" />
+                android:layout_width="140sp"
+                android:layout_height="match_parent" />
         </android.support.v7.widget.Toolbar>
 
         <com.sothree.slidinguppanel.SlidingUpPanelLayout

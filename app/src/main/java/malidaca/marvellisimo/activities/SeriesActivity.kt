@@ -11,10 +11,12 @@ import android.view.Gravity
 import android.view.View
 import android.view.MenuItem
 import android.widget.SearchView
+import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.realm.Realm
 import io.realm.RealmResults
 import io.realm.kotlin.where
+import kotlinx.android.synthetic.main.activity_character_list.*
 import kotlinx.android.synthetic.main.activity_series.*
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.rest.MarvelServiceHandler
@@ -51,6 +53,7 @@ class SeriesActivity : AppCompatActivity() {
         topToolbar = findViewById(R.id.toolbar)
         setSupportActionBar(topToolbar)
 
+        Picasso.get().load(R.drawable.marvel_logo_test).placeholder(R.drawable.marvel_logo_test).into(homeButton2)
         userFavorites = realm.where<Favorite>().equalTo("type", "Series").findAll()
         userFavorites.addChangeListener { data -> viewAdapter.addFavorites(data) }
 

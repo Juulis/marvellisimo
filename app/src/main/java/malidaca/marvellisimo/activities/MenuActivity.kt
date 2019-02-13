@@ -40,6 +40,7 @@ class MenuActivity : AppCompatActivity(), View.OnClickListener {
         menu_button_characters.setOnClickListener(this)
         menu_button_series.setOnClickListener(this)
         Picasso.get().load(R.drawable.background).placeholder(R.drawable.background).fit().into(menu_background)
+        Picasso.get().load(R.drawable.marvel_logo_test).placeholder(R.drawable.marvel_logo_test).into(homeButton)
 
         //time on create to disable backbutton before login/register activity is closed
         Timer().schedule(

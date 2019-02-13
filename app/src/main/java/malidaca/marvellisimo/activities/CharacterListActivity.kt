@@ -15,9 +15,11 @@ import android.view.View
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
+import com.squareup.picasso.Picasso
 import io.realm.Realm
 import io.realm.RealmResults
 import io.realm.kotlin.where
+import kotlinx.android.synthetic.main.activity_character_new.*
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.fragments.PeopleOnline
 import malidaca.marvellisimo.models.Character
@@ -61,6 +63,8 @@ class CharacterListActivity : AppCompatActivity() {
         loadDialog!!.showDialog()
         setClickListener()
         activityHelper = ActivityHelper()
+        Picasso.get().load(R.drawable.marvel_logo_test).placeholder(R.drawable.marvel_logo_test).into(homeButton1)
+
 
         userFavorites = realm.where<Favorite>().equalTo("type", "Characters").findAll()
         userFavorites.addChangeListener{ data -> adapter.addFavorites(data)}

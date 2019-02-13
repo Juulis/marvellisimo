@@ -34,6 +34,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         setContentView(R.layout.activity_login)
 
         Picasso.get().load(R.drawable.background).placeholder(R.drawable.background).fit().into(login_background)
+        Picasso.get().load(R.drawable.marvel_logo_test).placeholder(R.drawable.background).into(login_logo)
 
         login_login_button.setOnClickListener(this)
         login_register_button.setOnClickListener(this)

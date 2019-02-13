@@ -16,6 +16,7 @@ import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.realm.Realm
 import io.realm.kotlin.where
+import kotlinx.android.synthetic.main.activity_series.*
 import kotlinx.android.synthetic.main.activity_series_details.*
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.adapters.CharactersViewAdapter
@@ -55,7 +56,8 @@ class SeriesDetailsActivity : AppCompatActivity() {
         activityHelper = ActivityHelper()
 
         id = intent.getIntExtra("id", 0)
-Picasso.get().load(R.drawable.share_icon).placeholder(R.drawable.share_icon).into(share_series_button)
+        Picasso.get().load(R.drawable.share_icon).placeholder(R.drawable.share_icon).into(share_series_button)
+        Picasso.get().load(R.drawable.marvel_logo_test).placeholder(R.drawable.marvel_logo_test).into(homeButton3)
         checkIfIsFavorite(id)
         var response: Series
         MarvelServiceHandler.seriesByIdRequest(id).observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
@@ -186,7 +188,7 @@ Picasso.get().load(R.drawable.share_icon).placeholder(R.drawable.share_icon).int
         var sender: String
         FireBaseService.getUsersName()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe{ data ->
+                .subscribe { data ->
                     sender = data.value as String
                     val message = Message(sender, itemName, itemType, itemId)
                     val fragment = PeopleOnline.newInstance(message)
@@ -201,7 +203,7 @@ Picasso.get().load(R.drawable.share_icon).placeholder(R.drawable.share_icon).int
 
     override fun onBackPressed() {
         val count = supportFragmentManager.backStackEntryCount
-        if(count == 0) {
+        if (count == 0) {
             super.onBackPressed()
         } else {
             supportFragmentManager.popBackStack()
