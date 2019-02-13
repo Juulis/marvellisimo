@@ -211,8 +211,7 @@ class CharacterActivity : AppCompatActivity() {
         FireBaseService.getUsersName()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { data ->
-                    var user = data.getValue(User::class.java)
-                    sender = "${user!!.firstName} ${user!!.lastName}"
+                    sender = data.value as String
                     val message = Message(sender, itemName, itemType, itemId)
                     val fragment = PeopleOnline.newInstance(message)
                     val fragmentManager = supportFragmentManager

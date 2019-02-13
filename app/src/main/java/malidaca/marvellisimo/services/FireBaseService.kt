@@ -194,7 +194,7 @@ object FireBaseService {
     fun getUsersName(): io.reactivex.Observable<DataSnapshot> {
         return io.reactivex.Observable.create(ObservableOnSubscribe<DataSnapshot> {
 
-            userDataRef.addValueEventListener(object : ValueEventListener {
+            userDataRef.child("firstName").addValueEventListener(object : ValueEventListener {
 
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     it.onNext(dataSnapshot)
