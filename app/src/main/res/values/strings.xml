@@ -62,4 +62,9 @@
     <string name="loading_content">Loading content</string>
     <string name="sent_msg">sent</string>
     <!--*******************************END MISC*******************************-->
+    <!--****************************** HEADERS *******************************-->
+
+    <string name="inbox_header">Inbox</string>
+    <string name="people_online_header">People Online</string>
+    <!--***************************** END HEADERS *****************************-->
 </resources>

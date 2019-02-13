@@ -6,6 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".activities.LoginActivity">
 
+    <ImageView
+        android:id="@+id/login_background"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:color/background_dark" />
+
     <EditText
         android:id="@+id/login_email"
         android:layout_width="wrap_content"
@@ -38,6 +48,7 @@
 
     <Button
         android:id="@+id/login_login_button"
+        style="@android:style/Widget.Material.Button.Borderless"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -50,6 +61,7 @@
 
     <Button
         android:id="@+id/login_register_button"
+        style="@android:style/Widget.Material.Button.Borderless"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -62,4 +74,16 @@
         app:layout_constraintStart_toStartOf="@+id/login_password"
         app:layout_constraintTop_toBottomOf="@+id/login_password"
         app:layout_constraintVertical_bias="0.069" />
+
+    <ImageView
+        android:id="@+id/login_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="120dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/login_background"
+        app:srcCompat="@color/colorAccent" />
 </android.support.constraint.ConstraintLayout>

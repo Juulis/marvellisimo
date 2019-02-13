@@ -7,7 +7,9 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import com.squareup.picasso.Picasso
 import io.realm.Realm
+import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_menu.*
 import malidaca.marvellisimo.fragments.PeopleOnline
 import malidaca.marvellisimo.R
@@ -37,6 +39,8 @@ class MenuActivity : AppCompatActivity(), View.OnClickListener {
         updateFavoriteList()
         menu_button_characters.setOnClickListener(this)
         menu_button_series.setOnClickListener(this)
+        Picasso.get().load(R.drawable.background).placeholder(R.drawable.background).fit().into(menu_background)
+        Picasso.get().load(R.drawable.marvel_logo_test).placeholder(R.drawable.marvel_logo_test).into(homeButton)
 
         //time on create to disable backbutton before login/register activity is closed
         Timer().schedule(
@@ -108,7 +112,7 @@ class MenuActivity : AppCompatActivity(), View.OnClickListener {
 
         if (allowedBack) {
             if (isTaskRoot) {
-                if(count == 0) {
+                if (count == 0) {
                     FireBaseService.signOut()
                     super.onBackPressed()
                 } else {
@@ -123,18 +127,18 @@ class MenuActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun initFab(){
+    private fun initFab() {
         fab = findViewById(R.id.fab)
         fab.backgroundTintList = ColorStateList.valueOf(Color.BLUE)
         fab.setOnClickListener {
-            if(fab.backgroundTintList != ColorStateList.valueOf(Color.BLUE))
+            if (fab.backgroundTintList != ColorStateList.valueOf(Color.BLUE))
                 fab.backgroundTintList = ColorStateList.valueOf(Color.BLUE)
             activityHelper.changeActivity(this, InboxActivity::class.java)
         }
     }
 
-   private fun updateFavoriteList() {
-       RealmService.deleteAll(realm)
-       FireBaseService.getUserFavorites(this, realm)
-   }
+    private fun updateFavoriteList() {
+        RealmService.deleteAll(realm)
+        FireBaseService.getUserFavorites(this, realm)
+    }
 }

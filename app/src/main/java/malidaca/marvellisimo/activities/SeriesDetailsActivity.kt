@@ -16,6 +16,7 @@ import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.realm.Realm
 import io.realm.kotlin.where
+import kotlinx.android.synthetic.main.activity_series.*
 import kotlinx.android.synthetic.main.activity_series_details.*
 import malidaca.marvellisimo.R
 import malidaca.marvellisimo.adapters.CharactersViewAdapter
@@ -55,7 +56,8 @@ class SeriesDetailsActivity : AppCompatActivity() {
         activityHelper = ActivityHelper()
 
         id = intent.getIntExtra("id", 0)
-
+        Picasso.get().load(R.drawable.share_icon).placeholder(R.drawable.share_icon).into(share_series_button)
+        Picasso.get().load(R.drawable.marvel_logo_test).placeholder(R.drawable.marvel_logo_test).into(homeButton3)
         checkIfIsFavorite(id)
         var response: Series
         MarvelServiceHandler.seriesByIdRequest(id).observeOn(AndroidSchedulers.mainThread()).subscribe { data ->
@@ -114,7 +116,7 @@ class SeriesDetailsActivity : AppCompatActivity() {
             }
         var path = "${series.thumbnail.path}/landscape_incredible.${series.thumbnail.extension}"
         path = path.replace("http", "https")
-        Picasso.get().load(path).resize(928, 522).into(series_picture)
+        Picasso.get().load(path).into(series_picture)
         series_picture.setOnClickListener {
             if (webViewExist && charUrl.isNotEmpty()) {
                 val intent = Intent(context, WebViewer::class.java)
@@ -153,7 +155,7 @@ class SeriesDetailsActivity : AppCompatActivity() {
         homeButton3.setOnClickListener {
             activityHelper.changeActivity(this, MenuActivity::class.java)
         }
-        share_button.setOnClickListener {
+        share_series_button.setOnClickListener {
             shareSeries(series)
         }
     }
@@ -189,6 +191,7 @@ class SeriesDetailsActivity : AppCompatActivity() {
         setSupportActionBar(topToolbar)
     }
 
+    @SuppressLint("CheckResult")
     private fun shareSeries(series: Series) {
         val itemName = series.title
         val itemType = resources.getString(R.string.menu_series)
@@ -196,7 +199,7 @@ class SeriesDetailsActivity : AppCompatActivity() {
         var sender: String
         FireBaseService.getUsersName()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe{ data ->
+                .subscribe { data ->
                     sender = data.value as String
                     val message = Message(sender, itemName, itemType, itemId)
                     val fragment = PeopleOnline.newInstance(message)
@@ -211,7 +214,7 @@ class SeriesDetailsActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         val count = supportFragmentManager.backStackEntryCount
-        if(count == 0) {
+        if (count == 0) {
             super.onBackPressed()
         } else {
             supportFragmentManager.popBackStack()

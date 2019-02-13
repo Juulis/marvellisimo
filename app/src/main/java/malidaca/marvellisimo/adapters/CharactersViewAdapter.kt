@@ -31,9 +31,9 @@ class CharactersViewAdapter(private var characters: Array<Character>, private va
     }
 
     fun createImage(character: Character, holder: ViewHolder){
-        var url = "${character.thumbnail.path}/portrait_fantastic.${character.thumbnail.extension}"
+        var url = "${character.thumbnail.path}/landscape_large.${character.thumbnail.extension}"
         url = url.replace("http", "https")
-        Picasso.get().load(url).fit().into(holder.img)
+        Picasso.get().load(url).into(holder.img)
     }
 
 

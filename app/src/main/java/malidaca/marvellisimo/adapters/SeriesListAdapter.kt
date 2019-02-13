@@ -19,7 +19,7 @@ import malidaca.marvellisimo.models.Series
 class SeriesListAdapter(private var series: List<Series>, private val context: Context, private var favoriteList: RealmResults<Favorite>) : RecyclerView.Adapter<ViewHolderTwo>() {
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolderTwo {
-        return ViewHolderTwo(LayoutInflater.from(context).inflate(R.layout.series_list_view_card, p0, false))
+        return ViewHolderTwo(LayoutInflater.from(context).inflate(R.layout.series_list_card_view, p0, false))
     }
 
     override fun getItemCount(): Int {

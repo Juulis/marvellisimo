@@ -66,6 +66,8 @@ class CharacterActivity : AppCompatActivity() {
         activityHelper = ActivityHelper()
         userFavorites = realm.where<Favorite>().equalTo("type", "Series").findAll()
         userFavorites.addChangeListener{ data -> adapter.addFavorites(data)}
+        Picasso.get().load(R.drawable.share_icon).placeholder(R.drawable.share_icon).into(share_button)
+        Picasso.get().load(R.drawable.marvel_logo_test).placeholder(R.drawable.marvel_logo_test).into(homeButton)
 
         loadDialog = LoadDialog(this)
         loadDialog!!.showDialog()

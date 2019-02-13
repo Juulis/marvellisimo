@@ -3,7 +3,8 @@
     xmlns:sothree="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,12 +17,10 @@
             android:layout_height="@dimen/toolbarheight"
             android:elevation="4dp">
 
-            <TextView
+            <ImageView
                 android:id="@+id/homeButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/app_name"
-                android:textSize="@dimen/titlesize" />
+                android:layout_width="140sp"
+                android:layout_height="match_parent" />
         </android.support.v7.widget.Toolbar>
 
         <com.sothree.slidinguppanel.SlidingUpPanelLayout
@@ -52,21 +51,13 @@
                         sothree:layout_constraintStart_toStartOf="parent"
                         sothree:layout_constraintTop_toTopOf="parent" />
 
-                    <Button
-                        android:id="@+id/share_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/share_button_text"
-                        sothree:layout_constraintStart_toStartOf="parent"
-                        sothree:layout_constraintTop_toBottomOf="@+id/bigpic" />
-
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/avatar"
                         android:layout_width="81dp"
                         android:layout_height="81dp"
                         android:layout_marginTop="150dp"
-                        android:src="@mipmap/marvel_logo_round"
+                        android:src="@mipmap/iron_man_avatar_round"
                         sothree:layout_constraintEnd_toEndOf="parent"
                         sothree:layout_constraintStart_toStartOf="parent"
                         sothree:layout_constraintTop_toTopOf="parent" />
@@ -78,6 +69,7 @@
                         android:layout_marginTop="8dp"
                         android:textAlignment="center"
                         android:textSize="24sp"
+                        android:textColor="@color/colorAccent"
                         sothree:layout_constraintEnd_toEndOf="parent"
                         sothree:layout_constraintHorizontal_bias="0.502"
                         sothree:layout_constraintStart_toStartOf="parent"
@@ -92,13 +84,25 @@
                         android:layout_marginEnd="8dp"
                         android:fontFamily="sans-serif-black"
                         android:textAlignment="center"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/colorAccent"
                         android:textSize="14sp"
                         android:textStyle="bold"
                         sothree:layout_constraintEnd_toEndOf="parent"
                         sothree:layout_constraintStart_toStartOf="parent"
                         sothree:layout_constraintTop_toBottomOf="@+id/characterName" />
 
+
+                    <ImageView
+                        android:id="@+id/share_button"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="164dp"
+                        android:layout_marginEnd="8dp"
+                        sothree:layout_constraintEnd_toStartOf="@+id/avatar"
+                        sothree:layout_constraintStart_toStartOf="parent"
+                        sothree:layout_constraintTop_toTopOf="parent"
+                        sothree:srcCompat="@android:color/background_light" />
 
                     <ImageView
                         android:id="@+id/favoriteBtn"
@@ -121,7 +125,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:background="@color/colorPrimaryDark">
 
                 <TextView
                     android:id="@+id/movie"
@@ -129,11 +134,12 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="top"
                     android:layout_marginTop="5dp"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginBottom="25dp"
                     android:fontFamily="monospace"
                     android:gravity="center_horizontal|top"
                     android:text="@string/character_view_movie_header"
-                    android:textSize="14dp" />
+                    android:textColor="@color/colorAccent"
+                    android:textSize="20sp" />
 
                 <include
 
@@ -155,6 +161,8 @@
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:elevation="20dp"></FrameLayout>
+        android:elevation="20dp">
+
+    </FrameLayout>
 </android.support.constraint.ConstraintLayout>
 
