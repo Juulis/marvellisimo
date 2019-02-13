@@ -70,6 +70,17 @@ class SeriesDetailsActivity : AppCompatActivity() {
 
     }
 
+    override fun onPause() {
+        FireBaseService.toggleOnline(false)
+        super.onPause()
+    }
+
+    override fun onResume() {
+        FireBaseService.checkIfOnline(this)
+        FireBaseService.toggleOnline(true)
+        super.onResume()
+    }
+
     @SuppressLint("CheckResult")
     fun getCharactersFromSeries(id: Int) {
         MarvelServiceHandler.charactersBySeriesIdRequest(0, id)
