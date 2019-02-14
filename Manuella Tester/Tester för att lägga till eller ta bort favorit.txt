@@ -1,0 +1,16 @@
+TESTA ATT LÄGGA TILL/TA BORT EN FAVORIT
+*****************************************************************************************************
+
+
+LÄGGA TILL
+1. Gå in på en serie/karaktärs egna sida.
+2. Tryck på favoritknappen till höger.
+3. Knappen kommer ändras från grå till färg
+4. I firebase kommer den ha lagts till som favorit.
+
+
+TA BORT
+1. Gå in på en serie/karaktärs egna sida.
+2. Tryck på favoritknappen till höger.
+3. Knappen kommer ändras från färg till grå
+4. I firebase kommer den ha tagits bort som favorit.
