@@ -1,12 +1,12 @@
 
 TESTA ÖPPNA LISTAN MED SERIER
 *****************************************************************************************************
-1. Efter att ha loggat in, clicka på Series-knappen
+1. Efter att ha loggat in, klicka på Series-knappen
 2. Det ska visas ett nytt aktivitet med listan på alla serier
 *****************************************************************************************************
 TESTA VISA MER INFO OM EN SERIE
 *****************************************************************************************************
-1. I serielistan, clicka på en serie
+1. I serielistan, klicka på en serie
 2. Det ska visas ett nytt aktivitet med detaljerat info
 *****************************************************************************************************
 TESTA VISA LISTA PÅ KARAKTÄRER I EN SERIE

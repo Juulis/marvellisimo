@@ -1,0 +1,16 @@
+Menu activity test
+*****************************************************************************************************
+TESTA OM MENU HAR ALL FUNKTIONALITET
+*****************************************************************************************************
+1. Var inloggad i appen
+2. klicka på Character
+3. Du ska komma till en lista med karaktärer
+4. Gå tillbaka
+5. Klicka på Series
+6. Du ska komma till en lista med serier
+7. Gå tillbaka
+8. Klicka på faben
+9. Du ska komma till en lista på meddelande
+10. Gå tillbaka
+11. Klicka på de tre punkterna
+12. Det ska komma en lista med knappar - favorite characters, favorite series, people online, logout

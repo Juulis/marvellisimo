@@ -1,0 +1,9 @@
+People Online test
+*****************************************************************************************************
+TESTA SE ANVÄNDARE SOM ÄR ONLINE
+*****************************************************************************************************
+1. Var inloggad i appen
+2. Klicka på de tre knapparna överst
+3. Klicka på People Online
+4. För att se användare komma online och offline så gå till firebase och sätt online till antingen true eller false
+5. Användaren ska försvinna om den är satt till false och synas om den är satt till true
