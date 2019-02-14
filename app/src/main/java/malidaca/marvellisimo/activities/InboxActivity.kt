@@ -73,6 +73,7 @@ class InboxActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.logout -> {
                 FireBaseService.signOut()
+                finishAffinity()
                 activityHelper.changeActivity(this, LoginActivity::class.java)
                 finish()
             }
