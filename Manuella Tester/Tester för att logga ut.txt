@@ -1,0 +1,6 @@
+TEST FÖR ATT LOGGA UT FRÅN APPEN
+*******************************************************************************
+1. Tryck på (tre-prickar) knappen uppe till höger när du är inloggad.
+2. Tryck på logout
+3. Du ska nu se login-sidan.
+4. du står nu som utloggad i firebase.

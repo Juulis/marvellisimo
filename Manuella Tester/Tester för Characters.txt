@@ -1,0 +1,9 @@
+TESTA ÖPPNA LISTAN MED KARAKTÄR
+*****************************************************************************************************
+1. Efter att ha loggat in, klicka på Series-knappen
+2. Det ska visas ett nytt aktivitet med listan på alla karaktärer
+*****************************************************************************************************
+TESTA VISA MER INFO OM EN KARAKTÄR
+*****************************************************************************************************
+1. I serielistan, klicka på en karaktär
+2. Det ska visas ett nytt aktivitet med detaljerat info
