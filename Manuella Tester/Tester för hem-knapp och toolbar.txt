@@ -1,0 +1,13 @@
+
+TESTA HEM-KNAPPEN
+*****************************************************************************************************
+1. Tryck på Marvellisimo-loggan i alla aktiviteter
+2. Man ska skickas tillbaka till Menu-aktiviteten
+*****************************************************************************************************
+TESTA TOOLBAR-MENU
+*****************************************************************************************************
+1. Tryck på tre prickar-knappen
+2. Det ska visas menu som innehåller 4 optioner: -Favorite characters
+                                                 -Favorite series
+                                                 -People online
+                                                 -Log out
