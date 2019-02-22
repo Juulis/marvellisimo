@@ -8,3 +8,8 @@ TESTA VISA MER INFO OM EN SERIE
 *****************************************************************************************************
 1. I serielistan, klicka på en serie
 2. Det ska visas ett nytt aktivitet med detaljerat info
+*****************************************************************************************************
+TESTA VISA LISTA PÅ KARAKTÄRER I EN SERIE
+*****************************************************************************************************
+1. Skrolla ner i seriens infosida
+2. Det ska visas en lista med alla karaktärer som är med i serien
